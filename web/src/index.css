@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+/*
+  JobSuites design tokens.
+  Source: docs/DESIGN.md. Flat surfaces, restrained palette, hierarchy carried
+  by type weight and size rather than colour.
+*/
+@theme {
+  --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Surfaces */
+  --color-canvas: #f8fafc;
+  --color-surface: #ffffff;
+  --color-border-subtle: #e2e8f0;
+  --color-border-strong: #cbd5e1;
+
+  /* Text — four steps is enough hierarchy for a dense product */
+  --color-ink: #0f1720;        /* headings */
+  --color-ink-body: #334155;   /* body copy */
+  --color-ink-muted: #64748b;  /* labels, meta */
+  --color-ink-faint: #94a3b8;  /* placeholders, disabled */
+
+  /* Accent — crimson, used sparingly for primary action and focus only */
+  --color-accent: #e11d48;
+  --color-accent-hover: #be123c;
+  --color-accent-subtle: #fff1f2;
+  --color-brand: #881337;
+
+  /* Status */
+  --color-danger: #b91c1c;
+  --color-danger-subtle: #fef2f2;
+  --color-success: #15803d;
+  --color-success-subtle: #f0fdf4;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink-body);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /*
+    Never remove focus rings without replacing them. Keyboard users on an
+    auth screen with no visible focus state are locked out.
+  */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Tabular figures keep numeric columns aligned in the dense views. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

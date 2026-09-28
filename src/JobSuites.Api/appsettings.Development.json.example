@@ -1,0 +1,8 @@
+{
+  "ConnectionStrings": {
+    "Default": "Host=localhost;Port=5433;Database=jobsuites;Username=jobsuites;Password=<generate: openssl rand -base64 24>"
+  },
+  "Jwt": {
+    "Key": "<generate: openssl rand -base64 48 — must be >= 32 bytes>"
+  }
+}

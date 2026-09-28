@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/JobSuites.Api/JobSuites.Api.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/JobSuites.Api.Tests/JobSuites.Api.Tests.csproj" />
+  </Folder>
+</Solution>

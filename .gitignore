@@ -1,8 +1,28 @@
 __pycache__/
 *.pyc
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
 .DS_Store
+
+# Secrets. appsettings.Development.json holds a real local DB password and
+# JWT signing key — it must never be committed. See the .example file.
 .env
+.env.local
+appsettings.Development.json
+
+# Python
 .venv/
-node_modules/
+venv/
+
+# .NET
 bin/
 obj/
+*.user
+
+# Node
+node_modules/
+dist/
+.vite/
+*.tsbuildinfo
