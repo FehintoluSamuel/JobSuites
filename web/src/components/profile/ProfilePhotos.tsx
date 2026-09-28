@@ -127,12 +127,12 @@ export function ProfilePhotos({
         </div>
 
         {error && (
-          <p role="alert" className="rounded-md border border-danger bg-danger-subtle px-3 py-2 text-sm font-medium text-danger">
+          <p role="alert" className="rounded-lg border border-danger bg-danger-subtle px-3 py-2 text-sm font-medium text-danger">
             {error}
           </p>
         )}
 
-        <label className="flex min-h-11 cursor-pointer items-start gap-3 rounded-md border border-border-subtle px-3 py-2.5 text-sm text-ink-body hover:bg-canvas">
+        <label className="flex min-h-11 cursor-pointer items-start gap-3 rounded-lg border border-border-subtle px-3 py-2.5 text-sm text-ink-body hover:bg-sunken">
           <input
             type="checkbox"
             checked={photoConsentGiven}
@@ -178,7 +178,7 @@ function RemoveMediaButton({
       type="button"
       onClick={() => void remove()}
       disabled={busy}
-      className="min-h-11 rounded-md border border-border-strong px-3 py-2 text-sm font-semibold text-ink transition-colors hover:bg-canvas disabled:text-ink-faint"
+      className="min-h-11 rounded-lg border border-border-strong px-3 py-2 text-sm font-semibold text-ink transition-colors hover:bg-sunken disabled:text-ink-faint"
     >
       {busy ? 'Removing…' : children}
     </button>

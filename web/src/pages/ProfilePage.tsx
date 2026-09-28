@@ -28,7 +28,7 @@ import { useFileInput } from '../hooks/useFileInput'
 
 const labelClass = 'block text-sm font-semibold text-ink'
 const inputClass =
-  'min-h-11 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-ink placeholder:text-ink-faint transition-colors hover:border-ink-muted focus-visible:outline-accent'
+  'min-h-11 w-full rounded-lg border border-border-strong bg-surface px-3 text-sm text-ink placeholder:text-ink-faint transition-colors hover:border-ink-muted focus-visible:outline-accent'
 
 /** Completeness labels → the compartment that fixes them. */
 const PANEL_IDS: Record<string, string> = {
@@ -123,14 +123,14 @@ export function ProfilePage() {
   if (dash.isError) {
     return (
       <AppShell>
-        <div role="alert" className="rounded-md border border-danger bg-danger-subtle p-5">
+        <div role="alert" className="rounded-lg border border-danger bg-danger-subtle p-5">
           <h1 className="text-sm font-bold text-danger">We could not load your profile</h1>
           <p className="mt-1 text-ink-body">
             That is a connection problem, not a problem with your profile.
           </p>
           <button
             onClick={() => void dash.refetch()}
-            className="mt-4 min-h-11 rounded-md bg-accent px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-accent-hover"
+            className="mt-4 min-h-11 rounded-lg bg-accent px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-accent-hover"
           >
             Try again
           </button>
@@ -399,7 +399,7 @@ function HeroPanel({
               type="button"
               onClick={trigger}
               disabled={cvBusy}
-              className="min-h-11 rounded-md border border-border-strong bg-surface px-4 text-sm font-bold text-ink transition-colors hover:bg-canvas disabled:text-ink-faint"
+              className="min-h-11 rounded-lg border border-border-strong bg-surface px-4 text-sm font-bold text-ink transition-colors hover:bg-sunken disabled:text-ink-faint"
             >
               {cvBusy ? 'Reading…' : p.fileName ? 'Re-upload' : 'Upload CV'}
             </button>
@@ -407,7 +407,7 @@ function HeroPanel({
             {cvDone && <span className="text-sm font-semibold text-accent">{cvDone}</span>}
           </div>
           {cvError && (
-            <p role="alert" className="mt-2 rounded-md border border-danger bg-danger-subtle px-3 py-2 text-sm font-medium text-danger">
+            <p role="alert" className="mt-2 rounded-lg border border-danger bg-danger-subtle px-3 py-2 text-sm font-medium text-danger">
               {cvError}
             </p>
           )}
@@ -458,7 +458,7 @@ function SaveBar({
             type="button"
             onClick={onDiscard}
             disabled={!dirty || saving}
-            className="min-h-11 rounded-md border border-border-strong bg-surface px-4 text-sm font-bold text-ink transition-colors hover:bg-canvas disabled:cursor-not-allowed disabled:text-ink-faint"
+            className="min-h-11 rounded-lg border border-border-strong bg-surface px-4 text-sm font-bold text-ink transition-colors hover:bg-sunken disabled:cursor-not-allowed disabled:text-ink-faint"
           >
             Discard
           </button>
@@ -466,7 +466,7 @@ function SaveBar({
             type="button"
             onClick={onSave}
             disabled={!dirty || saving}
-            className="min-h-11 rounded-md bg-accent px-5 text-sm font-bold text-white transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-50"
+            className="min-h-11 rounded-lg bg-accent px-5 text-sm font-bold text-white transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-50"
           >
             {saving ? 'Saving…' : 'Save changes'}
           </button>

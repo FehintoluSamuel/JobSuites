@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { CandidateSkill } from '../../lib/api'
 
 const inputClass =
-  'min-h-11 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-ink placeholder:text-ink-faint transition-colors hover:border-ink-muted focus-visible:outline-accent'
+  'min-h-11 w-full rounded-lg border border-border-strong bg-surface px-3 text-sm text-ink placeholder:text-ink-faint transition-colors hover:border-ink-muted focus-visible:outline-accent'
 
 /**
  * The correction surface for extraction. Every CV-derived skill starts unedited
@@ -45,7 +45,7 @@ export function SkillsEditor({
   return (
     <div className="space-y-3">
       {skills.length === 0 && (
-        <p className="rounded-md bg-canvas px-3 py-3 text-sm text-ink-muted">
+        <p className="rounded-lg bg-sunken px-3 py-3 text-sm text-ink-muted">
           No skills yet. Upload a CV to extract them, or add your first one below.
         </p>
       )}
@@ -54,7 +54,7 @@ export function SkillsEditor({
         {skills.map((skill, i) => (
           <li
             key={`${skill.name}-${i}`}
-            className="flex flex-wrap items-center gap-2 rounded-md border border-border-subtle bg-canvas/50 px-3 py-2"
+            className="flex flex-wrap items-center gap-2 rounded-lg border border-border-subtle bg-sunken/50 px-3 py-2"
           >
             <input
               value={skill.name}
@@ -87,7 +87,7 @@ export function SkillsEditor({
               type="button"
               onClick={() => remove(i)}
               aria-label={`Remove ${skill.name}`}
-              className="min-h-11 rounded-md px-2 text-sm font-bold text-danger transition-colors hover:bg-danger-subtle"
+              className="min-h-11 rounded-lg px-2 text-sm font-bold text-danger transition-colors hover:bg-danger-subtle"
             >
               Remove
             </button>
@@ -114,7 +114,7 @@ export function SkillsEditor({
         <button
           type="button"
           onClick={add}
-          className="min-h-11 rounded-md border border-border-strong bg-surface px-4 text-sm font-bold text-ink transition-colors hover:bg-canvas"
+          className="min-h-11 rounded-lg border border-border-strong bg-surface px-4 text-sm font-bold text-ink transition-colors hover:bg-sunken"
         >
           Add
         </button>

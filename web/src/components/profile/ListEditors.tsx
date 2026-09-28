@@ -3,7 +3,7 @@ import { LANGUAGE_PROFICIENCIES, LINK_LABELS } from '../../lib/profile'
 
 const labelClass = 'block text-sm font-semibold text-ink'
 const inputClass =
-  'min-h-11 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-ink placeholder:text-ink-faint transition-colors hover:border-ink-muted focus-visible:outline-accent'
+  'min-h-11 w-full rounded-lg border border-border-strong bg-surface px-3 text-sm text-ink placeholder:text-ink-faint transition-colors hover:border-ink-muted focus-visible:outline-accent'
 
 function RowWrap({
   index,
@@ -17,7 +17,7 @@ function RowWrap({
   children: React.ReactNode
 }) {
   return (
-    <li className="space-y-3 rounded-md border border-border-subtle bg-canvas/50 p-4">
+    <li className="space-y-3 rounded-lg border border-border-subtle bg-sunken/50 p-4">
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <span className="text-xs font-bold uppercase tracking-wide text-ink-muted">
@@ -28,7 +28,7 @@ function RowWrap({
         <button
           type="button"
           onClick={onRemove}
-          className="min-h-11 rounded-md px-2 text-sm font-bold text-danger transition-colors hover:bg-danger-subtle"
+          className="min-h-11 rounded-lg px-2 text-sm font-bold text-danger transition-colors hover:bg-danger-subtle"
         >
           Remove
         </button>
@@ -39,7 +39,7 @@ function RowWrap({
 }
 
 function EmptyNote({ children }: { children: React.ReactNode }) {
-  return <p className="rounded-md bg-canvas px-3 py-3 text-sm text-ink-muted">{children}</p>
+  return <p className="rounded-lg bg-sunken px-3 py-3 text-sm text-ink-muted">{children}</p>
 }
 
 export function EducationEditor({
@@ -281,7 +281,7 @@ function AddButton({ onClick, children = '+ Add' }: { onClick: () => void; child
     <button
       type="button"
       onClick={onClick}
-      className="min-h-11 rounded-md border border-dashed border-border-strong px-4 text-sm font-bold text-accent transition-colors hover:border-accent hover:bg-accent-subtle"
+      className="min-h-11 rounded-lg border border-dashed border-border-strong px-4 text-sm font-bold text-accent transition-colors hover:border-accent hover:bg-accent-subtle"
     >
       {children}
     </button>

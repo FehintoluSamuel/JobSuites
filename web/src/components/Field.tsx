@@ -11,8 +11,8 @@
 import { useId, type InputHTMLAttributes, type ReactNode, type Ref } from 'react'
 
 const base =
-  'w-full min-h-11 rounded-md border bg-surface px-3 py-2 text-ink placeholder:text-ink-faint ' +
-  'transition-colors disabled:cursor-not-allowed disabled:bg-canvas disabled:text-ink-muted'
+  'w-full min-h-11 rounded-full border bg-surface px-4 py-2 text-ink placeholder:text-ink-faint ' +
+  'transition-colors disabled:cursor-not-allowed disabled:bg-sunken disabled:text-ink-muted'
 
 interface FieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'id'> {
   label: string
@@ -50,7 +50,7 @@ export function Field({ label, errors, hint, ...props }: FieldProps) {
         className={`${base} ${
           hasError
             ? 'border-danger focus-visible:outline-danger'
-            : 'border-border-strong hover:border-ink-muted'
+            : 'border-border-strong bg-surface hover:border-ink-muted'
         }`}
       />
 
@@ -88,7 +88,7 @@ export function ErrorSummary({
       role="alert"
       tabIndex={-1}
       data-testid="error-summary"
-      className="rounded-md border border-danger bg-danger-subtle p-4 focus-visible:outline-danger"
+      className="rounded-lg border border-danger bg-danger-subtle p-4 focus-visible:outline-danger"
     >
       <h2 className="text-sm font-bold text-danger">{title}</h2>
       <ul className="mt-2 space-y-1">
@@ -116,7 +116,7 @@ export function SubmitButton({
       type="submit"
       disabled={pending}
       aria-busy={pending}
-      className="flex min-h-11 w-full items-center justify-center rounded-md bg-accent px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:bg-border-strong"
+      className="flex min-h-12 w-full items-center justify-center rounded-full bg-accent px-6 text-base font-semibold text-white transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:bg-border-strong"
     >
       {pending ? 'Working…' : children}
     </button>

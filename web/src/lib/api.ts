@@ -40,7 +40,26 @@ export const tokenStore = {
   clear: () => localStorage.removeItem(TOKEN_KEY),
 }
 
+/** Endpoints reachable without a session. Everything else is authenticated. */
+const PUBLIC_PATHS = ['/api/auth/login', '/api/auth/register']
+
+/**
+ * Every authenticated request is refused at the network boundary when the
+ * session is gone. Without this, a query whose observer has not yet re-rendered
+ * with `enabled: false` will still fire, and the server answers 401 — which
+ * looks to the user like the app is broken rather than signed out. A local 401
+ * is indistinguishable from a real one to the rest of the app, so the state
+ * machine stays correct either way.
+ */
+function assertSession(path: string) {
+  if (tokenStore.get()) return
+  if (PUBLIC_PATHS.includes(path)) return
+  throw new ApiError(401, 'Your session has ended. Please sign in again.')
+}
+
 async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
+  assertSession(path)
+
   const token = tokenStore.get()
 
   const res = await fetch(path, {
@@ -70,6 +89,8 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
 /** Fetch that attaches the bearer token but never sets a Content-Type, so a
     multipart upload stays a multipart upload. */
 async function authedFetch(path: string, init: RequestInit = {}): Promise<Response> {
+  assertSession(path)
+
   const token = tokenStore.get()
   return fetch(path, {
     ...init,

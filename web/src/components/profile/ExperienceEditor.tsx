@@ -4,7 +4,7 @@ type Experience = CandidateProfile['experiences'][number]
 
 const labelClass = 'block text-sm font-semibold text-ink'
 const inputClass =
-  'min-h-11 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-ink placeholder:text-ink-faint transition-colors hover:border-ink-muted focus-visible:outline-accent'
+  'min-h-11 w-full rounded-lg border border-border-strong bg-surface px-3 text-sm text-ink placeholder:text-ink-faint transition-colors hover:border-ink-muted focus-visible:outline-accent'
 
 function blankExperience(): Experience {
   return { company: '', title: '', startDate: null, endDate: null, isCurrent: false, highlights: null, source: 'manual' }
@@ -35,7 +35,7 @@ export function ExperienceEditor({
   return (
     <div className="space-y-4">
       {experiences.length === 0 && (
-        <p className="rounded-md bg-canvas px-3 py-3 text-sm text-ink-muted">
+        <p className="rounded-lg bg-sunken px-3 py-3 text-sm text-ink-muted">
           Upload a CV to extract your work history, or add your first role below.
         </p>
       )}
@@ -44,7 +44,7 @@ export function ExperienceEditor({
         {experiences.map((exp, i) => (
           <li
             key={i}
-            className="space-y-3 rounded-md border border-border-subtle bg-canvas/50 p-4"
+            className="space-y-3 rounded-lg border border-border-subtle bg-sunken/50 p-4"
           >
             <div className="flex items-center justify-between gap-2">
               <span className="text-xs font-bold uppercase tracking-wide text-ink-muted">
@@ -59,7 +59,7 @@ export function ExperienceEditor({
                 <button
                   type="button"
                   onClick={() => remove(i)}
-                  className="min-h-11 rounded-md px-2 text-sm font-bold text-danger transition-colors hover:bg-danger-subtle"
+                  className="min-h-11 rounded-lg px-2 text-sm font-bold text-danger transition-colors hover:bg-danger-subtle"
                 >
                   Remove
                 </button>
@@ -102,7 +102,7 @@ export function ExperienceEditor({
                     onChange={(e) => update(i, { endDate: e.target.value || null })}
                     placeholder="Present"
                     disabled={exp.isCurrent}
-                    className={`${inputClass} disabled:cursor-not-allowed disabled:bg-canvas disabled:text-ink-faint`}
+                    className={`${inputClass} disabled:cursor-not-allowed disabled:bg-sunken disabled:text-ink-faint`}
                   />
                 </div>
               </label>
@@ -135,7 +135,7 @@ export function ExperienceEditor({
       <button
         type="button"
         onClick={add}
-        className="min-h-11 rounded-md border border-dashed border-border-strong px-4 text-sm font-bold text-accent transition-colors hover:border-accent hover:bg-accent-subtle"
+        className="min-h-11 rounded-lg border border-dashed border-border-strong px-4 text-sm font-bold text-accent transition-colors hover:border-accent hover:bg-accent-subtle"
       >
         + Add role
       </button>

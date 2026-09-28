@@ -4,27 +4,38 @@
   JobSuites design tokens.
   Source: docs/DESIGN.md. Flat surfaces, restrained palette, hierarchy carried
   by type weight and size rather than colour.
+
+  The chrome now follows LinkedIn's web layout: a warm-grey page, white cards
+  separated by hairline borders, and a sticky top nav. Crimson stays the brand
+  and the only action colour — one primary action per view.
 */
 @theme {
-  --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  /* Surfaces */
-  --color-canvas: #f8fafc;
+  /* Surfaces — LinkedIn's warm grey page behind white cards */
+  --color-canvas: #f4f2ee;
   --color-surface: #ffffff;
-  --color-border-subtle: #e2e8f0;
-  --color-border-strong: #cbd5e1;
+  --color-sunken: #eef3f8;
+  --color-border-subtle: #e0e0e0;
+  --color-border-strong: #c7c7c7;
 
   /* Text — four steps is enough hierarchy for a dense product */
-  --color-ink: #0f1720;        /* headings */
-  --color-ink-body: #334155;   /* body copy */
-  --color-ink-muted: #64748b;  /* labels, meta */
-  --color-ink-faint: #94a3b8;  /* placeholders, disabled */
+  --color-ink: rgba(0, 0, 0, 0.9);        /* headings */
+  --color-ink-body: rgba(0, 0, 0, 0.78);  /* body copy */
+  --color-ink-muted: rgba(0, 0, 0, 0.6);  /* labels, meta */
+  --color-ink-faint: rgba(0, 0, 0, 0.45); /* placeholder, disabled */
 
   /* Accent — crimson, used sparingly for primary action and focus only */
   --color-accent: #e11d48;
   --color-accent-hover: #be123c;
   --color-accent-subtle: #fff1f2;
+  --color-accent-tint: #ffe4e6;
   --color-brand: #881337;
+
+  /* Links — a separate blue so navigation and outbound links do not read as
+     a call to action. Crimson is reserved for one primary action per view. */
+  --color-link: #0a66c2;
+  --color-link-hover: #00418290;
 
   /* Status */
   --color-danger: #b91c1c;

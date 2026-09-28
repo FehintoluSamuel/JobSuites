@@ -3,7 +3,7 @@ import { JOB_TYPES, NIGERIAN_STATES } from '../../lib/profile'
 
 const labelClass = 'block text-sm font-semibold text-ink'
 const inputClass =
-  'min-h-11 w-full rounded-md border border-border-strong bg-surface px-3 text-sm text-ink placeholder:text-ink-faint transition-colors hover:border-ink-muted focus-visible:outline-accent'
+  'min-h-11 w-full rounded-lg border border-border-strong bg-surface px-3 text-sm text-ink placeholder:text-ink-faint transition-colors hover:border-ink-muted focus-visible:outline-accent'
 
 /**
  * What the matching engine actually filters on (docs/PRODUCT.md §4): target
@@ -58,7 +58,7 @@ export function PreferencesEditor({
                 className={`min-h-11 rounded-full border px-4 text-sm font-semibold transition-colors ${
                   active
                     ? 'border-accent bg-accent text-white'
-                    : 'border-border-strong bg-surface text-ink-body hover:border-ink-muted hover:bg-canvas'
+                    : 'border-border-strong bg-surface text-ink-body hover:border-ink-muted hover:bg-sunken'
                 }`}
               >
                 {type}
@@ -141,7 +141,7 @@ function TargetRolesEditor({
             add(draft)
             setDraft('')
           }}
-          className="min-h-11 rounded-md border border-border-strong bg-surface px-4 text-sm font-bold text-ink transition-colors hover:bg-canvas"
+          className="min-h-11 rounded-lg border border-border-strong bg-surface px-4 text-sm font-bold text-ink transition-colors hover:bg-sunken"
         >
           Add
         </button>
@@ -210,7 +210,7 @@ function StatePicker({
       </div>
 
       {shown.length > 0 && (
-        <ul className="mt-3 grid max-h-56 grid-cols-2 gap-x-3 gap-y-1 overflow-y-auto rounded-md border border-border-subtle p-3 sm:grid-cols-3">
+        <ul className="mt-3 grid max-h-56 grid-cols-2 gap-x-3 gap-y-1 overflow-y-auto rounded-lg border border-border-subtle p-3 sm:grid-cols-3">
           {shown.map((state) => {
             const active = value.includes(state)
             return (

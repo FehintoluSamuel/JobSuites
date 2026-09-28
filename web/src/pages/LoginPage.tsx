@@ -95,7 +95,7 @@ export function LoginPage() {
           New here?{' '}
           <Link
             to="/signup"
-            className="font-semibold text-accent underline underline-offset-2 hover:text-accent-hover"
+            className="font-semibold text-link hover:underline hover:underline-offset-2"
           >
             Create an account
           </Link>
@@ -116,21 +116,21 @@ export function AuthLayout({
 }) {
   return (
     <div className="flex min-h-dvh flex-col bg-canvas">
-      <header className="border-b border-border-subtle bg-surface">
-        <div className="mx-auto flex max-w-md items-center justify-between px-6 py-4">
-          <span className="text-base font-extrabold tracking-tight text-brand">
-            JobSuites
+      <header className="bg-surface shadow-[0_0_0_1px_rgba(0,0,0,0.08)]">
+        <div className="mx-auto flex h-13 max-w-[1128px] items-center px-4">
+          <span className="text-lg font-bold tracking-tight text-brand">
+            <span className="text-accent">Job</span>Suites
           </span>
         </div>
       </header>
 
-      <main className="flex flex-1 items-start justify-center px-6 py-12 sm:py-20">
-        <div className="w-full max-w-md">
-          <h1 className="text-3xl font-extrabold tracking-tight text-ink">{title}</h1>
-          <p className="mt-2 text-ink-muted">{subtitle}</p>
+      <main className="flex flex-1 items-center justify-center px-4 py-10">
+        <div className="w-full max-w-[400px]">
+          <div className="rounded-lg border border-border-subtle bg-surface p-6 sm:p-8">
+            <h1 className="text-2xl font-bold tracking-tight text-ink">{title}</h1>
+            <p className="mt-1 text-ink-body">{subtitle}</p>
 
-          <div className="mt-8 rounded-lg border border-border-subtle bg-surface p-6 shadow-sm sm:p-8">
-            {children}
+            <div className="mt-6">{children}</div>
           </div>
         </div>
       </main>

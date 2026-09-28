@@ -12,8 +12,13 @@ import './index.css'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      // A failed auth check means signed out, not "try again three times".
-      retry: 1,
+      // Retry transient failures, but never an auth failure: a 401 means the
+      // session is gone, and retrying it just produces a second identical 401.
+      retry: (failureCount, error) => {
+        const status = (error as { status?: number } | null)?.status
+        if (status === 401 || status === 403) return false
+        return failureCount < 1
+      },
       refetchOnWindowFocus: false,
     },
   },
