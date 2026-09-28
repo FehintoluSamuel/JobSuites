@@ -28,34 +28,37 @@ shipping them before the product has a reason to send mail is wasted work.
 
 ---
 
-## Sprint 2 — Profile and the evidence base (next)
+## Sprint 2 — Profile and the evidence base (done)
 
 The product cannot match anyone until it knows who they are. This sprint is
 where the real value starts, and the first place the MyJobMag adapter becomes
 useful.
 
-- [ ] Profile capture: targets, skills, work history, CV upload
-- [ ] `Profile` entity and the `user_id` scoping the architecture doc requires
-- [ ] CV parsing into a structured, user-editable draft
-- [ ] Ingest pipeline runs on a schedule and writes postings through the API
-- [ ] Read-only roles list on the dashboard, sourced from live MyJobMag data
-- [ ] Support ticket entity — the user asked for this explicitly, so it is not optional
+- [x] Profile capture: targets, skills, work history, CV upload
+- [x] `Profile` entity and the `user_id` scoping the architecture doc requires
+- [x] CV parsing into a structured, user-editable draft
+- [x] Ingest pipeline publishes crawled MyJobMag postings through the API
+- [x] Read-only roles list on the dashboard, sourced from live MyJobMag data
+- [x] Support ticket entity — the user asked for this explicitly, so it is not optional
 
-Open questions worth deciding before the sprint starts:
+Decisions made this sprint:
 
-- Do we store the raw CV file, the parsed structure, or both? Raw plus parsed is
-  safest but doubles storage.
-- Is the profile a single shared document or versioned per tailoring run? If
-  tailoring ever rewrites the CV, versioned wins — but it is a bigger schema.
+- We store the parsed structure, not the raw CV file. The dashboard tells the
+  user this ("your CV is not stored on any server — only the facts we read from
+  it are saved"), and content-hashing lets us skip recomputation when an upload
+  is unchanged.
+- The profile is a single shared document, not versioned per tailoring run.
+  Versioning is deferred until tailoring actually rewrites the CV.
 
 ---
 
-## Sprint 3 — Matching
+## Sprint 3 — Matching (done)
 
-- [ ] Skill and role extraction from the profile
-- [ ] Match scoring against ingested postings, with the reason shown
-- [ ] Ranking and filtering, including the salary filter that was cut from scope
-- [ ] Evidence links back to the source posting for every claim
+- [x] Skill and role extraction from the profile
+- [x] Match scoring against ingested postings, with the reason shown
+- [x] Ranking and filtering — the salary filter cut from scope is deferred; tier
+      filtering shipped instead
+- [x] Evidence links back to the source posting for every claim
 
 The evidence links are not cosmetic. Every score has to be traceable to
 something the user can verify, or the whole product is just a number.

@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using JobSuites.Api.Data;
+using JobSuites.Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +14,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace JobSuites.Api.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260928142849_IngestRolesAndMatching")]
+    partial class IngestRolesAndMatching
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,21 +33,6 @@ namespace JobSuites.Api.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Availability")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasColumnName("availability");
-
-                    b.Property<string>("BannerPicture")
-                        .HasMaxLength(120)
-                        .HasColumnType("character varying(120)")
-                        .HasColumnName("banner_picture");
-
-                    b.Property<string>("Certifications")
-                        .IsRequired()
-                        .HasColumnType("jsonb")
-                        .HasColumnName("certifications");
-
                     b.Property<string>("ContentHash")
                         .IsRequired()
                         .HasMaxLength(64)
@@ -54,29 +43,12 @@ namespace JobSuites.Api.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.PrimitiveCollection<List<string>>("DesiredJobTypes")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text[]")
-                        .HasColumnName("desired_job_types")
-                        .HasDefaultValueSql("'{}'::text[]");
-
-                    b.Property<string>("DesiredSalary")
-                        .HasMaxLength(120)
-                        .HasColumnType("character varying(120)")
-                        .HasColumnName("desired_salary");
-
-                    b.Property<string>("Education")
-                        .IsRequired()
-                        .HasColumnType("jsonb")
-                        .HasColumnName("education");
-
                     b.Property<string>("Email")
                         .HasMaxLength(320)
                         .HasColumnType("character varying(320)")
                         .HasColumnName("email");
 
-                    b.Property<string>("Experiences")
+                    b.Property<List<ProfileExperience>>("Experiences")
                         .IsRequired()
                         .HasColumnType("jsonb")
                         .HasColumnName("experiences");
@@ -97,16 +69,6 @@ namespace JobSuites.Api.Data.Migrations
                         .HasColumnType("character varying(300)")
                         .HasColumnName("headline");
 
-                    b.Property<string>("Languages")
-                        .IsRequired()
-                        .HasColumnType("jsonb")
-                        .HasColumnName("languages");
-
-                    b.Property<string>("Links")
-                        .IsRequired()
-                        .HasColumnType("jsonb")
-                        .HasColumnName("links");
-
                     b.Property<string>("Location")
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)")
@@ -117,28 +79,12 @@ namespace JobSuites.Api.Data.Migrations
                         .HasColumnType("character varying(60)")
                         .HasColumnName("phone");
 
-                    b.Property<bool>("PhotoConsentGiven")
-                        .HasColumnType("boolean")
-                        .HasColumnName("photo_consent");
-
-                    b.PrimitiveCollection<List<string>>("PreferredStates")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text[]")
-                        .HasColumnName("preferred_states")
-                        .HasDefaultValueSql("'{}'::text[]");
-
-                    b.Property<string>("ProfilePicture")
-                        .HasMaxLength(120)
-                        .HasColumnType("character varying(120)")
-                        .HasColumnName("profile_picture");
-
                     b.Property<string>("RawText")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("raw_text");
 
-                    b.Property<string>("Skills")
+                    b.Property<List<ProfileSkill>>("Skills")
                         .IsRequired()
                         .HasColumnType("jsonb")
                         .HasColumnName("skills");
@@ -146,13 +92,6 @@ namespace JobSuites.Api.Data.Migrations
                     b.Property<string>("Summary")
                         .HasColumnType("text")
                         .HasColumnName("summary");
-
-                    b.PrimitiveCollection<List<string>>("TargetRoles")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text[]")
-                        .HasColumnName("target_roles")
-                        .HasDefaultValueSql("'{}'::text[]");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -287,7 +226,7 @@ namespace JobSuites.Api.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("computed_at");
 
-                    b.Property<string>("Evidence")
+                    b.Property<List<MatchEvidence>>("Evidence")
                         .IsRequired()
                         .HasColumnType("jsonb")
                         .HasColumnName("evidence");
@@ -452,17 +391,12 @@ namespace JobSuites.Api.Data.Migrations
             modelBuilder.Entity("JobSuites.Api.Models.RolePosting", b =>
                 {
                     b.HasOne("JobSuites.Api.Models.Role", "Role")
-                        .WithMany("Postings")
+                        .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("JobSuites.Api.Models.Role", b =>
-                {
-                    b.Navigation("Postings");
                 });
 #pragma warning restore 612, 618
         }

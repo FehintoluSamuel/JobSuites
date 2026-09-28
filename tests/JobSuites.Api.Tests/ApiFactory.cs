@@ -118,12 +118,15 @@ public sealed class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
         await base.DisposeAsync();
     }
 
-    /// <summary>Empties user rows between tests without recreating the schema.</summary>
+    /// <summary>Empties user profiles and ingested roles between tests without
+    /// recreating the schema. Roles and matches must go too, otherwise the order
+    /// tests run in would leak scores into later tests.</summary>
     public async Task ResetAsync()
     {
         using var scope = Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        await db.Database.ExecuteSqlRawAsync("TRUNCATE \"Users\" CASCADE;");
+        await db.Database.ExecuteSqlRawAsync(
+            "TRUNCATE \"Users\", \"candidate_profiles\", \"roles\", \"role_postings\", \"role_matches\" CASCADE;");
     }
 }
 

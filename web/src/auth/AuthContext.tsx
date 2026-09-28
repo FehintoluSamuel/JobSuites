@@ -40,6 +40,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   })
 
   const clearSession = useCallback(() => {
+    // Cancel anything still in flight, then drop the cache and the token so no
+    // authenticated query can refire after sign-out.
+    void queryClient.cancelQueries()
     tokenStore.clear()
     queryClient.clear()
   }, [queryClient])
