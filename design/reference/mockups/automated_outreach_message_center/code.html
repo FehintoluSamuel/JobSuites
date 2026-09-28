@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"on-primary-fixed-variant":"#920028","surface-variant":"#dae2fd","error-container":"#ffdad6","on-primary-fixed":"#40000c","surface-tint":"#be0037","error":"#ba1a1a","on-primary-container":"#fffaf9","on-tertiary":"#ffffff","surface-container-high":"#e2e7ff","inverse-surface":"#283044","outline-variant":"#e5bdbe","secondary":"#aa304f","surface-container-lowest":"#ffffff","primary-fixed-dim":"#ffb3b6","surface-container-low":"#f2f3ff","inverse-on-surface":"#eef0ff","secondary-container":"#fd6f8c","inverse-primary":"#ffb3b6","tertiary-container":"#846f71","surface":"#faf8ff","secondary-fixed":"#ffd9dd","surface-dim":"#d2d9f4","on-error-container":"#93000a","surface-bright":"#faf8ff","on-secondary-fixed-variant":"#8a1538","primary-container":"#e11d48","tertiary":"#6a5759","surface-container-highest":"#dae2fd","on-surface-variant":"#5c3f40","on-surface":"#131b2e","outline":"#906f70","secondary-fixed-dim":"#ffb2bd","on-background":"#131b2e","tertiary-fixed":"#f7dcde","on-error":"#ffffff","on-secondary-container":"#6f0028","primary-fixed":"#ffdada","on-primary":"#ffffff","surface-container":"#eaedff","on-tertiary-fixed-variant":"#544244","on-secondary":"#ffffff","background":"#faf8ff","primary":"#b80035","on-secondary-fixed":"#400014","tertiary-fixed-dim":"#dac0c2","on-tertiary-fixed":"#26181a","on-tertiary-container":"#fffaff"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-lg":"2rem","space-xl":"2rem","space-xs":"0.25rem","space-lg":"1.25rem","margin":"1rem","gutter":"1rem","margin-md":"1.5rem","space-sm":"0.5rem","space-md":"0.75rem","gutter-lg":"1.5rem"},"fontFamily":{"label-sm":["Hanken Grotesk"],"body-lg":["Hanken Grotesk"],"headline-sm":["Hanken Grotesk"],"body-sm":["Hanken Grotesk"],"headline-lg-mobile":["Hanken Grotesk"],"headline-md":["Hanken Grotesk"],"headline-lg":["Hanken Grotesk"],"label-md":["Hanken Grotesk"],"display":["Hanken Grotesk"],"body-md":["Hanken Grotesk"]},"fontSize":{"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.05em","fontWeight":"700"}],"body-lg":["16px",{"lineHeight":"24px","letterSpacing":"0em","fontWeight":"400"}],"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.005em","fontWeight":"400"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"700"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"600"}],"display":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"700"}],"body-md":["14px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-64 bg-on-surface z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col flex-1 overflow-y-auto"><div class="h-16 px-gutter flex items-center gap-space-md"><img alt="JobSuites Crimson Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCBfHMd7ihnBImadjxWYwCMYAon_tuI6ySeFhYYxpAEoyd56iOfE5QTeN0IHHFc51ErG3CS1ngGAwBVxDst0b9_2D8G2fGKXsQXuxr7C7i4mBSA7GZCbTzMwruixozo-sYAjym6xTPNvkZZxhDbmnI0TucOQ4GZJKhw4-IGzrlsxg2CXlHei_40QeVhBxoYfuuzURmqqTCZB2nDMTv4JbDFgehixD3PaXKTx8IJNBGl3OEY7wFaMDx"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-primary tracking-tight">JobSuites</span><span class="font-label-sm text-label-sm text-outline-variant uppercase tracking-wider">Executive Suite</span></div></div><div class="px-gutter my-space-xs"><div class="h-px bg-outline/20 w-full"></div></div><div class="px-gutter pt-space-sm pb-space-xs"><span class="font-label-sm text-label-sm uppercase tracking-wider text-outline-variant font-bold">Executive Command</span></div><nav class="flex flex-col gap-1 px-space-md py-space-xs" data-active-classes="bg-primary-container text-on-primary font-headline-sm rounded-lg"><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-label-md text-label-md text-surface-container-high hover:bg-on-surface-variant/40 hover:text-on-primary transition-colors" data-path="dashboard-and-automation" href="#"><span class="material-symbols-outlined text-[20px]">tune</span>Dashboard &amp; Automation</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-label-md text-label-md text-surface-container-high hover:bg-on-surface-variant/40 hover:text-on-primary transition-colors" data-path="smart-profile-and-cv" href="#"><span class="material-symbols-outlined text-[20px]">badge</span>Smart Profile &amp; CV</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-label-md text-label-md text-surface-container-high hover:bg-on-surface-variant/40 hover:text-on-primary transition-colors" data-path="search-portals" href="#"><span class="material-symbols-outlined text-[20px]">travel_explore</span>Search Portals</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-label-md text-label-md text-surface-container-high hover:bg-on-surface-variant/40 hover:text-on-primary transition-colors" data-path="top-10-matches" href="#"><span class="material-symbols-outlined text-[20px]">verified</span>Top 10 Matches</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-label-md text-label-md text-surface-container-high hover:bg-on-surface-variant/40 hover:text-on-primary transition-colors" data-path="application-studio" href="#"><span class="material-symbols-outlined text-[20px]">edit_document</span>Application Studio</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-label-md text-label-md text-surface-container-high hover:bg-on-surface-variant/40 hover:text-on-primary transition-colors" data-path="pipeline-and-kanban" href="#"><span class="material-symbols-outlined text-[20px]">view_kanban</span>Pipeline &amp; Kanban</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-label-md text-label-md text-surface-container-high hover:bg-on-surface-variant/40 hover:text-on-primary transition-colors" data-path="network-and-contacts" href="#"><span class="material-symbols-outlined text-[20px]">hub</span>Network &amp; Contacts</a><a aria-current="page" class="flex items-center gap-space-md px-space-md py-space-sm transition-colors bg-primary-container text-on-primary font-headline-sm rounded-lg" data-path="automated-outreach" href="#"><span class="material-symbols-outlined text-[20px]">forward_to_inbox</span>Automated Outreach</a></nav></div><div class="p-gutter bg-on-surface/90"><div class="flex items-center gap-space-md"><div class="relative flex-shrink-0"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1VT6iGRyoiFPPpX7vea2Yx4JwORQtNxvdML9Q9hyFX8iUCWY8Ivo1AB1PC1sJMoaxc1dx5dgDNyBTScll_T61GnjGaoXNmdxJSM5hOnvvBrbQXvO_H9qWp-kVeRZukgoZ2sWXPNehNO65KAJSdRE0CKg5oYr0LarBcbEJRX5KPco9RY_iMvP-4LsWLKpEGTvxp-S3DXGvpAS10bDE4VusGq2qWXzsW6DjAxJDoKfYvJqJF7lgNdWzWlt_o"/><span class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-primary-container ring-2 ring-on-surface"></span></div><div class="flex flex-col min-w-0 flex-1"><span class="font-label-md text-label-md text-on-primary truncate">Sarah Jenkins</span><span class="font-body-sm text-body-sm text-outline-variant truncate">Principal Designer</span></div><span class="material-symbols-outlined text-outline-variant hover:text-on-primary transition-colors cursor-pointer text-[18px]">sync</span></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 z-40 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] px-gutter-lg flex items-center justify-between gap-gutter"><div class="flex items-center flex-1 max-w-xl"><div class="relative w-full"><span class="material-symbols-outlined absolute left-space-md top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span><input class="w-full h-10 pl-10 pr-space-md rounded-lg bg-surface-container-low font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-primary-container/30 transition-all" placeholder="Search roles, companies, recruiters, or applications..." type="text"/></div></div><div class="flex items-center gap-space-lg flex-shrink-0"><div class="hidden xl:flex items-center gap-space-sm px-space-md py-space-xs rounded-full bg-surface-container"><span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">5 Portals Synced • 142 Matches</span></div><button class="h-10 px-space-lg bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md rounded-lg flex items-center gap-space-sm shadow-[0_1px_8px_rgba(0,0,0,0.04)] transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">add</span>+ New Search Routine</button><button class="relative p-space-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1 right-1 w-2 h-2 bg-primary-container rounded-full"></span></button><div class="flex items-center gap-space-sm pl-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover cursor-pointer" src="https://lh3.googleusercontent.com/aida/AEtjO1VT6iGRyoiFPPpX7vea2Yx4JwORQtNxvdML9Q9hyFX8iUCWY8Ivo1AB1PC1sJMoaxc1dx5dgDNyBTScll_T61GnjGaoXNmdxJSM5hOnvvBrbQXvO_H9qWp-kVeRZukgoZ2sWXPNehNO65KAJSdRE0CKg5oYr0LarBcbEJRX5KPco9RY_iMvP-4LsWLKpEGTvxp-S3DXGvpAS10bDE4VusGq2qWXzsW6DjAxJDoKfYvJqJF7lgNdWzWlt_o"/><span class="material-symbols-outlined text-on-surface-variant text-[18px] cursor-pointer hover:text-on-surface">expand_more</span></div></div></header><main class="relative pt-16 w-full min-h-screen bg-surface"><div class="flex flex-col w-full">
+<div class="px-gutter-lg py-space-md space-y-gutter">
+<!-- Top Executive Header Panel -->
+<div class="bg-surface-container-lowest p-gutter-lg rounded-xl shadow-sm flex flex-col xl:flex-row xl:items-center justify-between gap-gutter">
+<div class="space-y-space-xs max-w-3xl">
+<div class="flex items-center gap-space-sm">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm uppercase tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-ping"></span>
+            Outreach Engine v3.4 Active
+          </span>
+<span class="text-tertiary font-body-sm text-body-sm">• 48-Hour Response Velocity: +28%</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Automated Outreach &amp; Message Center</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Campaign sequences, personalized LinkedIn connection notes, direct email dispatching, and live candidate response telemetry.
+        </p>
+</div>
+<div class="flex flex-wrap items-center gap-space-md">
+<button class="h-10 px-space-md rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md flex items-center gap-space-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px] text-tertiary">tune</span>
+          Global Outbound Settings
+        </button>
+<button class="h-10 px-space-lg rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md flex items-center gap-space-sm shadow-sm transition-all transform active:scale-95" type="button">
+<span class="material-symbols-outlined text-[20px]">add</span>
+          + New Custom Outreach Campaign
+        </button>
+</div>
+</div>
+<!-- Telemetry Strip & Quick Metrics -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm space-y-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Active Sequences</span>
+<span class="material-symbols-outlined text-primary-container text-[18px]">outbox</span>
+</div>
+<div class="flex items-baseline gap-space-sm">
+<span class="font-headline-lg text-headline-lg text-on-surface">24</span>
+<span class="font-label-sm text-label-sm text-primary font-semibold">8 in-flight</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 68%;"></div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm space-y-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Open / Read Rate</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">visibility</span>
+</div>
+<div class="flex items-baseline gap-space-sm">
+<span class="font-headline-lg text-headline-lg text-on-surface">82.4%</span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">↑ 4.1%</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 82%;"></div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm space-y-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Replies Received</span>
+<span class="material-symbols-outlined text-primary-container text-[18px]">chat</span>
+</div>
+<div class="flex items-baseline gap-space-sm">
+<span class="font-headline-lg text-headline-lg text-on-surface">12</span>
+<span class="font-label-sm text-label-sm text-primary-container font-semibold">3 need attention</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 50%;"></div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm space-y-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Direct Screenings</span>
+<span class="material-symbols-outlined text-on-secondary-fixed-variant text-[18px]">event_available</span>
+</div>
+<div class="flex items-baseline gap-space-sm">
+<span class="font-headline-lg text-headline-lg text-on-surface">4</span>
+<span class="font-label-sm text-label-sm text-on-secondary-fixed-variant font-semibold">Booked this wk</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-on-secondary-fixed-variant h-full rounded-full" style="width: 90%;"></div>
+</div>
+</div>
+</div>
+<!-- Navigation Filter Segment -->
+<div class="flex flex-wrap items-center justify-between gap-gutter bg-surface-container-lowest px-gutter py-space-sm rounded-xl shadow-sm">
+<div class="flex items-center gap-space-xs overflow-x-auto pb-1 sm:pb-0" id="filter-tabs">
+<button class="tab-btn px-space-md py-space-sm rounded-lg font-label-md text-label-md bg-secondary text-on-secondary transition-all" data-tab="all" type="button">
+          All Sequences <span class="ml-1 opacity-80">(24)</span>
+</button>
+<button class="tab-btn px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container transition-all" data-tab="active" type="button">
+          Active In-Flight <span class="ml-1 font-semibold text-primary">(8)</span>
+</button>
+<button class="tab-btn px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container transition-all" data-tab="awaiting" type="button">
+          Awaiting Reply <span class="ml-1 font-semibold text-tertiary">(12)</span>
+</button>
+<button class="tab-btn px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container transition-all" data-tab="meetings" type="button">
+          Meetings Booked <span class="ml-1 font-semibold text-on-secondary-fixed-variant">(4)</span>
+</button>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider">Sending Window:</span>
+<span class="inline-flex items-center gap-1 text-on-surface font-label-md text-label-md bg-surface-container px-2.5 py-1 rounded-md">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+          Optimized EST (08:30 - 11:30)
+        </span>
+</div>
+</div>
+<!-- Two-Column Master Workstation Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- LEFT COLUMN: Campaign Sequence Queue (5 cols) -->
+<div class="lg:col-span-5 flex flex-col gap-space-md">
+<!-- Search & Channel Sub-filter -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-center justify-between gap-space-sm">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-tertiary text-[18px]">search</span>
+<input class="w-full h-9 pl-9 pr-3 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-tertiary focus:outline-none focus:ring-1 focus:ring-primary-container" placeholder="Filter sequences by name or role..." type="text"/>
+</div>
+<button class="h-9 px-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">filter_list</span>
+            Channels
+          </button>
+</div>
+<!-- Sequence Card 1 (Active/Selected) -->
+<div class="cursor-pointer bg-surface-container-lowest rounded-xl p-space-lg shadow-sm transition-all relative overflow-hidden bg-gradient-to-r from-secondary-fixed/30 to-transparent">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary-container"></div>
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="relative">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="Portrait photo of Marcus Vance, Head of Design Talent at Stripe, crisp professional corporate photography, confident warm expression, neutral clean studio background, sharp focus, refined lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOSqoWpc4HZqmAcO3Yc45_CsIiK4EHa1uMMRuPpUgEnefhiBEsK6IQ6OAmqojEPmBVSBhKmHhn96VblMte_DXDsuXQL9OhfdZ9UtUDbfhtlpk2O9I-WHQ8h7Zgc1FB5ckqOrrpPp786F_SK0Jha2krj9edEQBJxNyumDbR8idC6Ga5KehdMn8bzmfD1aUq_Qu-JpXXtn2h-T5Gy0dWHa-WJXKXexFUffjKRkyWym8pMTSR7easHeEB"/>
+<span class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-primary-container text-on-primary flex items-center justify-center text-[10px] font-bold">in</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<h2 class="font-headline-sm text-headline-sm text-on-surface truncate">Marcus Vance</h2>
+<span class="material-symbols-outlined text-[16px] text-primary-container">verified</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Stripe • Head of Design Talent</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm tracking-wide">
+              Step 2 of 3
+            </span>
+</div>
+<div class="mt-space-md pt-space-md bg-surface-container-low/50 -mx-space-lg px-space-lg space-y-space-xs">
+<div class="flex items-center justify-between text-on-surface font-label-sm text-label-sm">
+<span class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[14px]">mark_email_read</span>
+                Dual-Channel Delivery
+              </span>
+<span class="text-tertiary">Opened 3 times • 42m ago</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic truncate">
+              Subject: "Candidate Ingestion: Sarah Jenkins - Lead Product Systems..."
+            </p>
+</div>
+</div>
+<!-- Sequence Card 2 (Reply Received - High Priority) -->
+<div class="cursor-pointer bg-surface-container-lowest hover:bg-surface-container-low rounded-xl p-space-lg shadow-sm transition-all relative overflow-hidden">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="relative">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="Headshot of Elena Rostova, Staff Talent Partner at Figma, elegant creative executive portrait, modern architectural office setting, soft natural window rim light, sharp corporate style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByXLzB59OOrDagWLJD2clriRTV7VbIQqiTZ3HblzrJ-KHWGYoAhruqpCNoANs0nBpcn7L2TwOsUCnNXRYxxoQkjnwd2T4F7E6hWb_oFeP2EQYhp-b-RbG63Z16KmCp-GP6LrM8nKb4E-EP52Fx9g4l4NTwArBc1bdGdspZ0rGhod4ZbB4vSHJCEQueo02bNd0t4xPgCGJhP7MtLpWhF2-rQVfGs96uJ2binU00Z697n-XqnGJC8_NO"/>
+<span class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-secondary text-on-secondary flex items-center justify-center text-[10px] font-bold">1c</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<h3 class="font-headline-sm text-headline-sm text-on-surface truncate">Elena Rostova</h3>
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Figma • Staff Talent Partner</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">
+              Reply Received
+            </span>
+</div>
+<div class="mt-space-md bg-secondary-fixed/50 p-space-sm rounded-lg flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[18px] flex-shrink-0">chat_bubble</span>
+<p class="font-label-md text-label-md text-on-secondary-container truncate">
+              "Let's chat this Thursday! Looking forward to reviewing the systems deck."
+            </p>
+</div>
+<div class="mt-space-sm flex items-center justify-between text-tertiary font-body-sm text-body-sm">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">link</span>
+              LinkedIn 1-Click Intro
+            </span>
+<span>2 hours ago</span>
+</div>
+</div>
+<!-- Sequence Card 3 (Scheduled Window) -->
+<div class="cursor-pointer bg-surface-container-lowest hover:bg-surface-container-low rounded-xl p-space-lg shadow-sm transition-all">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="relative">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="Corporate headshot of David Chen, Director of Recruiting at Notion, executive studio lighting, high contrast modern professional aesthetic, confident friendly stance" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6ikbfcO4OHmyZXC-ZpXEex3Cp6oLDHEXJ7118BUpD8pqjqVkHwZTP1scC1vduQZn_vjjLDVkm_nGQMXHlvLQL_Cf0PV1pr4IK6estJ0Mjr0rG3-wiCWQNLblXn-T5YW_BbwfwIFiqueX4xBsYSZWPhNNDE8scIP9MuXLCq5YA6AUHtNIWmOP76LbanUeveGrkB7q89dUhGcU4gYEOcNrnFLNAtTXCiMi71_QWK1sMJt1oYRUxcOBe"/>
+<span class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-surface-variant text-on-surface flex items-center justify-center text-[10px]">
+<span class="material-symbols-outlined text-[12px]">mail</span>
+</span>
+</div>
+<div class="flex flex-col min-w-0">
+<h3 class="font-headline-sm text-headline-sm text-on-surface truncate">David Chen</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Notion • Director of Recruiting</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-tertiary font-label-sm text-label-sm">
+              Queued Step 1
+            </span>
+</div>
+<div class="mt-space-md flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<span class="flex items-center gap-1 text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+              Tomorrow 9:00 AM EST
+            </span>
+<span class="font-label-sm text-label-sm text-tertiary">Optimal Window AI</span>
+</div>
+</div>
+<!-- Sequence Card 4 (Datadog) -->
+<div class="cursor-pointer bg-surface-container-lowest hover:bg-surface-container-low rounded-xl p-space-lg shadow-sm transition-all">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="relative">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="Professional studio portrait of Maya Patel, Senior Tech Recruiter at Datadog, warm balanced ambient lighting, clean modern business tech atmosphere, sharp focus" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8T2fA7YMiEHZDQuzNiYAjsyfjNt3w1hnv4Yu5HHl0GrY9cAxSoWnYOu5fZA3Qqnzgo7tKm-D0Yd4lrNRYGBf81U_U70fD94O388GZP7xX3uYhgKt0oz-AXAuxYeLB1V8fWxT9CvUYEeziZRKuy3OEx3Dp4n2GOsGUBz5XFlfeqk5BBFqiDiAK8bZ65NRgTzS7WNXDykz1xyEVHLiSwl1SgVqikgWud6KFVQxsZiKo9YI4i9VvA-Ft"/>
+<span class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-primary-container text-on-primary flex items-center justify-center text-[10px]">in</span>
+</div>
+<div class="flex flex-col min-w-0">
+<h3 class="font-headline-sm text-headline-sm text-on-surface truncate">Maya Patel</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Datadog • Senior Talent Acquisition</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-tertiary font-label-sm text-label-sm">
+              Step 1 Sent
+            </span>
+</div>
+<div class="mt-space-md flex items-center justify-between text-tertiary font-body-sm text-body-sm">
+<span>Connection accepted • No reply yet</span>
+<span>Yesterday</span>
+</div>
+</div>
+<!-- Sequence Card 5 (Airbnb) -->
+<div class="cursor-pointer bg-surface-container-lowest hover:bg-surface-container-low rounded-xl p-space-lg shadow-sm transition-all">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="relative">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="Headshot of Julian Thorne, Staff Executive Sourcer at Airbnb, crisp cinematic editorial style photography, refined corporate attire, confident subtle smile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6Sm82tD34PLHDwFeVCe4B7jZ8Eay5SlUMAmt2p-2Xg2-qOS0TnNVTRaxFRH6unhQqlj0v6nK1VbCZi1kNZ4CNuAktVvhhJ09hDLNItnaJyQagxlYTteDR5Cda3QAEEvUjtnrMSqw1uWDDkEjRkpWQbwd439dkuCPJFFeOf40qsmfPSBmX8H7YHwqZVHVZjsdgqTTiKLCI9j9CtNilIdyvSBtwMRUNF7wIMlhWVszEvDSk6MAj3I-r"/>
+<span class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-secondary text-on-secondary flex items-center justify-center text-[10px]">
+<span class="material-symbols-outlined text-[12px]">send</span>
+</span>
+</div>
+<div class="flex flex-col min-w-0">
+<h3 class="font-headline-sm text-headline-sm text-on-surface truncate">Julian Thorne</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Airbnb • Staff Executive Sourcer</p>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm">
+              Meeting Booked
+            </span>
+</div>
+<div class="mt-space-md flex items-center justify-between text-tertiary font-body-sm text-body-sm">
+<span class="text-on-secondary-fixed-variant font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">event</span>
+              Calendar Synchronized: Friday 2:00 PM
+            </span>
+<span>3d ago</span>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Message Inspector, Sequence Timeline & AI Composer (7 cols) -->
+<div class="lg:col-span-7 flex flex-col gap-gutter">
+<!-- Active Conversation & Contact Context Dossier -->
+<div class="bg-surface-container-lowest p-gutter-lg rounded-xl shadow-sm space-y-gutter">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-space-md gap-space-md">
+<div class="flex items-center gap-space-md">
+<img class="w-14 h-14 rounded-full object-cover" data-alt="Detailed portrait of Marcus Vance Stripe Head of Design Talent smiling confidently with architectural office backdrop and soft daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfFheofQ38-0YttTa81T6zcrWXj_MHOOh5Ej0A4OrHtZS16RcqVXzXECzoGLOszHDemxQ2guR0DE-ZL_c8ky5XwPvVb2XFAVPd8QbSTaG6WeJkvrR_u_Q1p5vZkywSdAS0u8An2WL2hGQEngUi_54bfkrQteuY0XWlAZOs_qWixQmpCmQljAbaXND36-johhMsne7KUFQrKGmT2yqaTjQYo6I91R6xqTNta6o3ol3MuJ0Vm2PxHuGV"/>
+<div>
+<div class="flex items-center gap-space-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface">Marcus Vance</h2>
+<span class="px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold">Priority Lead</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Head of Design Talent @ Stripe • San Francisco, CA (Hybrid)</p>
+<div class="flex items-center gap-space-md text-tertiary font-body-sm text-body-sm mt-0.5">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[15px]">mail</span> marcus.vance@stripe.com</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[15px]">link</span> linkedin.com/in/marcusvance</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-xs self-end sm:self-center">
+<button class="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors" title="Pause Sequence" type="button">
+<span class="material-symbols-outlined text-[20px]">pause</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors" title="Edit Campaign Settings" type="button">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors" title="View Full Profile" type="button">
+<span class="material-symbols-outlined text-[20px]">open_in_new</span>
+</button>
+</div>
+</div>
+<!-- Sequence Steps Visual Pathway -->
+<div class="bg-surface-container-low p-space-lg rounded-xl space-y-space-md">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface uppercase tracking-wider">Multi-Touch Outreach Sequence</span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">Campaign ID: #STRIPE-DES-04</span>
+</div>
+<!-- Steps Progress Bar -->
+<div class="relative flex items-center justify-between">
+<div class="absolute left-6 right-6 top-1/2 -translate-y-1/2 h-1 bg-surface-container"></div>
+<div class="absolute left-6 top-1/2 -translate-y-1/2 h-1 bg-primary-container" style="width: 50%;"></div>
+<!-- Step Dot 1 -->
+<div class="relative z-10 flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface mt-1">LinkedIn Note</span>
+<span class="font-body-sm text-body-sm text-tertiary">2d ago</span>
+</div>
+<!-- Step Dot 2 -->
+<div class="relative z-10 flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary ring-4 ring-secondary-fixed flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[16px]">mail</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-bold mt-1">Direct Ingestion</span>
+<span class="font-body-sm text-body-sm text-primary">6h ago</span>
+</div>
+<!-- Step Dot 3 -->
+<div class="relative z-10 flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-surface-container text-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">alarm</span>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary mt-1">Nudge Follow-Up</span>
+<span class="font-body-sm text-body-sm text-tertiary">In 3 days</span>
+</div>
+</div>
+</div>
+<!-- Chronological Step Details & Message Threads -->
+<div class="space-y-space-lg">
+<!-- History Item 1: LinkedIn Note -->
+<div class="flex gap-space-md">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-surface-container text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">chat_bubble_outline</span>
+</div>
+<div class="w-0.5 flex-1 bg-surface-container mt-1"></div>
+</div>
+<div class="flex-1 bg-surface-container-low p-space-lg rounded-xl space-y-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-md text-label-md text-on-surface">Step 1: Personalized LinkedIn Note</span>
+<span class="text-tertiary font-body-sm text-body-sm">• Delivered &amp; Accepted</span>
+</div>
+<span class="font-body-sm text-body-sm text-tertiary">2 days ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant bg-surface-container-lowest p-space-md rounded-lg">
+                  "Hi Marcus, I just applied through JobSuites for the Lead Product Systems role. Having built multi-brand token engines across enterprise SaaS, I'd love to connect and share quick telemetry on design scalability."
+                </p>
+</div>
+</div>
+<!-- History Item 2: High-Impact Direct Email -->
+<div class="flex gap-space-md">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">outgoing_mail</span>
+</div>
+<div class="w-0.5 flex-1 bg-surface-container mt-1"></div>
+</div>
+<div class="flex-1 bg-secondary-fixed/30 p-space-lg rounded-xl space-y-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Step 2: Executive Direct Email Ingestion</span>
+<p class="font-body-sm text-body-sm text-secondary font-medium">To: marcus.vance@stripe.com</p>
+</div>
+<div class="flex items-center gap-space-sm text-on-secondary-fixed-variant font-label-sm text-label-sm bg-surface-container-lowest px-2.5 py-1 rounded-md">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+                    Opened 3 times • Latest 42m ago
+                  </div>
+</div>
+<div class="bg-surface-container-lowest p-space-lg rounded-lg space-y-space-sm text-on-surface">
+<p class="font-label-md text-label-md font-semibold text-secondary">Subject: Candidate Ingestion: Sarah Jenkins - Lead Product Systems Designer (Ref #JS-984)</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Marcus,</p>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                    Following my formal application, here is the executive portfolio briefing. In my prior Principal role at Apex Cloud, I standardized 14 disparate product libraries into an unified headless token system, cutting design handoff latency by 41%.
+                  </p>
+<div class="p-space-sm bg-surface-container-low rounded flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">attachment</span>
+                      Executive_Portfolio_Jenkins_2024.pdf (4.8 MB)
+                    </span>
+<span class="font-label-sm text-label-sm text-primary font-bold">Preview Deck</span>
+</div>
+</div>
+</div>
+</div>
+<!-- History Item 3: Scheduled Follow-up -->
+<div class="flex gap-space-md">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-surface-container text-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">pending_actions</span>
+</div>
+</div>
+<div class="flex-1 bg-surface-container-low/70 p-space-md rounded-xl flex items-center justify-between">
+<div class="space-y-0.5">
+<span class="font-label-md text-label-md text-on-surface">Step 3: Gentle Nudge Follow-up</span>
+<p class="font-body-sm text-body-sm text-tertiary">Scheduled to auto-dispatch in 3 days if no response detected</p>
+</div>
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm transition-colors" type="button">
+                  Customize
+                </button>
+</div>
+</div>
+</div>
+<!-- AI Composer & Live Follow-Up Tuning Studio -->
+<div class="bg-surface-container-lowest pt-space-lg space-y-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary-container text-[20px]">auto_fix_high</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">AI Composer Tuning &amp; Override</span>
+</div>
+<span class="text-tertiary font-body-sm text-body-sm">Model: Executive Outreach v4</span>
+</div>
+<!-- Interactive Tone Sliders Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md p-space-md bg-surface-container-low rounded-xl">
+<!-- Slider 1 -->
+<div class="space-y-space-xs">
+<div class="flex justify-between font-label-sm text-label-sm">
+<span class="text-on-surface">Confidence Level</span>
+<span class="text-primary font-bold" id="tone-val">Executive High</span>
+</div>
+<input class="w-full accent-primary-container cursor-pointer" max="3" min="1" oninput="document.getElementById('tone-val').innerText = this.value == 3 ? 'Executive High' : (this.value == 2 ? 'Balanced Professional' : 'Humble Peer')" type="range" value="3"/>
+</div>
+<!-- Slider 2 -->
+<div class="space-y-space-xs">
+<div class="flex justify-between font-label-sm text-label-sm">
+<span class="text-on-surface">Length</span>
+<span class="text-primary font-bold" id="len-val">Concise (3 Sentences)</span>
+</div>
+<input class="w-full accent-primary-container cursor-pointer" max="3" min="1" oninput="document.getElementById('len-val').innerText = this.value == 1 ? 'Concise (3 Sentences)' : (this.value == 2 ? 'Detailed Proof' : 'Comprehensive')" type="range" value="1"/>
+</div>
+<!-- Slider 3 -->
+<div class="space-y-space-xs">
+<div class="flex justify-between font-label-sm text-label-sm">
+<span class="text-on-surface">Call-to-Action</span>
+<span class="text-primary font-bold">Direct Calendar</span>
+</div>
+<select class="w-full h-7 bg-surface-container-lowest font-body-sm text-body-sm text-on-surface rounded px-2 border-0 focus:outline-none focus:ring-1 focus:ring-primary-container">
+<option selected="">Direct 15m Calendar Link</option>
+<option>Soft Feedback Request</option>
+<option>Portfolio Deck Only</option>
+</select>
+</div>
+</div>
+<!-- Text Area for Live Inspection / Modification -->
+<div class="space-y-space-xs">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-tertiary">Drafted Immediate Follow-Up Preview</label>
+<textarea class="w-full p-space-md rounded-xl bg-surface-container-low font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary-container/30 transition-all resize-none" rows="3">Marcus, wanted to ensure the token architecture deck reached your desk. I have a 15-minute slot open this Thursday at 2 PM PST if you'd like to review how the multi-brand engine fits Stripe's current roadmaps: https://cal.com/s-jenkins/15m</textarea>
+</div>
+<!-- Action Controls Row -->
+<div class="flex flex-wrap items-center justify-between gap-space-md pt-space-xs">
+<div class="flex items-center gap-space-sm text-tertiary font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-primary">bolt</span>
+                Sending from: s.jenkins.exec@gmail.com (DKIM &amp; SPF Verified)
+              </div>
+<div class="flex items-center gap-space-sm">
+<button class="h-10 px-space-md rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors" type="button">
+                  Edit Template
+                </button>
+<button class="h-10 px-space-lg rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md flex items-center gap-space-sm shadow-sm transition-all transform active:scale-95" type="button">
+<span class="material-symbols-outlined text-[18px]">send</span>
+                  Send Immediate Follow-Up
+                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Outreach Velocity & Health Insight Widget -->
+<div class="bg-surface-container-lowest p-gutter rounded-xl shadow-sm flex flex-col md:flex-row items-center justify-between gap-gutter">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-secondary-fixed flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-[26px]">insights</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Account Sending Velocity: Healthy</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Daily quota: 18 / 45 messages dispatched. Zero spam flags detected across Google Workspace &amp; LinkedIn API.</p>
+</div>
+</div>
+<button class="h-9 px-space-md rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm flex-shrink-0" type="button">
+            View Sender Diagnostics
+          </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    const tabs = document.querySelectorAll('.tab-btn');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          t.classList.remove('bg-secondary', 'text-on-secondary');
+          t.classList.add('text-on-surface-variant');
+        });
+        tab.classList.add('bg-secondary', 'text-on-secondary');
+        tab.classList.remove('text-on-surface-variant');
+      });
+    });
+  })();
+</script></main></div></body></html>

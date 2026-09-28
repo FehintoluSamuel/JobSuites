@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"on-primary-fixed-variant":"#920028","surface-variant":"#dae2fd","error-container":"#ffdad6","on-primary-fixed":"#40000c","surface-tint":"#be0037","error":"#ba1a1a","on-primary-container":"#fffaf9","on-tertiary":"#ffffff","surface-container-high":"#e2e7ff","inverse-surface":"#283044","outline-variant":"#e5bdbe","secondary":"#aa304f","surface-container-lowest":"#ffffff","primary-fixed-dim":"#ffb3b6","surface-container-low":"#f2f3ff","inverse-on-surface":"#eef0ff","secondary-container":"#fd6f8c","inverse-primary":"#ffb3b6","tertiary-container":"#846f71","surface":"#faf8ff","secondary-fixed":"#ffd9dd","surface-dim":"#d2d9f4","on-error-container":"#93000a","surface-bright":"#faf8ff","on-secondary-fixed-variant":"#8a1538","primary-container":"#e11d48","tertiary":"#6a5759","surface-container-highest":"#dae2fd","on-surface-variant":"#5c3f40","on-surface":"#131b2e","outline":"#906f70","secondary-fixed-dim":"#ffb2bd","on-background":"#131b2e","tertiary-fixed":"#f7dcde","on-error":"#ffffff","on-secondary-container":"#6f0028","primary-fixed":"#ffdada","on-primary":"#ffffff","surface-container":"#eaedff","on-tertiary-fixed-variant":"#544244","on-secondary":"#ffffff","background":"#faf8ff","primary":"#b80035","on-secondary-fixed":"#400014","tertiary-fixed-dim":"#dac0c2","on-tertiary-fixed":"#26181a","on-tertiary-container":"#fffaff"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-lg":"2rem","space-xl":"2rem","space-xs":"0.25rem","space-lg":"1.25rem","margin":"1rem","gutter":"1rem","margin-md":"1.5rem","space-sm":"0.5rem","space-md":"0.75rem","gutter-lg":"1.5rem"},"fontFamily":{"label-sm":["Hanken Grotesk"],"body-lg":["Hanken Grotesk"],"headline-sm":["Hanken Grotesk"],"body-sm":["Hanken Grotesk"],"headline-lg-mobile":["Hanken Grotesk"],"headline-md":["Hanken Grotesk"],"headline-lg":["Hanken Grotesk"],"label-md":["Hanken Grotesk"],"display":["Hanken Grotesk"],"body-md":["Hanken Grotesk"]},"fontSize":{"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.05em","fontWeight":"700"}],"body-lg":["16px",{"lineHeight":"24px","letterSpacing":"0em","fontWeight":"400"}],"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.005em","fontWeight":"400"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"700"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"600"}],"display":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"700"}],"body-md":["14px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-64 bg-on-surface z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col flex-1 overflow-y-auto"><div class="h-16 px-gutter flex items-center gap-space-md"><img alt="JobSuites Crimson Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCBfHMd7ihnBImadjxWYwCMYAon_tuI6ySeFhYYxpAEoyd56iOfE5QTeN0IHHFc51ErG3CS1ngGAwBVxDst0b9_2D8G2fGKXsQXuxr7C7i4mBSA7GZCbTzMwruixozo-sYAjym6xTPNvkZZxhDbmnI0TucOQ4GZJKhw4-IGzrlsxg2CXlHei_40QeVhBxoYfuuzURmqqTCZB2nDMTv4JbDFgehixD3PaXKTx8IJNBGl3OEY7wFaMDx"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-primary tracking-tight">JobSuites</span><span class="font-label-sm text-label-sm text-outline-variant uppercase tracking-wider">Executive Suite</span></div></div><div class="px-gutter my-space-xs"><div class="h-px bg-outline/20 w-full"></div></div><div class="px-gutter pt-space-sm pb-space-xs"><span class="font-label-sm text-label-sm uppercase tracking-wider text-outline-variant font-bold">Executive Command</span></div><nav class="flex flex-col gap-1 px-space-md py-space-xs" data-active-classes="bg-primary-container text-on-primary font-headline-sm rounded-lg"><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-label-md text-label-md text-surface-container-high hover:bg-on-surface-variant/40 hover:text-on-primary transition-colors" data-path="dashboard-and-automation" href="#"><span class="material-symbols-outlined text-[20px]">tune</span>Dashboard &amp; Automation</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-label-md text-label-md text-surface-container-high hover:bg-on-surface-variant/40 hover:text-on-primary transition-colors" data-path="smart-profile-and-cv" href="#"><span class="material-symbols-outlined text-[20px]">badge</span>Smart Profile &amp; CV</a><a aria-current="page" class="flex items-center gap-space-md px-space-md py-space-sm transition-colors bg-primary-container text-on-primary font-headline-sm rounded-lg" data-path="search-portals" href="#"><span class="material-symbols-outlined text-[20px]">travel_explore</span>Search Portals</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-label-md text-label-md text-surface-container-high hover:bg-on-surface-variant/40 hover:text-on-primary transition-colors" data-path="top-10-matches" href="#"><span class="material-symbols-outlined text-[20px]">verified</span>Top 10 Matches</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-label-md text-label-md text-surface-container-high hover:bg-on-surface-variant/40 hover:text-on-primary transition-colors" data-path="application-studio" href="#"><span class="material-symbols-outlined text-[20px]">edit_document</span>Application Studio</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-label-md text-label-md text-surface-container-high hover:bg-on-surface-variant/40 hover:text-on-primary transition-colors" data-path="pipeline-and-kanban" href="#"><span class="material-symbols-outlined text-[20px]">view_kanban</span>Pipeline &amp; Kanban</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-label-md text-label-md text-surface-container-high hover:bg-on-surface-variant/40 hover:text-on-primary transition-colors" data-path="network-and-contacts" href="#"><span class="material-symbols-outlined text-[20px]">hub</span>Network &amp; Contacts</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-label-md text-label-md text-surface-container-high hover:bg-on-surface-variant/40 hover:text-on-primary transition-colors" data-path="automated-outreach" href="#"><span class="material-symbols-outlined text-[20px]">forward_to_inbox</span>Automated Outreach</a></nav></div><div class="p-gutter bg-on-surface/90"><div class="flex items-center gap-space-md"><div class="relative flex-shrink-0"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1VT6iGRyoiFPPpX7vea2Yx4JwORQtNxvdML9Q9hyFX8iUCWY8Ivo1AB1PC1sJMoaxc1dx5dgDNyBTScll_T61GnjGaoXNmdxJSM5hOnvvBrbQXvO_H9qWp-kVeRZukgoZ2sWXPNehNO65KAJSdRE0CKg5oYr0LarBcbEJRX5KPco9RY_iMvP-4LsWLKpEGTvxp-S3DXGvpAS10bDE4VusGq2qWXzsW6DjAxJDoKfYvJqJF7lgNdWzWlt_o"/><span class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-primary-container ring-2 ring-on-surface"></span></div><div class="flex flex-col min-w-0 flex-1"><span class="font-label-md text-label-md text-on-primary truncate">Sarah Jenkins</span><span class="font-body-sm text-body-sm text-outline-variant truncate">Principal Designer</span></div><span class="material-symbols-outlined text-outline-variant hover:text-on-primary transition-colors cursor-pointer text-[18px]">sync</span></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 z-40 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] px-gutter-lg flex items-center justify-between gap-gutter"><div class="flex items-center flex-1 max-w-xl"><div class="relative w-full"><span class="material-symbols-outlined absolute left-space-md top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span><input class="w-full h-10 pl-10 pr-space-md rounded-lg bg-surface-container-low font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-primary-container/30 transition-all" placeholder="Search roles, companies, recruiters, or applications..." type="text"/></div></div><div class="flex items-center gap-space-lg flex-shrink-0"><div class="hidden xl:flex items-center gap-space-sm px-space-md py-space-xs rounded-full bg-surface-container"><span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">5 Portals Synced • 142 Matches</span></div><button class="h-10 px-space-lg bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md rounded-lg flex items-center gap-space-sm shadow-[0_1px_8px_rgba(0,0,0,0.04)] transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">add</span>+ New Search Routine</button><button class="relative p-space-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1 right-1 w-2 h-2 bg-primary-container rounded-full"></span></button><div class="flex items-center gap-space-sm pl-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover cursor-pointer" src="https://lh3.googleusercontent.com/aida/AEtjO1VT6iGRyoiFPPpX7vea2Yx4JwORQtNxvdML9Q9hyFX8iUCWY8Ivo1AB1PC1sJMoaxc1dx5dgDNyBTScll_T61GnjGaoXNmdxJSM5hOnvvBrbQXvO_H9qWp-kVeRZukgoZ2sWXPNehNO65KAJSdRE0CKg5oYr0LarBcbEJRX5KPco9RY_iMvP-4LsWLKpEGTvxp-S3DXGvpAS10bDE4VusGq2qWXzsW6DjAxJDoKfYvJqJF7lgNdWzWlt_o"/><span class="material-symbols-outlined text-on-surface-variant text-[18px] cursor-pointer hover:text-on-surface">expand_more</span></div></div></header><main class="relative pt-16 w-full min-h-screen bg-surface"><div class="flex flex-col w-full">
+<div class="px-gutter-lg py-margin-md max-w-7xl mx-auto w-full flex flex-col gap-margin-lg">
+<!-- Header Section -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg">
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-sm mb-1">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-surface-container font-label-sm text-label-sm text-secondary uppercase tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+            Crawler Cluster v4.8
+          </span>
+<span class="font-body-sm text-body-sm text-tertiary">| Synchronized via Distributed Proxy Mesh</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Search Portals &amp; Crawl Engine Configuration</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">Manage high-frequency API feeds, OAuth connections, and query scheduling for your 5 designated platforms</p>
+</div>
+<!-- Action Pill Group -->
+<div class="flex items-center flex-wrap gap-space-sm flex-shrink-0">
+<button class="h-10 px-space-md bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md rounded-lg flex items-center gap-space-sm transition-all shadow-sm" id="pauseToggleBtn" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">pause_circle</span>
+<span>Pause All Autonomous Engines</span>
+</button>
+<button class="h-10 px-space-md bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md rounded-lg flex items-center gap-space-sm transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span>+ Add / Replace Engine</span>
+</button>
+<button class="h-10 px-space-lg bg-primary-container hover:bg-primary active:scale-[0.99] text-on-primary font-label-md text-label-md rounded-lg flex items-center gap-space-sm shadow-md transition-all" id="pingTestBtn" type="button">
+<span class="material-symbols-outlined text-[18px]" id="pingIcon">sensors</span>
+<span id="pingBtnText">Test Crawl Ping</span>
+</button>
+</div>
+</div>
+<!-- Engine Overview Banner & Realtime Metrics -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
+<!-- Left Hero Health Block -->
+<div class="lg:col-span-4 flex flex-col justify-between bg-surface-container-low p-space-lg rounded-lg">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold">System Status</span>
+<div class="flex items-baseline gap-space-xs mt-1">
+<span class="font-display text-display text-on-surface font-bold">5 of 5</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Engines Active</span>
+</div>
+</div>
+<div class="relative w-12 h-12 flex items-center justify-center">
+<svg class="w-12 h-12 -rotate-90" viewbox="0 0 48 48">
+<circle class="text-surface-container-highest fill-none" cx="24" cy="24" r="20" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-primary-container fill-none" cx="24" cy="24" r="20" stroke="currentColor" stroke-dasharray="125.6" stroke-dashoffset="0" stroke-width="4"></circle>
+</svg>
+<span class="absolute font-label-sm text-label-sm font-bold text-on-surface">100%</span>
+</div>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between">
+<div class="flex items-center gap-space-xs text-on-surface font-body-sm text-body-sm">
+<span class="inline-block w-2.5 h-2.5 rounded-full bg-primary-container animate-pulse"></span>
+            Mesh Health: <strong class="font-label-md text-label-md">Nominal</strong>
+</div>
+<span class="font-body-sm text-body-sm text-tertiary">Zero rate-limits hit</span>
+</div>
+</div>
+<!-- Center & Right Stats Metrics -->
+<div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-gutter items-center">
+<!-- Metric 1: Total Scanned -->
+<div class="flex flex-col p-space-md rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Scanned (7D)</span>
+<span class="material-symbols-outlined text-[18px] text-tertiary">travel_explore</span>
+</div>
+<span class="font-headline-lg text-headline-lg text-on-surface mt-1">2,418</span>
+<div class="flex items-center gap-space-xs mt-1">
+<span class="material-symbols-outlined text-[14px] text-primary-container">trending_up</span>
+<span class="font-body-sm text-body-sm text-primary-container">+18.4% velocity</span>
+</div>
+</div>
+<!-- Metric 2: Filter Discarded -->
+<div class="flex flex-col p-space-md rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Auto-Discarded</span>
+<span class="material-symbols-outlined text-[18px] text-tertiary">filter_alt_off</span>
+</div>
+<span class="font-headline-lg text-headline-lg text-on-surface mt-1">2,276</span>
+<span class="font-body-sm text-body-sm text-tertiary mt-1">94.1% noise eliminated</span>
+</div>
+<!-- Metric 3: Executive Tier Matches -->
+<div class="flex flex-col p-space-md rounded-lg bg-secondary-fixed text-on-secondary-fixed shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold">Curated Matches</span>
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</div>
+<span class="font-headline-lg text-headline-lg mt-1 font-bold">142</span>
+<div class="flex items-center gap-space-xs mt-1">
+<span class="material-symbols-outlined text-[14px]">bolt</span>
+<span class="font-label-sm text-label-sm font-semibold">12 ready for 1-click apply</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 5 Platform Configuration Cards -->
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight">Active Ingestion Pipelines</h2>
+<span class="px-space-sm py-0.5 rounded-full bg-surface-container font-label-sm text-label-sm text-secondary font-bold">5 Portals Live</span>
+</div>
+<div class="flex items-center gap-space-sm font-body-sm text-body-sm text-tertiary">
+<span class="material-symbols-outlined text-[16px] text-primary-container">sync</span>
+          Auto-polling synced every 30m
+        </div>
+</div>
+<!-- Portal Card 1: LinkedIn Jobs Automation -->
+<div class="w-full bg-surface-container-lowest rounded-xl p-space-lg shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary-container"></div>
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg">
+<!-- Platform Title & Info -->
+<div class="flex items-start gap-space-md min-w-0 max-w-sm">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center flex-shrink-0 text-on-surface">
+<span class="material-symbols-outlined text-[26px]">network_node</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">LinkedIn Jobs Automation</span>
+<span class="px-space-xs py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm uppercase">Active</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Connected via OAuth 2.0 (Executive Seat Token)</span>
+<span class="font-body-sm text-body-sm text-tertiary">Last crawl: <strong>4 mins ago</strong> • Scraped: 86/100 today</span>
+</div>
+</div>
+<!-- Configuration & Rules Data -->
+<div class="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-space-md px-space-xs">
+<div class="flex flex-col bg-surface-container-low p-space-sm rounded-lg">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Target Query</span>
+<span class="font-label-md text-label-md text-on-surface truncate" title="'Principal Product Designer' OR 'Lead Design Systems'">‘Principal Product Designer’ OR ‘Lead Design Systems’</span>
+</div>
+<div class="flex flex-col bg-surface-container-low p-space-sm rounded-lg">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Filters Enforced</span>
+<span class="font-body-sm text-body-sm text-on-surface truncate">Remote/Hybrid • &lt;48h • &gt;200 Headcount</span>
+</div>
+<div class="flex flex-col bg-surface-container-low p-space-sm rounded-lg">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Recruiter Intel</span>
+<div class="flex items-center gap-space-xs text-primary-container font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px]">how_to_reg</span>
+<span>Hiring Team Scraper On</span>
+</div>
+</div>
+</div>
+<!-- Actions & Toggle -->
+<div class="flex items-center gap-space-md flex-shrink-0 justify-end">
+<button class="p-space-sm rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors" title="Engine Diagnostics" type="button">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Portal Card 2: Indeed Search Engine -->
+<div class="w-full bg-surface-container-lowest rounded-xl p-space-lg shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary-container"></div>
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg">
+<div class="flex items-start gap-space-md min-w-0 max-w-sm">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center flex-shrink-0 text-on-surface">
+<span class="material-symbols-outlined text-[26px]">manage_search</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Indeed Search Engine</span>
+<span class="px-space-xs py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm uppercase">Active</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Custom API Stream (Fast-Track Partner Key)</span>
+<span class="font-body-sm text-body-sm text-tertiary">Last crawl: <strong>12 mins ago</strong> • Scraped: 54/100 today</span>
+</div>
+</div>
+<div class="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-space-md px-space-xs">
+<div class="flex flex-col bg-surface-container-low p-space-sm rounded-lg">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Target Query</span>
+<span class="font-label-md text-label-md text-on-surface truncate">‘Staff Product Designer’ $190,000+</span>
+</div>
+<div class="flex flex-col bg-surface-container-low p-space-sm rounded-lg">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Geo Scope</span>
+<span class="font-body-sm text-body-sm text-on-surface truncate">50 mi radius of NYC + 100% Remote</span>
+</div>
+<div class="flex flex-col bg-surface-container-low p-space-sm rounded-lg">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Agency Exclusion</span>
+<div class="flex items-center gap-space-xs text-secondary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px]">domain_verification</span>
+<span>Direct Employers Only</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-md flex-shrink-0 justify-end">
+<button class="p-space-sm rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors" title="Engine Diagnostics" type="button">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Portal Card 3: Wellfound / AngelList -->
+<div class="w-full bg-surface-container-lowest rounded-xl p-space-lg shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary-container"></div>
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg">
+<div class="flex items-start gap-space-md min-w-0 max-w-sm">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center flex-shrink-0 text-on-surface">
+<span class="material-symbols-outlined text-[26px]">rocket_launch</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Wellfound / AngelList</span>
+<span class="px-space-xs py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm uppercase">Active</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Connected via Session Key (Venture Pass)</span>
+<span class="font-body-sm text-body-sm text-tertiary">Last crawl: <strong>28 mins ago</strong> • Scraped: 31/100 today</span>
+</div>
+</div>
+<div class="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-space-md px-space-xs">
+<div class="flex flex-col bg-surface-container-low p-space-sm rounded-lg">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Startup Stage</span>
+<span class="font-label-md text-label-md text-on-surface truncate">Series B to Pre-IPO Unicorn</span>
+</div>
+<div class="flex flex-col bg-surface-container-low p-space-sm rounded-lg">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Min Equity Grant</span>
+<span class="font-body-sm text-body-sm text-on-surface truncate">&gt; 0.05% Basis Points</span>
+</div>
+<div class="flex flex-col bg-surface-container-low p-space-sm rounded-lg">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Founder Matching</span>
+<div class="flex items-center gap-space-xs text-primary-container font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px]">handshake</span>
+<span>Direct Intro Route</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-md flex-shrink-0 justify-end">
+<button class="p-space-sm rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors" title="Engine Diagnostics" type="button">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Portal Card 4: Otta / Welcome to the Jungle -->
+<div class="w-full bg-surface-container-lowest rounded-xl p-space-lg shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary-container"></div>
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg">
+<div class="flex items-start gap-space-md min-w-0 max-w-sm">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center flex-shrink-0 text-on-surface">
+<span class="material-symbols-outlined text-[26px]">psychology</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Otta • Tech Curated Feed</span>
+<span class="px-space-xs py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm uppercase">Active</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Welcome to the Jungle API Integration</span>
+<span class="font-body-sm text-body-sm text-tertiary">Last crawl: <strong>1h ago</strong> • Scraped: 19/100 today</span>
+</div>
+</div>
+<div class="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-space-md px-space-xs">
+<div class="flex flex-col bg-surface-container-low p-space-sm rounded-lg">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Sectors Filter</span>
+<span class="font-label-md text-label-md text-on-surface truncate">Enterprise Software, DevTools, Fintech</span>
+</div>
+<div class="flex flex-col bg-surface-container-low p-space-sm rounded-lg">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Culture Score</span>
+<span class="font-body-sm text-body-sm text-on-surface truncate">Top Tier (Work-Life + Asynchronous)</span>
+</div>
+<div class="flex flex-col bg-surface-container-low p-space-sm rounded-lg">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Seniority Bar</span>
+<div class="flex items-center gap-space-xs text-primary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px]">grade</span>
+<span>Principal / Director</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-md flex-shrink-0 justify-end">
+<button class="p-space-sm rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors" title="Engine Diagnostics" type="button">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Portal Card 5: Glassdoor Job Board -->
+<div class="w-full bg-surface-container-lowest rounded-xl p-space-lg shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary-container"></div>
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg">
+<div class="flex items-start gap-space-md min-w-0 max-w-sm">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center flex-shrink-0 text-on-surface">
+<span class="material-symbols-outlined text-[26px]">corporate_fare</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Glassdoor Job Board</span>
+<span class="px-space-xs py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm uppercase">Active</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Salary Benchmarked Scraper Daemon</span>
+<span class="font-body-sm text-body-sm text-tertiary">Last crawl: <strong>2h ago</strong> • Scraped: 22/100 today</span>
+</div>
+</div>
+<div class="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-space-md px-space-xs">
+<div class="flex flex-col bg-surface-container-low p-space-sm rounded-lg">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Min Org Rating</span>
+<div class="flex items-center gap-1 text-on-surface font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px] text-primary-container" style="font-variation-settings: 'FILL' 1;">star</span>
+<span>4.2 / 5.0 Rating</span>
+</div>
+</div>
+<div class="flex flex-col bg-surface-container-low p-space-sm rounded-lg">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Comp Transparency</span>
+<span class="font-body-sm text-body-sm text-on-surface truncate">Verified Range Required</span>
+</div>
+<div class="flex flex-col bg-surface-container-low p-space-sm rounded-lg">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">CEO Approval</span>
+<div class="flex items-center gap-space-xs text-secondary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px]">thumb_up</span>
+<span>≥ 85% Benchmark</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-md flex-shrink-0 justify-end">
+<button class="p-space-sm rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors" title="Engine Diagnostics" type="button">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Crawl Schedule & Global Filter Settings Section -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Crawl Schedule Card (5 cols) -->
+<div class="lg:col-span-5 bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary-container text-[22px]">schedule</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Automated Crawl Frequency</h3>
+</div>
+<span class="font-label-sm text-label-sm text-primary-container font-bold px-space-sm py-0.5 rounded-full bg-secondary-fixed">Live Sync</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Adjust autonomous polling intervals across all five connected endpoints. Higher frequencies consume proxy credits faster.</p>
+<!-- Frequency Slider Interface -->
+<div class="mt-space-lg flex flex-col gap-space-sm">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Current Interval</span>
+<span class="font-headline-sm text-headline-sm text-primary-container font-bold" id="intervalDisplay">Every 30 minutes</span>
+</div>
+<input class="w-full h-2 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary-container" id="intervalSlider" max="180" min="10" step="10" type="range" value="30"/>
+<div class="flex justify-between text-[11px] font-label-sm text-tertiary">
+<span>10m (Turbo)</span>
+<span>30m (Recommended)</span>
+<span>1h</span>
+<span>3h (Eco)</span>
+</div>
+</div>
+</div>
+<!-- Duplicate Prevention Bar -->
+<div class="mt-space-lg pt-space-md bg-surface-container-low p-space-md rounded-lg flex items-center justify-between">
+<div class="flex items-start gap-space-sm pr-space-sm">
+<span class="material-symbols-outlined text-[20px] text-secondary mt-0.5">content_copy</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Cross-Portal Deduplication</span>
+<span class="font-body-sm text-body-sm text-tertiary">Fingerprints JD hash &amp; company domain to prevent duplicate alerts</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+</div>
+<!-- Negative Keyword Exclusion & Strict Criteria (7 cols) -->
+<div class="lg:col-span-7 bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary-container text-[22px]">block</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Negative Keyword &amp; Title Exclusions</h3>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary">Strict Logic Parser</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Listings matching any of these criteria in either their job title, mandatory qualifications, or contract terms will be silently purged.</p>
+<!-- Keyword Badges List -->
+<div class="flex flex-wrap gap-space-xs mt-space-md" id="badgeContainer">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md">
+<span>Junior</span>
+<button class="remove-badge-btn hover:text-on-primary-fixed-variant leading-none" data-val="Junior" type="button">×</button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md">
+<span>Intern</span>
+<button class="remove-badge-btn hover:text-on-primary-fixed-variant leading-none" data-val="Intern" type="button">×</button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md">
+<span>Contract 3-months</span>
+<button class="remove-badge-btn hover:text-on-primary-fixed-variant leading-none" data-val="Contract 3-months" type="button">×</button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md">
+<span>Unpaid</span>
+<button class="remove-badge-btn hover:text-on-primary-fixed-variant leading-none" data-val="Unpaid" type="button">×</button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md">
+<span>C2C / 1099 Only</span>
+<button class="remove-badge-btn hover:text-on-primary-fixed-variant leading-none" data-val="C2C / 1099 Only" type="button">×</button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md">
+<span>Entry Level</span>
+<button class="remove-badge-btn hover:text-on-primary-fixed-variant leading-none" data-val="Entry Level" type="button">×</button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md">
+<span>Security Clearance Required</span>
+<button class="remove-badge-btn hover:text-on-primary-fixed-variant leading-none" data-val="Security Clearance Required" type="button">×</button>
+</span>
+</div>
+<!-- Add Keyword Input -->
+<form class="flex items-center gap-space-sm mt-space-md" id="addKeywordForm">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-space-md top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">add_circle_outline</span>
+<input class="w-full h-10 pl-10 pr-space-md rounded-lg bg-surface-container-low font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-primary-container/30" id="keywordInput" placeholder="Add negative keyword (e.g. 'Part-time', 'Commission only')..." type="text"/>
+</div>
+<button class="h-10 px-space-lg bg-secondary text-on-secondary hover:bg-on-secondary-container font-label-md text-label-md rounded-lg flex items-center gap-space-xs transition-colors" type="submit">
+<span>Append</span>
+</button>
+</form>
+</div>
+<div class="mt-space-md flex items-center justify-between text-tertiary font-body-sm text-body-sm pt-space-sm">
+<span>7 exclusion tokens active across 5 platforms</span>
+<a class="text-primary-container hover:underline font-label-md text-label-md flex items-center gap-1" href="#">
+            Advanced Boolean Editor
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Active Crawl Mesh Diagnostics Tray -->
+<div class="rounded-xl bg-on-surface text-on-primary p-space-lg shadow-md flex flex-col md:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-full bg-primary-container/30 flex items-center justify-center text-primary-fixed-dim">
+<span class="material-symbols-outlined text-[22px]">dns</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm font-semibold">Residential Proxy Mesh: US-East Cluster</span>
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+</div>
+<span class="font-body-sm text-body-sm text-outline-variant">99.98% successful handshakes • Average latency: 240ms • Zero CAPTCHA challenge failures</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md flex-shrink-0">
+<button class="h-9 px-space-md rounded-lg bg-surface-container-highest/20 hover:bg-surface-container-highest/30 text-surface-container-low font-label-md text-label-md transition-colors" type="button">
+          View Proxy Logs
+        </button>
+<button class="h-9 px-space-md rounded-lg bg-primary-container text-on-primary font-label-md text-label-md hover:bg-primary transition-colors flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">refresh</span>
+          Rotate IP Pool
+        </button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Slider Realtime Label
+  const slider = document.getElementById('intervalSlider');
+  const display = document.getElementById('intervalDisplay');
+  if (slider && display) {
+    slider.addEventListener('input', (e) => {
+      const val = e.target.value;
+      if (val < 60) {
+        display.textContent = `Every ${val} minutes`;
+      } else {
+        const hours = (val / 60).toFixed(val % 60 === 0 ? 0 : 1);
+        display.textContent = `Every ${hours} hour${hours > 1 ? 's' : ''}`;
+      }
+    });
+  }
+
+  // Add / Remove Keyword Tokens
+  const form = document.getElementById('addKeywordForm');
+  const input = document.getElementById('keywordInput');
+  const badgeContainer = document.getElementById('badgeContainer');
+
+  if (form && input && badgeContainer) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const val = input.value.trim();
+      if (!val) return;
+
+      const span = document.createElement('span');
+      span.className = "inline-flex items-center gap-1.5 px-space-sm py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md animate-fade";
+      span.innerHTML = `<span>${val}</span><button type="button" class="remove-badge-btn hover:text-on-primary-fixed-variant leading-none" data-val="${val}">&times;</button>`;
+
+      badgeContainer.appendChild(span);
+      input.value = '';
+
+      span.querySelector('.remove-badge-btn').addEventListener('click', () => {
+        span.remove();
+      });
+    });
+
+    document.querySelectorAll('.remove-badge-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.target.closest('span').remove();
+      });
+    });
+  }
+
+  // Ping Engine Test Micro-interaction
+  const pingBtn = document.getElementById('pingTestBtn');
+  const pingIcon = document.getElementById('pingIcon');
+  const pingBtnText = document.getElementById('pingBtnText');
+
+  if (pingBtn && pingIcon && pingBtnText) {
+    pingBtn.addEventListener('click', () => {
+      pingIcon.classList.add('animate-spin');
+      pingBtnText.textContent = 'Pinging 5 Platforms...';
+      pingBtn.disabled = true;
+
+      setTimeout(() => {
+        pingIcon.classList.remove('animate-spin');
+        pingIcon.textContent = 'done_all';
+        pingBtnText.textContent = 'All 5 Responsive (200 OK)';
+
+        setTimeout(() => {
+          pingIcon.textContent = 'sensors';
+          pingBtnText.textContent = 'Test Crawl Ping';
+          pingBtn.disabled = false;
+        }, 2500);
+      }, 1200);
+    });
+  }
+
+  // Pause Autonomous Engines Toggle
+  const pauseBtn = document.getElementById('pauseToggleBtn');
+  let isPaused = false;
+  if (pauseBtn) {
+    pauseBtn.addEventListener('click', () => {
+      isPaused = !isPaused;
+      const textSpan = pauseBtn.querySelector('span:last-child');
+      const iconSpan = pauseBtn.querySelector('span:first-child');
+      if (isPaused) {
+        textSpan.textContent = 'Resume Autonomous Engines';
+        iconSpan.textContent = 'play_circle';
+        pauseBtn.classList.add('bg-primary-container', 'text-on-primary');
+        pauseBtn.classList.remove('bg-surface-container', 'text-on-surface');
+      } else {
+        textSpan.textContent = 'Pause All Autonomous Engines';
+        iconSpan.textContent = 'pause_circle';
+        pauseBtn.classList.remove('bg-primary-container', 'text-on-primary');
+        pauseBtn.classList.add('bg-surface-container', 'text-on-surface');
+      }
+    });
+  }
+</script></main></div></body></html>

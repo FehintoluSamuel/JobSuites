@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"on-primary-fixed-variant":"#920028","surface-variant":"#dae2fd","error-container":"#ffdad6","on-primary-fixed":"#40000c","surface-tint":"#be0037","error":"#ba1a1a","on-primary-container":"#fffaf9","on-tertiary":"#ffffff","surface-container-high":"#e2e7ff","inverse-surface":"#283044","outline-variant":"#e5bdbe","secondary":"#aa304f","surface-container-lowest":"#ffffff","primary-fixed-dim":"#ffb3b6","surface-container-low":"#f2f3ff","inverse-on-surface":"#eef0ff","secondary-container":"#fd6f8c","inverse-primary":"#ffb3b6","tertiary-container":"#846f71","surface":"#faf8ff","secondary-fixed":"#ffd9dd","surface-dim":"#d2d9f4","on-error-container":"#93000a","surface-bright":"#faf8ff","on-secondary-fixed-variant":"#8a1538","primary-container":"#e11d48","tertiary":"#6a5759","surface-container-highest":"#dae2fd","on-surface-variant":"#5c3f40","on-surface":"#131b2e","outline":"#906f70","secondary-fixed-dim":"#ffb2bd","on-background":"#131b2e","tertiary-fixed":"#f7dcde","on-error":"#ffffff","on-secondary-container":"#6f0028","primary-fixed":"#ffdada","on-primary":"#ffffff","surface-container":"#eaedff","on-tertiary-fixed-variant":"#544244","on-secondary":"#ffffff","background":"#faf8ff","primary":"#b80035","on-secondary-fixed":"#400014","tertiary-fixed-dim":"#dac0c2","on-tertiary-fixed":"#26181a","on-tertiary-container":"#fffaff"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-lg":"2rem","space-xl":"2rem","space-xs":"0.25rem","space-lg":"1.25rem","margin":"1rem","gutter":"1rem","margin-md":"1.5rem","space-sm":"0.5rem","space-md":"0.75rem","gutter-lg":"1.5rem"},"fontFamily":{"label-sm":["Hanken Grotesk"],"body-lg":["Hanken Grotesk"],"headline-sm":["Hanken Grotesk"],"body-sm":["Hanken Grotesk"],"headline-lg-mobile":["Hanken Grotesk"],"headline-md":["Hanken Grotesk"],"headline-lg":["Hanken Grotesk"],"label-md":["Hanken Grotesk"],"display":["Hanken Grotesk"],"body-md":["Hanken Grotesk"]},"fontSize":{"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.05em","fontWeight":"700"}],"body-lg":["16px",{"lineHeight":"24px","letterSpacing":"0em","fontWeight":"400"}],"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.005em","fontWeight":"400"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"700"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"600"}],"display":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"700"}],"body-md":["14px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-64 bg-on-surface z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col flex-1 overflow-y-auto"><div class="h-16 px-gutter flex items-center gap-space-md"><img alt="JobSuites Crimson Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCBfHMd7ihnBImadjxWYwCMYAon_tuI6ySeFhYYxpAEoyd56iOfE5QTeN0IHHFc51ErG3CS1ngGAwBVxDst0b9_2D8G2fGKXsQXuxr7C7i4mBSA7GZCbTzMwruixozo-sYAjym6xTPNvkZZxhDbmnI0TucOQ4GZJKhw4-IGzrlsxg2CXlHei_40QeVhBxoYfuuzURmqqTCZB2nDMTv4JbDFgehixD3PaXKTx8IJNBGl3OEY7wFaMDx"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-primary tracking-tight">JobSuites</span><span class="font-label-sm text-label-sm text-outline-variant uppercase tracking-wider">Executive Suite</span></div></div><div class="px-gutter my-space-xs"><div class="h-px bg-outline/20 w-full"></div></div><div class="px-gutter pt-space-sm pb-space-xs"><span class="font-label-sm text-label-sm uppercase tracking-wider text-outline-variant font-bold">Executive Command</span></div><nav class="flex flex-col gap-1 px-space-md py-space-xs" data-active-classes="bg-primary-container text-on-primary font-headline-sm rounded-lg"><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-label-md text-label-md text-surface-container-high hover:bg-on-surface-variant/40 hover:text-on-primary transition-colors" data-path="dashboard-and-automation" href="#"><span class="material-symbols-outlined text-[20px]">tune</span>Dashboard &amp; Automation</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-label-md text-label-md text-surface-container-high hover:bg-on-surface-variant/40 hover:text-on-primary transition-colors" data-path="smart-profile-and-cv" href="#"><span class="material-symbols-outlined text-[20px]">badge</span>Smart Profile &amp; CV</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-label-md text-label-md text-surface-container-high hover:bg-on-surface-variant/40 hover:text-on-primary transition-colors" data-path="search-portals" href="#"><span class="material-symbols-outlined text-[20px]">travel_explore</span>Search Portals</a><a aria-current="page" class="flex items-center gap-space-md px-space-md py-space-sm transition-colors bg-primary-container text-on-primary font-headline-sm rounded-lg" data-path="top-10-matches" href="#"><span class="material-symbols-outlined text-[20px]">verified</span>Top 10 Matches</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-label-md text-label-md text-surface-container-high hover:bg-on-surface-variant/40 hover:text-on-primary transition-colors" data-path="application-studio" href="#"><span class="material-symbols-outlined text-[20px]">edit_document</span>Application Studio</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-label-md text-label-md text-surface-container-high hover:bg-on-surface-variant/40 hover:text-on-primary transition-colors" data-path="pipeline-and-kanban" href="#"><span class="material-symbols-outlined text-[20px]">view_kanban</span>Pipeline &amp; Kanban</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-label-md text-label-md text-surface-container-high hover:bg-on-surface-variant/40 hover:text-on-primary transition-colors" data-path="network-and-contacts" href="#"><span class="material-symbols-outlined text-[20px]">hub</span>Network &amp; Contacts</a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg font-label-md text-label-md text-surface-container-high hover:bg-on-surface-variant/40 hover:text-on-primary transition-colors" data-path="automated-outreach" href="#"><span class="material-symbols-outlined text-[20px]">forward_to_inbox</span>Automated Outreach</a></nav></div><div class="p-gutter bg-on-surface/90"><div class="flex items-center gap-space-md"><div class="relative flex-shrink-0"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1VT6iGRyoiFPPpX7vea2Yx4JwORQtNxvdML9Q9hyFX8iUCWY8Ivo1AB1PC1sJMoaxc1dx5dgDNyBTScll_T61GnjGaoXNmdxJSM5hOnvvBrbQXvO_H9qWp-kVeRZukgoZ2sWXPNehNO65KAJSdRE0CKg5oYr0LarBcbEJRX5KPco9RY_iMvP-4LsWLKpEGTvxp-S3DXGvpAS10bDE4VusGq2qWXzsW6DjAxJDoKfYvJqJF7lgNdWzWlt_o"/><span class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-primary-container ring-2 ring-on-surface"></span></div><div class="flex flex-col min-w-0 flex-1"><span class="font-label-md text-label-md text-on-primary truncate">Sarah Jenkins</span><span class="font-body-sm text-body-sm text-outline-variant truncate">Principal Designer</span></div><span class="material-symbols-outlined text-outline-variant hover:text-on-primary transition-colors cursor-pointer text-[18px]">sync</span></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 z-40 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] px-gutter-lg flex items-center justify-between gap-gutter"><div class="flex items-center flex-1 max-w-xl"><div class="relative w-full"><span class="material-symbols-outlined absolute left-space-md top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span><input class="w-full h-10 pl-10 pr-space-md rounded-lg bg-surface-container-low font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-primary-container/30 transition-all" placeholder="Search roles, companies, recruiters, or applications..." type="text"/></div></div><div class="flex items-center gap-space-lg flex-shrink-0"><div class="hidden xl:flex items-center gap-space-sm px-space-md py-space-xs rounded-full bg-surface-container"><span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">5 Portals Synced • 142 Matches</span></div><button class="h-10 px-space-lg bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md rounded-lg flex items-center gap-space-sm shadow-[0_1px_8px_rgba(0,0,0,0.04)] transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">add</span>+ New Search Routine</button><button class="relative p-space-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1 right-1 w-2 h-2 bg-primary-container rounded-full"></span></button><div class="flex items-center gap-space-sm pl-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover cursor-pointer" src="https://lh3.googleusercontent.com/aida/AEtjO1VT6iGRyoiFPPpX7vea2Yx4JwORQtNxvdML9Q9hyFX8iUCWY8Ivo1AB1PC1sJMoaxc1dx5dgDNyBTScll_T61GnjGaoXNmdxJSM5hOnvvBrbQXvO_H9qWp-kVeRZukgoZ2sWXPNehNO65KAJSdRE0CKg5oYr0LarBcbEJRX5KPco9RY_iMvP-4LsWLKpEGTvxp-S3DXGvpAS10bDE4VusGq2qWXzsW6DjAxJDoKfYvJqJF7lgNdWzWlt_o"/><span class="material-symbols-outlined text-on-surface-variant text-[18px] cursor-pointer hover:text-on-surface">expand_more</span></div></div></header><main class="relative pt-16 w-full min-h-screen bg-surface"><div class="flex flex-col w-full">
+<!-- Top Command Context Bar -->
+<div class="w-full px-gutter-lg py-space-lg flex flex-col gap-space-md bg-surface border-b border-surface-container-high/60">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-sm mb-1">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span>
+            ACTIVE AI PIPELINE • CYCLE #408
+          </span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">Last calibrated 12m ago</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Curated Top 10 Matches &amp; Approvals</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-3xl mt-0.5">
+          Autonomous matching scored against your parsed CV, compensation requirements ($195k+), verified engineering &amp; design leads, and live external job portals.
+        </p>
+</div>
+<!-- Quick Metrics Strip -->
+<div class="flex items-center gap-space-md bg-surface-container-lowest p-space-sm rounded-xl shadow-sm border border-surface-container-high">
+<div class="px-space-md py-space-xs border-r border-surface-container-high flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Ready for Dispatch</span>
+<span class="font-headline-md text-headline-md text-primary-container font-bold">10 / 10</span>
+</div>
+<div class="px-space-md py-space-xs border-r border-surface-container-high flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Average Fit</span>
+<span class="font-headline-md text-headline-md text-on-surface font-bold">94.8%</span>
+</div>
+<div class="px-space-md py-space-xs flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Total Median Comp</span>
+<span class="font-headline-md text-headline-md text-on-surface font-bold">$218k</span>
+</div>
+</div>
+</div>
+<!-- Batch Control & Filter Tabs Bar -->
+<div class="flex flex-wrap items-center justify-between gap-space-md pt-space-xs">
+<div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0" id="filter-tabs">
+<button class="tab-btn px-space-md py-space-sm rounded-lg bg-primary-container text-on-primary font-label-md text-label-md flex items-center gap-2 transition-all" type="button">
+<span>All Top 10</span>
+<span class="px-1.5 py-0.2 bg-on-primary/20 rounded font-label-sm text-label-sm">10</span>
+</button>
+<button class="tab-btn px-space-md py-space-sm rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md flex items-center gap-2 transition-all" type="button">
+<span>95%+ Perfect Fit</span>
+<span class="px-1.5 py-0.2 bg-surface-container-high rounded font-label-sm text-label-sm">6</span>
+</button>
+<button class="tab-btn px-space-md py-space-sm rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md flex items-center gap-2 transition-all" type="button">
+<span>Fully Remote</span>
+<span class="px-1.5 py-0.2 bg-surface-container-high rounded font-label-sm text-label-sm">7</span>
+</button>
+<button class="tab-btn px-space-md py-space-sm rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md flex items-center gap-2 transition-all" type="button">
+<span>Direct Recruiter Verified</span>
+<span class="px-1.5 py-0.2 bg-surface-container-high rounded font-label-sm text-label-sm">8</span>
+</button>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-space-sm rounded-lg border border-outline/30 bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-md text-label-md flex items-center gap-2 transition-colors" id="select-all-btn" type="button">
+<input checked="" class="w-4 h-4 rounded text-primary-container accent-primary-container cursor-pointer" id="master-select-box" type="checkbox"/>
+<span>Select All (10)</span>
+</button>
+<button class="px-space-lg py-space-sm rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md flex items-center gap-2 shadow-sm transition-all transform active:scale-95" id="batch-approve-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">bolt</span>
+<span>Batch Approve &amp; Send (10)</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Master-Detail Split Workspace Layout -->
+<div class="w-full px-gutter-lg py-space-lg grid grid-cols-1 xl:grid-cols-12 gap-gutter-lg items-start">
+<!-- LEFT COLUMN: Scrollable List of 10 Roles (5 Cols) -->
+<div class="xl:col-span-5 flex flex-col gap-space-md">
+<div class="flex items-center justify-between text-on-surface-variant px-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-semibold">Autonomous Queue (10 Evaluated)</span>
+<span class="font-body-sm text-body-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary-container">tune</span>
+          Sorted by Match Affinity
+        </span>
+</div>
+<div class="flex flex-col gap-space-md" id="cards-stack">
+<!-- Card 1: Selected / Active (Stripe) -->
+<div class="role-card group relative p-space-lg rounded-xl bg-surface-container-lowest border-2 border-primary-container shadow-md cursor-pointer transition-all" data-role-id="stripe">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary-container rounded-l-xl"></div>
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-start gap-space-md">
+<input checked="" class="mt-1 w-4 h-4 rounded text-primary-container accent-primary-container cursor-pointer" type="checkbox"/>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Stripe</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-[10px] font-bold uppercase tracking-wider">Fintech Tier-1</span>
+</div>
+<h3 class="font-label-md text-label-md text-on-surface font-semibold mt-0.5">Lead Product Systems Designer</h3>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="px-space-sm py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary-container">verified</span>
+                98% Perfect Fit
+              </span>
+</div>
+</div>
+<div class="mt-space-md grid grid-cols-2 gap-y-1 text-on-surface-variant font-body-sm text-body-sm pl-7">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">payments</span>
+<span class="text-on-surface font-semibold">$195,000 - $225,000</span> + Equity
+            </div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">location_on</span>
+              San Francisco / Remote
+            </div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">share</span>
+              LinkedIn Jobs <span class="text-[11px] text-outline-variant">• 2h ago</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">badge</span>
+              Marcus Vance (Head of Talent)
+            </div>
+</div>
+<div class="mt-space-md pt-space-sm border-t border-surface-container flex items-center justify-between pl-7">
+<span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-secondary">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+              Tailored CV v4 &amp; Executive Letter Ready
+            </span>
+<span class="font-label-sm text-label-sm text-primary-container group-hover:translate-x-0.5 transition-transform flex items-center">
+              Active Focus <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</span>
+</div>
+</div>
+<!-- Card 2: Figma -->
+<div class="role-card group relative p-space-lg rounded-xl bg-surface-container-lowest border border-surface-container-high hover:border-outline-variant shadow-sm hover:shadow-md cursor-pointer transition-all" data-role-id="figma">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-start gap-space-md">
+<input checked="" class="mt-1 w-4 h-4 rounded text-primary-container accent-primary-container cursor-pointer" type="checkbox"/>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Figma</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[10px] font-semibold uppercase tracking-wider">Design Platform</span>
+</div>
+<h3 class="font-label-md text-label-md text-on-surface font-semibold mt-0.5">Senior Staff Product Designer (Systems)</h3>
+</div>
+</div>
+<span class="px-space-sm py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary-container">verified</span>
+              95% Fit
+            </span>
+</div>
+<div class="mt-space-md grid grid-cols-2 gap-y-1 text-on-surface-variant font-body-sm text-body-sm pl-7">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">payments</span>
+<span class="text-on-surface font-semibold">$200,000 - $240,000</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">location_on</span>
+              San Francisco (Hybrid/Remote)
+            </div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">share</span>
+              Otta &amp; Wellfound
+            </div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">badge</span>
+              Elena Rostova (Staff Recruiter)
+            </div>
+</div>
+<div class="mt-space-md pt-space-sm border-t border-surface-container flex items-center justify-between pl-7">
+<span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+              Portfolio Assets Synced • CV Prepared
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant group-hover:text-primary-container transition-colors flex items-center">
+              Inspect <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</span>
+</div>
+</div>
+<!-- Card 3: Notion -->
+<div class="role-card group relative p-space-lg rounded-xl bg-surface-container-lowest border border-surface-container-high hover:border-outline-variant shadow-sm hover:shadow-md cursor-pointer transition-all" data-role-id="notion">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-start gap-space-md">
+<input checked="" class="mt-1 w-4 h-4 rounded text-primary-container accent-primary-container cursor-pointer" type="checkbox"/>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Notion</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[10px] font-semibold uppercase tracking-wider">Productivity</span>
+</div>
+<h3 class="font-label-md text-label-md text-on-surface font-semibold mt-0.5">Principal Experience Designer</h3>
+</div>
+</div>
+<span class="px-space-sm py-1 rounded bg-surface-container text-on-surface font-label-sm text-label-sm font-bold flex items-center gap-1">
+              92% Fit
+            </span>
+</div>
+<div class="mt-space-md grid grid-cols-2 gap-y-1 text-on-surface-variant font-body-sm text-body-sm pl-7">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">payments</span>
+<span class="text-on-surface font-semibold">$190,000 - $215,000</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">location_on</span>
+              New York (Hybrid)
+            </div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">share</span>
+              Indeed Prime
+            </div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">badge</span>
+              David Chen (Talent Lead)
+            </div>
+</div>
+<div class="mt-space-md pt-space-sm border-t border-surface-container flex items-center justify-between pl-7">
+<span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+              Document Template Matched
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant group-hover:text-primary-container transition-colors flex items-center">
+              Inspect <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</span>
+</div>
+</div>
+<!-- Card 4: Airbnb -->
+<div class="role-card group relative p-space-lg rounded-xl bg-surface-container-lowest border border-surface-container-high hover:border-outline-variant shadow-sm hover:shadow-md cursor-pointer transition-all" data-role-id="airbnb">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-start gap-space-md">
+<input checked="" class="mt-1 w-4 h-4 rounded text-primary-container accent-primary-container cursor-pointer" type="checkbox"/>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Airbnb</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[10px] font-semibold uppercase tracking-wider">Hospitality Tech</span>
+</div>
+<h3 class="font-label-md text-label-md text-on-surface font-semibold mt-0.5">Staff Designer - Guest Foundations</h3>
+</div>
+</div>
+<span class="px-space-sm py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold flex items-center gap-1">
+              96% Fit
+            </span>
+</div>
+<div class="mt-space-md grid grid-cols-2 gap-y-1 text-on-surface-variant font-body-sm text-body-sm pl-7">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">payments</span>
+<span class="text-on-surface font-semibold">$205,000 - $235,000</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">location_on</span>
+              100% Remote (US/Canada)
+            </div>
+</div>
+</div>
+<!-- Card 5: Datadog -->
+<div class="role-card group relative p-space-lg rounded-xl bg-surface-container-lowest border border-surface-container-high hover:border-outline-variant shadow-sm hover:shadow-md cursor-pointer transition-all" data-role-id="datadog">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-start gap-space-md">
+<input checked="" class="mt-1 w-4 h-4 rounded text-primary-container accent-primary-container cursor-pointer" type="checkbox"/>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Datadog</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[10px] font-semibold uppercase tracking-wider">Infrastructure</span>
+</div>
+<h3 class="font-label-md text-label-md text-on-surface font-semibold mt-0.5">Lead Experience Architect</h3>
+</div>
+</div>
+<span class="px-space-sm py-1 rounded bg-surface-container text-on-surface font-label-sm text-label-sm font-bold flex items-center gap-1">
+              91% Fit
+            </span>
+</div>
+<div class="mt-space-md grid grid-cols-2 gap-y-1 text-on-surface-variant font-body-sm text-body-sm pl-7">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">payments</span>
+<span class="text-on-surface font-semibold">$195,000 - $220,000</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">location_on</span>
+              Boston / Remote
+            </div>
+</div>
+</div>
+<!-- Card 6: Vercel -->
+<div class="role-card group relative p-space-lg rounded-xl bg-surface-container-lowest border border-surface-container-high hover:border-outline-variant shadow-sm hover:shadow-md cursor-pointer transition-all" data-role-id="vercel">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-start gap-space-md">
+<input checked="" class="mt-1 w-4 h-4 rounded text-primary-container accent-primary-container cursor-pointer" type="checkbox"/>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Vercel</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-[10px] font-bold uppercase tracking-wider">DevTools</span>
+</div>
+<h3 class="font-label-md text-label-md text-on-surface font-semibold mt-0.5">Director of Product Design</h3>
+</div>
+</div>
+<span class="px-space-sm py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold flex items-center gap-1">
+              97% Fit
+            </span>
+</div>
+<div class="mt-space-md grid grid-cols-2 gap-y-1 text-on-surface-variant font-body-sm text-body-sm pl-7">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">payments</span>
+<span class="text-on-surface font-semibold">$220,000 - $260,000</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">location_on</span>
+              Global Remote
+            </div>
+</div>
+</div>
+<!-- Card 7: Linear -->
+<div class="role-card group relative p-space-lg rounded-xl bg-surface-container-lowest border border-surface-container-high hover:border-outline-variant shadow-sm hover:shadow-md cursor-pointer transition-all" data-role-id="linear">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-start gap-space-md">
+<input checked="" class="mt-1 w-4 h-4 rounded text-primary-container accent-primary-container cursor-pointer" type="checkbox"/>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Linear</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[10px] font-semibold uppercase tracking-wider">High Craft</span>
+</div>
+<h3 class="font-label-md text-label-md text-on-surface font-semibold mt-0.5">Product Designer (Core Workflow)</h3>
+</div>
+</div>
+<span class="px-space-sm py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold flex items-center gap-1">
+              95% Fit
+            </span>
+</div>
+<div class="mt-space-md grid grid-cols-2 gap-y-1 text-on-surface-variant font-body-sm text-body-sm pl-7">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">payments</span>
+<span class="text-on-surface font-semibold">$195,000 - $230,000</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">location_on</span>
+              Remote (Americas/EU)
+            </div>
+</div>
+</div>
+<!-- Card 8: Coinbase -->
+<div class="role-card group relative p-space-lg rounded-xl bg-surface-container-lowest border border-surface-container-high hover:border-outline-variant shadow-sm hover:shadow-md cursor-pointer transition-all" data-role-id="coinbase">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-start gap-space-md">
+<input checked="" class="mt-1 w-4 h-4 rounded text-primary-container accent-primary-container cursor-pointer" type="checkbox"/>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Coinbase</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[10px] font-semibold uppercase tracking-wider">Web3 / Crypto</span>
+</div>
+<h3 class="font-label-md text-label-md text-on-surface font-semibold mt-0.5">Staff Designer, Institutional UI</h3>
+</div>
+</div>
+<span class="px-space-sm py-1 rounded bg-surface-container text-on-surface font-label-sm text-label-sm font-bold flex items-center gap-1">
+              93% Fit
+            </span>
+</div>
+<div class="mt-space-md grid grid-cols-2 gap-y-1 text-on-surface-variant font-body-sm text-body-sm pl-7">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">payments</span>
+<span class="text-on-surface font-semibold">$205,000 - $245,000</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">location_on</span>
+              Remote (US)
+            </div>
+</div>
+</div>
+<!-- Card 9: Ramp -->
+<div class="role-card group relative p-space-lg rounded-xl bg-surface-container-lowest border border-surface-container-high hover:border-outline-variant shadow-sm hover:shadow-md cursor-pointer transition-all" data-role-id="ramp">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-start gap-space-md">
+<input checked="" class="mt-1 w-4 h-4 rounded text-primary-container accent-primary-container cursor-pointer" type="checkbox"/>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Ramp</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-[10px] font-bold uppercase tracking-wider">Corporate Cards</span>
+</div>
+<h3 class="font-label-md text-label-md text-on-surface font-semibold mt-0.5">Lead Product Designer, Spend</h3>
+</div>
+</div>
+<span class="px-space-sm py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-bold flex items-center gap-1">
+              96% Fit
+            </span>
+</div>
+<div class="mt-space-md grid grid-cols-2 gap-y-1 text-on-surface-variant font-body-sm text-body-sm pl-7">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">payments</span>
+<span class="text-on-surface font-semibold">$210,000 - $235,000</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">location_on</span>
+              New York / Remote
+            </div>
+</div>
+</div>
+<!-- Card 10: Carta -->
+<div class="role-card group relative p-space-lg rounded-xl bg-surface-container-lowest border border-surface-container-high hover:border-outline-variant shadow-sm hover:shadow-md cursor-pointer transition-all" data-role-id="carta">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-start gap-space-md">
+<input checked="" class="mt-1 w-4 h-4 rounded text-primary-container accent-primary-container cursor-pointer" type="checkbox"/>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Carta</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[10px] font-semibold uppercase tracking-wider">Equity Mgmt</span>
+</div>
+<h3 class="font-label-md text-label-md text-on-surface font-semibold mt-0.5">Staff Designer, CapTable 2.0</h3>
+</div>
+</div>
+<span class="px-space-sm py-1 rounded bg-surface-container text-on-surface font-label-sm text-label-sm font-bold flex items-center gap-1">
+              94% Fit
+            </span>
+</div>
+<div class="mt-space-md grid grid-cols-2 gap-y-1 text-on-surface-variant font-body-sm text-body-sm pl-7">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">payments</span>
+<span class="text-on-surface font-semibold">$195,000 - $220,000</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-outline">location_on</span>
+              San Francisco / Hybrid
+            </div>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: In-Depth Match Details & 1-Click Approval Station (7 Cols) -->
+<div class="xl:col-span-7 flex flex-col gap-space-lg sticky top-20">
+<!-- Primary Match Dossier Card -->
+<div class="bg-surface-container-lowest rounded-2xl border border-surface-container-high shadow-md overflow-hidden flex flex-col">
+<!-- Detail Header -->
+<div class="p-space-lg bg-gradient-to-r from-surface-container-lowest via-surface-container-low to-surface-container-lowest border-b border-surface-container-high flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-xl bg-on-surface flex items-center justify-center text-on-primary font-headline-md font-bold shadow-inner tracking-wider">
+                S\
+              </div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Stripe</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-[11px] font-bold uppercase">Target Tier-1</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">• Series H / Public Market Valued</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight mt-0.5">Lead Product Systems Designer</h2>
+</div>
+</div>
+<!-- Match Radial Gauge Graphic -->
+<div class="flex items-center gap-3 bg-surface-container-lowest px-4 py-2 rounded-xl border border-surface-container-high">
+<div class="relative w-12 h-12 flex items-center justify-center">
+<svg class="w-12 h-12 -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-container-high stroke-current" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-width="3.5"></path>
+<path class="text-primary-container stroke-current" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-dasharray="98, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<span class="absolute font-headline-sm text-[12px] font-bold text-on-surface">98%</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-bold text-primary-container uppercase">High Affinity</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Top 0.5% fit percentile</span>
+</div>
+</div>
+</div>
+<!-- Highlight Telemetry Pill Grid -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-space-sm pt-2">
+<div class="p-space-sm rounded-lg bg-surface-container flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Base Salary</span>
+<span class="font-label-md text-label-md text-on-surface font-bold">$195,000 - $225,000</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Equity Grant</span>
+<span class="font-label-md text-label-md text-on-surface font-bold">0.05% - 0.08% RSU</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Work Mode</span>
+<span class="font-label-md text-label-md text-on-surface font-bold">SF Hub or US Remote</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Job Board Sync</span>
+<span class="font-label-md text-label-md text-on-surface font-bold flex items-center gap-1">
+                LinkedIn Verified
+              </span>
+</div>
+</div>
+</div>
+<!-- Deep Dive Skill & Criteria Match breakdown -->
+<div class="p-space-lg flex flex-col gap-space-md border-b border-surface-container-high">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface uppercase tracking-wider font-bold">AI Algorithmic Compatibility Analysis</span>
+<span class="font-body-sm text-body-sm text-primary-container font-semibold">4 of 4 Core Pillars Exceeded</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Skill 1 -->
+<div class="p-space-md rounded-xl bg-surface border border-surface-container flex flex-col gap-2">
+<div class="flex items-center justify-between font-label-md text-label-md">
+<span class="font-semibold text-on-surface">Design Systems Architecture</span>
+<span class="text-primary-container font-bold">100% Match</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary-container h-1.5 rounded-full" style="width: 100%"></div>
+</div>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Validated by your 7 yrs leading multi-brand tokens and Figma plugins.</span>
+</div>
+<!-- Skill 2 -->
+<div class="p-space-md rounded-xl bg-surface border border-surface-container flex flex-col gap-2">
+<div class="flex items-center justify-between font-label-md text-label-md">
+<span class="font-semibold text-on-surface">Cross-functional Leadership</span>
+<span class="text-primary-container font-bold">96% Match</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary-container h-1.5 rounded-full" style="width: 96%"></div>
+</div>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Aligned with leading 18 designers &amp; paired frontend teams at scale.</span>
+</div>
+<!-- Skill 3 -->
+<div class="p-space-md rounded-xl bg-surface border border-surface-container flex flex-col gap-2">
+<div class="flex items-center justify-between font-label-md text-label-md">
+<span class="font-semibold text-on-surface">Fintech &amp; Payments Domain</span>
+<span class="text-secondary font-bold">92% Match</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+<div class="bg-secondary h-1.5 rounded-full" style="width: 92%"></div>
+</div>
+<span class="font-body-sm text-[11px] text-on-surface-variant">High correlation from previously audited checkout compliance flows.</span>
+</div>
+<!-- Skill 4 -->
+<div class="p-space-md rounded-xl bg-surface border border-surface-container flex flex-col gap-2">
+<div class="flex items-center justify-between font-label-md text-label-md">
+<span class="font-semibold text-on-surface">Frontend Token Automation</span>
+<span class="text-secondary font-bold">94% Match</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+<div class="bg-secondary h-1.5 rounded-full" style="width: 94%"></div>
+</div>
+<span class="font-body-sm text-[11px] text-on-surface-variant">CI/CD Style-Dictionary pipelines parsed directly from GitHub link.</span>
+</div>
+</div>
+</div>
+<!-- Hiring Team & Direct Recruiter Connection Module -->
+<div class="p-space-lg flex flex-col gap-space-sm border-b border-surface-container-high bg-surface-container-low/30">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-bold">Verified Decision Makers Found (1)</span>
+<div class="p-space-md rounded-xl bg-surface-container-lowest border border-surface-container-high flex flex-col sm:flex-row sm:items-center justify-between gap-space-md shadow-sm">
+<div class="flex items-center gap-space-md">
+<img class="w-12 h-12 rounded-full object-cover shadow-sm" data-alt="Professional headshot of a corporate talent lead, Marcus Vance, wearing a tailored navy blazer in front of a modern minimalist office backdrop with subtle warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCS4RvF59ugU18VFo73eqFmADlHgsg5pW5jFjL_OdCGveP53A53ff617gsfTFzQ62GWQBFTthg9BdPCN72rJekVClsnBm5bxwATVpkwl-7SbBuVXLh3XkOJf78hFoRmPYJoaylgP9r0M_gD4PK7lcamwbZj1TwwpwmBs2ITOeEhNK76060bpqQ4TR3VRBNqVJpCrwD0YNi8H8iOZg-FHO97Ggzombg5Y7MoDA-bkMUgnGlSuOaKmoTY"/>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Marcus Vance</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container text-on-surface-variant font-label-sm text-[10px] uppercase">Verified 1st Connection</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Head of Design Talent &amp; Executive Staffing at Stripe</span>
+<div class="flex items-center gap-space-md mt-1 text-[11px] text-on-surface-variant">
+<span class="flex items-center gap-1 font-mono text-secondary">
+<span class="material-symbols-outlined text-[14px]">mail</span> marcus.v@stripe.com
+                  </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">schedule</span> Usually replies in &lt; 4 hours
+                  </span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2 flex-shrink-0">
+<button class="px-3 py-1.5 rounded-lg border border-outline/30 hover:bg-surface-container text-on-surface font-label-md text-label-md flex items-center gap-1 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+                View Profile
+              </button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container hover:bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md flex items-center gap-1 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">chat</span>
+                Draft Intro
+              </button>
+</div>
+</div>
+</div>
+<!-- AI Tailored Package Preview Module -->
+<div class="p-space-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface uppercase tracking-wider font-bold">Autonomous Tailored Application Package</span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">auto_awesome</span>
+              ATS Optimized • Score 99/100
+            </span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- CV Variation Pill -->
+<div class="p-space-md rounded-xl border border-surface-container-high bg-surface flex flex-col justify-between gap-3">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-[24px]">description</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold">Sarah_Jenkins_CV_Stripe_Systems.pdf</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">5 targeted keywords inserted dynamically</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-on-surface">open_in_new</span>
+</div>
+<div class="flex items-center gap-1 flex-wrap">
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface-variant text-[10px]">#DesignTokens</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface-variant text-[10px]">#GlobalScale</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface-variant text-[10px]">#PaymentsCheckout</span>
+</div>
+</div>
+<!-- Executive Cover Letter Snippet -->
+<div class="p-space-md rounded-xl border border-surface-container-high bg-surface flex flex-col justify-between gap-2">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[24px]">mark_email_read</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold">Executive Cover Statement</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Personalized to Stripe's Design Principles</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-on-surface">edit</span>
+</div>
+<p class="font-body-sm text-[11px] text-on-surface-variant line-clamp-2 italic bg-surface-container-low p-2 rounded border border-surface-container">
+                "Having architected multi-tiered unified design tokens across financial pipelines serving 12M+ merchants, my systems background directly accelerates Stripe’s next-generation global interfaces..."
+              </p>
+</div>
+</div>
+</div>
+<!-- Primary Action Station Bar -->
+<div class="p-space-lg bg-surface-container-low border-t border-surface-container-high flex flex-col sm:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-2 text-on-surface-variant text-body-sm font-body-sm">
+<span class="material-symbols-outlined text-secondary text-[18px]">security</span>
+            Auto-log to Notion &amp; Sheets upon dispatch
+          </div>
+<div class="flex items-center gap-space-sm w-full sm:w-auto justify-end">
+<button class="px-space-md py-2.5 rounded-lg border border-outline/30 hover:bg-error-container hover:text-on-error-container text-on-surface-variant font-label-md text-label-md transition-colors" type="button">
+              Reject / Skip
+            </button>
+<button class="px-space-md py-2.5 rounded-lg border border-outline/30 hover:bg-surface-container text-secondary font-label-md text-label-md transition-colors flex items-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[16px]">edit_document</span>
+              Studio Edit
+            </button>
+<button class="px-space-lg py-2.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-headline-sm text-headline-sm flex items-center gap-2 shadow-md transition-all transform active:scale-95" id="approve-single-btn" type="button">
+<span class="material-symbols-outlined text-[20px]">send</span>
+              Approve &amp; Auto-Dispatch
+            </button>
+</div>
+</div>
+</div>
+<!-- Quick Tips & Safety Guarantee Box -->
+<div class="p-space-md rounded-xl bg-secondary-fixed text-on-secondary-fixed flex items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<span class="material-symbols-outlined text-primary-container text-[24px]">verified_user</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold">1-Click Dispatch Guarantee</span>
+<span class="font-body-sm text-body-sm opacity-90">Applications are sent directly via verified executive hiring routes. Rate-limits are strictly enforced to preserve profile reputation.</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-wider text-primary-container cursor-pointer whitespace-nowrap hover:underline">
+          View Audit Logs
+        </span>
+</div>
+</div>
+</div>
+<!-- Notification Toast Container (Dynamic feedback) -->
+<div class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none" id="toast-container"></div>
+<!-- Micro-interactions & Card Switch Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cards = document.querySelectorAll('.role-card');
+      const selectAllBtn = document.getElementById('select-all-btn');
+      const masterSelectBox = document.getElementById('master-select-box');
+      const batchApproveBtn = document.getElementById('batch-approve-btn');
+      const approveSingleBtn = document.getElementById('approve-single-btn');
+      const toastContainer = document.getElementById('toast-container');
+      const filterTabs = document.querySelectorAll('.tab-btn');
+
+      // Toast notification helper
+      function showToast(message, icon = 'check_circle') {
+        const toast = document.createElement('div');
+        toast.className = "pointer-events-auto flex items-center gap-3 px-space-lg py-space-md rounded-xl bg-on-surface text-on-primary shadow-xl border border-outline/30 transform transition-all duration-300 translate-y-4 opacity-0";
+        toast.innerHTML = `
+          <span class="material-symbols-outlined text-primary-container text-[20px]">${icon}</span>
+          <span class="font-label-md text-label-md">${message}</span>
+        `;
+        toastContainer.appendChild(toast);
+        requestAnimationFrame(() => {
+          toast.classList.remove('translate-y-4', 'opacity-0');
+        });
+        setTimeout(() => {
+          toast.classList.add('translate-y-4', 'opacity-0');
+          setTimeout(() => toast.remove(), 300);
+        }, 3200);
+      }
+
+      // Card Selection styling toggle
+      cards.forEach(card => {
+        card.addEventListener('click', (e) => {
+          if (e.target.type === 'checkbox') return;
+
+          cards.forEach(c => {
+            c.classList.remove('border-2', 'border-primary-container', 'shadow-md');
+            c.classList.add('border', 'border-surface-container-high');
+            const stripe = c.querySelector('.absolute.left-0');
+            if (stripe) stripe.remove();
+          });
+
+          card.classList.remove('border-surface-container-high');
+          card.classList.add('border-2', 'border-primary-container', 'shadow-md');
+          
+          if (!card.querySelector('.absolute.left-0')) {
+            const bar = document.createElement('div');
+            bar.className = 'absolute left-0 top-0 bottom-0 w-1.5 bg-primary-container rounded-l-xl';
+            card.prepend(bar);
+          }
+
+          const roleName = card.querySelector('h3').innerText;
+          showToast(`Active inspect view set to: ${roleName}`, 'sync');
+        });
+      });
+
+      // Filter tabs interaction
+      filterTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          filterTabs.forEach(t => {
+            t.classList.remove('bg-primary-container', 'text-on-primary');
+            t.classList.add('bg-surface-container', 'text-on-surface-variant');
+          });
+          tab.classList.add('bg-primary-container', 'text-on-primary');
+          tab.classList.remove('bg-surface-container', 'text-on-surface-variant');
+          showToast(`Applied filter: ${tab.querySelector('span').innerText}`, 'filter_list');
+        });
+      });
+
+      // Select All Toggle
+      if (selectAllBtn && masterSelectBox) {
+        masterSelectBox.addEventListener('change', (e) => {
+          const checked = e.target.checked;
+          document.querySelectorAll('.role-card input[type="checkbox"]').forEach(box => {
+            box.checked = checked;
+          });
+          const count = checked ? 10 : 0;
+          batchApproveBtn.innerHTML = `
+            <span class="material-symbols-outlined text-[18px]">bolt</span>
+            <span>Batch Approve &amp; Send (${count})</span>
+          `;
+          showToast(checked ? "All 10 matches selected" : "Selection cleared", "checklist");
+        });
+      }
+
+      // Individual Card Checkboxes update batch count
+      document.querySelectorAll('.role-card input[type="checkbox"]').forEach(box => {
+        box.addEventListener('change', () => {
+          const totalChecked = document.querySelectorAll('.role-card input[type="checkbox"]:checked').length;
+          masterSelectBox.checked = totalChecked === 10;
+          batchApproveBtn.innerHTML = `
+            <span class="material-symbols-outlined text-[18px]">bolt</span>
+            <span>Batch Approve &amp; Send (${totalChecked})</span>
+          `;
+        });
+      });
+
+      // Batch Approve Trigger
+      if (batchApproveBtn) {
+        batchApproveBtn.addEventListener('click', () => {
+          const count = document.querySelectorAll('.role-card input[type="checkbox"]:checked').length;
+          if (count === 0) {
+            showToast("No matches selected for dispatch", "warning");
+            return;
+          }
+          batchApproveBtn.disabled = true;
+          batchApproveBtn.innerHTML = `
+            <span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span>
+            <span>Dispatching ${count} Dossiers...</span>
+          `;
+          setTimeout(() => {
+            batchApproveBtn.disabled = false;
+            batchApproveBtn.innerHTML = `
+              <span class="material-symbols-outlined text-[18px]">check_circle</span>
+              <span>${count} Applications Dispatched!</span>
+            `;
+            showToast(`Autonomous pipeline successfully dispatched ${count} executive applications!`, 'rocket_launch');
+          }, 1400);
+        });
+      }
+
+      // Single Approve Trigger
+      if (approveSingleBtn) {
+        approveSingleBtn.addEventListener('click', () => {
+          approveSingleBtn.disabled = true;
+          approveSingleBtn.innerHTML = `
+            <span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span>
+            <span>Dispatching to Stripe...</span>
+          `;
+          setTimeout(() => {
+            approveSingleBtn.disabled = false;
+            approveSingleBtn.innerHTML = `
+              <span class="material-symbols-outlined text-[20px]">check</span>
+              <span>Dispatched to Marcus Vance</span>
+            `;
+            approveSingleBtn.classList.remove('bg-primary-container');
+            approveSingleBtn.classList.add('bg-secondary');
+            showToast("Application & Tailored CV delivered to Marcus Vance at Stripe!", "mark_email_read");
+          }, 1100);
+        });
+      }
+    });
+  </script>
+</div></main></div></body></html>
