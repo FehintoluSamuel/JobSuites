@@ -32,6 +32,7 @@ function emptyDashboard(): DashboardResponse {
     },
     matches: [],
     hasIngestedRoles: true,
+    ingest: null,
   }
 }
 
@@ -132,6 +133,7 @@ function matchedDashboard(): DashboardResponse {
       },
     ],
     hasIngestedRoles: true,
+    ingest: null,
   }
 }
 

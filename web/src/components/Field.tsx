@@ -116,7 +116,7 @@ export function SubmitButton({
       type="submit"
       disabled={pending}
       aria-busy={pending}
-      className="flex min-h-12 w-full items-center justify-center rounded-full bg-accent px-6 text-base font-semibold text-white transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:bg-border-strong"
+      className="flex min-h-12 w-full items-center justify-center rounded-full bg-accent px-6 text-base font-semibold text-white transition-colors duration-(--duration-ui) ease-(--ease-ui) hover:bg-accent-hover disabled:cursor-not-allowed disabled:bg-disabled-bg disabled:text-disabled-text"
     >
       {pending ? 'Working…' : children}
     </button>

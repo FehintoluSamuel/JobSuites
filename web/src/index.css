@@ -17,16 +17,18 @@
   --color-surface: #ffffff;
   --color-sunken: #eef3f8;
   --color-border-subtle: #e0e0e0;
-  --color-border-strong: #c7c7c7;
+  /* Control boundaries need 3:1 against white (WCAG 1.4.11 non-text contrast).
+     The previous #c7c7c7 sat at 1.69:1, which made input edges hard to see. */
+  --color-border-strong: #8f8f8f;
 
   /* Text — four steps is enough hierarchy for a dense product */
-  --color-ink: rgba(0, 0, 0, 0.9);        /* headings */
-  --color-ink-body: rgba(0, 0, 0, 0.78);  /* body copy */
-  --color-ink-muted: rgba(0, 0, 0, 0.6);  /* labels, meta */
-  --color-ink-faint: rgba(0, 0, 0, 0.45); /* placeholder, disabled */
+  --color-ink: rgba(0, 0, 0, 0.9);        /* headings, 17.5:1 */
+  --color-ink-body: rgba(0, 0, 0, 0.78);  /* body copy, 11.7:1 */
+  --color-ink-muted: rgba(0, 0, 0, 0.6);  /* labels, meta, 5.7:1 */
+  --color-ink-faint: rgba(0, 0, 0, 0.45); /* placeholder only, 3.4:1 */
 
   /* Accent — crimson, used sparingly for primary action and focus only */
-  --color-accent: #e11d48;
+  --color-accent: #be1740;
   --color-accent-hover: #be123c;
   --color-accent-subtle: #fff1f2;
   --color-accent-tint: #ffe4e6;
@@ -35,13 +37,32 @@
   /* Links — a separate blue so navigation and outbound links do not read as
      a call to action. Crimson is reserved for one primary action per view. */
   --color-link: #0a66c2;
-  --color-link-hover: #00418290;
 
   /* Status */
   --color-danger: #b91c1c;
   --color-danger-subtle: #fef2f2;
-  --color-success: #15803d;
+  --color-success: #146029;
+  --color-success-tint: #e4f0e6;
+  --color-warn: #8a5300;
+  --color-warn-tint: #fdf0d9;
+  --color-danger-tint: #fde3e3;
   --color-success-subtle: #f0fdf4;
+
+  /* Disabled controls read as inert, not as a low-contrast primary action.
+     White-on-grey was 1.69:1, which looks like a broken button. */
+  --color-disabled-bg: #eef3f8;
+  --color-disabled-text: rgba(0, 0, 0, 0.38);
+
+  /* Motion. One fast token for state changes, one for overlays. */
+  --ease-ui: cubic-bezier(0.2, 0, 0.2, 1);
+  --duration-ui: 150ms;
+  --duration-overlay: 200ms;
+
+  /* Layering scale, so overlays and sticky chrome cannot collide. */
+  --z-sticky: 20;
+  --z-drawer: 40;
+  --z-dropdown: 30;
+  --z-skip-link: 40;
 }
 
 @layer base {
@@ -58,7 +79,8 @@
 
   /*
     Never remove focus rings without replacing them. Keyboard users on an
-    auth screen with no visible focus state are locked out.
+    auth screen with no visible focus state are locked out. The offset keeps the
+    ring clear of the control so it stays visible on a busy card edge.
   */
   :focus-visible {
     outline: 2px solid var(--color-accent);
@@ -66,9 +88,24 @@
     border-radius: 2px;
   }
 
+  /*
+    The top nav is sticky, so anything focused just below it would otherwise sit
+    underneath the bar. Every scroll target reserves that space.
+  */
+  [id] {
+    scroll-margin-top: 4.5rem;
+  }
+
   /* Tabular figures keep numeric columns aligned in the dense views. */
   .tabular {
     font-variant-numeric: tabular-nums;
+  }
+
+  /* Kill the 300ms tap delay on the controls that matter most. */
+  button,
+  a,
+  [role='button'] {
+    touch-action: manipulation;
   }
 }
 

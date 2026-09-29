@@ -1026,4 +1026,105 @@ public record ParsedCv(
     List<ProfileEducation> Education,
     List<ProfileCertification> Certifications,
     List<ProfileLanguage> Languages,
-    List<ProfileLink> Links);
+    List<ProfileLink> Links)
+{
+    /// <summary>
+    /// Union of two independent parses of the same CV text. The deterministic
+    /// regex parser is the baseline that can never lose a fact; the LLM pass may
+    /// only ADD what it found truthfully. This is what keeps ingestion monotonic:
+    /// a model that truncates (returns a few fields, drops skills) cannot make
+    /// the profile thinner than the regex parse would — each list is deduplicated
+    /// by key and the richer value wins.
+    /// </summary>
+    public static ParsedCv Merge(ParsedCv baseline, ParsedCv? extra)
+    {
+        if (extra is null) return baseline;
+
+        var skillKeys = new HashSet<string>(
+            baseline.Skills.Select(s => ProfileTaxonomy.Normalize(s.Name)),
+            StringComparer.Ordinal);
+        var skills = new List<ProfileSkill>(baseline.Skills);
+        foreach (var skill in extra.Skills)
+        {
+            if (skillKeys.Add(ProfileTaxonomy.Normalize(skill.Name))) skills.Add(skill);
+        }
+
+        var expByKey = new Dictionary<string, ProfileExperience>(StringComparer.Ordinal);
+        foreach (var e in baseline.Experiences) expByKey.TryAdd(MergeKey(e), e);
+        foreach (var e in extra.Experiences)
+        {
+            var key = MergeKey(e);
+            expByKey.TryGetValue(key, out var existing);
+            expByKey[key] = existing is null ? e : MergeBest(e, existing);
+        }
+        var experiences = expByKey.Values.ToList();
+
+        var eduKeys = new HashSet<string>(
+            baseline.Education.Select(MergeKey),
+            StringComparer.Ordinal);
+        var education = new List<ProfileEducation>(baseline.Education);
+        foreach (var e in extra.Education)
+        {
+            if (eduKeys.Add(MergeKey(e))) education.Add(e);
+        }
+
+        var certKeys = new HashSet<string>(
+            baseline.Certifications.Select(c => ProfileTaxonomy.Normalize(c.Name)),
+            StringComparer.Ordinal);
+        var certs = new List<ProfileCertification>(baseline.Certifications);
+        foreach (var c in extra.Certifications)
+        {
+            if (certKeys.Add(ProfileTaxonomy.Normalize(c.Name))) certs.Add(c);
+        }
+
+        var langKeys = new HashSet<string>(
+            baseline.Languages.Select(l => ProfileTaxonomy.Normalize(l.Name)),
+            StringComparer.Ordinal);
+        var languages = new List<ProfileLanguage>(baseline.Languages);
+        foreach (var l in extra.Languages)
+        {
+            if (langKeys.Add(ProfileTaxonomy.Normalize(l.Name))) languages.Add(l);
+        }
+
+        var linkKeys = new HashSet<string>(
+            baseline.Links.Select(l => ProfileTaxonomy.Normalize(l.Url)),
+            StringComparer.Ordinal);
+        var links = new List<ProfileLink>(baseline.Links);
+        foreach (var l in extra.Links)
+        {
+            if (linkKeys.Add(ProfileTaxonomy.Normalize(l.Url))) links.Add(l);
+        }
+
+        return new ParsedCv(
+            FullName: extra.FullName ?? baseline.FullName,
+            Email: extra.Email ?? baseline.Email,
+            Phone: extra.Phone ?? baseline.Phone,
+            Location: extra.Location ?? baseline.Location,
+            Headline: extra.Headline ?? baseline.Headline,
+            YearsExperience: extra.YearsExperience ?? baseline.YearsExperience,
+            Summary: extra.Summary ?? baseline.Summary,
+            Skills: skills,
+            Experiences: experiences,
+            Education: education,
+            Certifications: certs,
+            Languages: languages,
+            Links: links);
+    }
+
+    private static ProfileExperience MergeBest(ProfileExperience? extra, ProfileExperience baseline)
+    {
+        if (extra is null) return baseline;
+        var usesExtra = !string.IsNullOrWhiteSpace(extra.Highlights) &&
+                        (string.IsNullOrWhiteSpace(baseline.Highlights) ||
+                         (extra.Highlights ?? "").Length > (baseline.Highlights ?? "").Length);
+        return usesExtra ? extra : baseline;
+    }
+
+    private static string MergeKey(ProfileExperience e) =>
+        ProfileTaxonomy.Normalize(e.Company ?? "") + "|" + ProfileTaxonomy.Normalize(e.Title ?? "") +
+        (string.IsNullOrWhiteSpace(e.StartDate) ? "" : "|" + ProfileTaxonomy.Normalize(e.StartDate));
+
+    private static string MergeKey(ProfileEducation e) =>
+        ProfileTaxonomy.Normalize(e.School ?? "") + "|" + ProfileTaxonomy.Normalize(e.Degree ?? "") +
+        (e.StartYear is { } sy ? "|" + sy : "");
+}

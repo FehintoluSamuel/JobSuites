@@ -98,6 +98,13 @@ a `span_id`. That is what makes the output trustworthy.
 An uncorrectable extraction silently destroys trust in every downstream
 feature. The correction step is not optional.
 
+**Extraction is extract, never invent.** The deterministic parser runs first
+and is always available. When an LLM is configured (server-side `Llm:*`), it may
+assist extraction — same `ParsedCv` shape, same merge and hash, same "no usable
+profile" gate — but any field it produces still lands in the profile as a
+user-correctable `cv` fact, and a parse it cannot support never beats the
+deterministic one.
+
 ---
 
 ## 5. Matching
@@ -177,6 +184,17 @@ The model never gains the ability to assert a fact. It selects from a closed
 set. This is an architectural constraint, not a prompt instruction — a prompt
 instruction is a request, a closed set is a guarantee.
 
+**Dual engines.** The deterministic engine (`TailoringEngine`) is the default
+and always runs. When an LLM is configured (server-side `Llm:*` config, never
+visible to the browser) a second pass may refine the prose afterwards. It is
+handed only the deterministic draft — the closed set — and a rewrite that fails
+the fabrication check is discarded: the stored document is always the
+deterministic build, and only that can be approved or exported. The rejected
+text is kept beside it as a diagnosis, because "we caught it inventing
+Flutterwave" is the proof this section is selling, and a rejection the user
+cannot read is a verdict with no evidence behind it. With no key configured,
+tailoring silently uses the deterministic engine alone.
+
 ### 6.2 Fabrication check
 
 After generation, a **deterministic** pass — not a model judgement — extracts
@@ -188,6 +206,13 @@ fabrication.
 generated:  "Led a team of 12 engineers at Flutterwave"
 CV facts:   [no Flutterwave]  [no 12]  →  REJECT, surface to user
 ```
+
+Prose is not evidence. A reworded bullet ("led" → "managed"), or vocabulary
+reused from the already-verified deterministic draft, is a wording change, not a
+new claim — so the fabrication check exempts a small auditable list of common
+resume verbs and, on the LLM pass only, permits tokens already present in the
+CV corpus or the deterministic draft. Numbers, companies, names, dates, degrees
+and skills remain strictly gated.
 
 This is the feature. "ChatGPT writes your CV" is a commodity; **"we can prove we
 didn't invent anything"** is a product. It is also cheap: string matching over a

@@ -46,6 +46,11 @@ public class Role
 
     public List<RolePosting> Postings { get; set; } = [];
 
+    /// <summary>What this role asks for, extracted once at ingest and shared by
+    /// every user of the role (docs/ARCHITECTURE.md §5.2). Empty until ingest has
+    /// run for it; callers fall back to reading the description directly.</summary>
+    public List<JdRequirement> Requirements { get; set; } = [];
+
     public DateTimeOffset FirstSeenAt { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset LastSeenAt { get; set; } = DateTimeOffset.UtcNow;
 }

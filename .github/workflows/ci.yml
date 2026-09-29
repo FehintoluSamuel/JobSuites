@@ -1,0 +1,199 @@
+name: CI
+
+# Every push to main and every PR runs this. There is no path filtering on
+# purpose: skipping a job based on which files changed is how a required check
+# silently stops running, and the whole suite is a couple of minutes.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# Read-only by default. Nothing here needs to write to the repository, and a
+# pipeline that pushes or comments has no business holding write access just
+# because it ran tests.
+permissions:
+  contents: read
+
+# A second push to the same branch makes the first run's result irrelevant.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+
+jobs:
+  api:
+    name: API build and test
+    runs-on: ubuntu-latest
+
+    # The integration tests boot the real API in-process and create a throwaway
+    # database per run, so a real Postgres is not optional here. That is the
+    # point of them: routing, the unique index, the JWT pipeline and the
+    # migrations are exercised as production runs them, not against a substitute.
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: jobsuites
+          POSTGRES_PASSWORD: jobsuites
+          POSTGRES_DB: jobsuites
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U jobsuites -d jobsuites"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+          cache: true
+          cache-dependency-path: '**/*.csproj'
+
+      # appsettings.Development.json is gitignored because it holds a real
+      # machine's database password and signing key. CI needs a file of that
+      # name for two reasons that cannot be worked around from a workflow step:
+      # Program.cs binds and validates Jwt:Key while building the host, before
+      # any test-time configuration override runs, and the test host looks for
+      # the file while walking up from the test binary.
+      #
+      # The key below is a throwaway constant, not a secret. It signs tokens only
+      # inside a job that is destroyed when the job ends, it is never valid
+      # outside this repository, and nothing here needs a repository secret to
+      # run. If that ever stops being true — a real deployment, a key that must
+      # survive between jobs — it belongs in secrets, not in this file.
+      - name: Write the CI development config
+        run: |
+          mkdir -p src/JobSuites.Api
+          cat > src/JobSuites.Api/appsettings.Development.json <<'JSON'
+          {
+            "ConnectionStrings": {
+              "Default": "Host=localhost;Port=5432;Database=jobsuites;Username=jobsuites;Password=jobsuites"
+            },
+            "Jwt": {
+              "Key": "ci-only-throwaway-signing-key-not-a-secret-0123456789abcdef"
+            },
+            "Llm": {
+              "BaseUrl": "",
+              "ApiKey": "",
+              "Model": ""
+            }
+          }
+          JSON
+
+      - name: Restore
+        run: dotnet restore JobSuites.slnx
+
+      - name: Build
+        run: dotnet build JobSuites.slnx --configuration Release --no-restore
+
+      # A model change without a migration compiles, passes the build, and then
+      # fails at runtime with a schema mismatch on whichever column moved. This
+      # turns that into a failed pull request instead.
+      - name: Check for unmigrated model changes
+        run: |
+          dotnet tool install --global dotnet-ef --version "10.0.*"
+          dotnet ef migrations has-pending-model-changes \
+            --project src/JobSuites.Api \
+            --context AppDbContext
+
+      - name: Test
+        env:
+          # The test host creates and drops its own database from these
+          # credentials, so this names a login rather than a database. Letting
+          # CI fall back to a developer's local config file would make the suite
+          # pass or fail based on a machine that is not the runner.
+          JOBSUITES_TEST_CONNECTION: >-
+            Host=localhost;Port=5432;Database=jobsuites;Username=jobsuites;Password=jobsuites
+        run: >-
+          dotnet test JobSuites.slnx
+          --configuration Release
+          --no-build
+          --logger "trx;LogFileName=results.trx"
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: "**/TestResults/*.trx"
+          retention-days: 14
+
+  web:
+    name: Web lint, build and test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # Matches the version the app is developed against. A web build that
+          # only works on the runner's default Node is a build that surprises
+          # someone later.
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      # tsc runs inside this script, so a type error fails the build here rather
+      # than in a browser at runtime.
+      - name: Build
+        run: npm run build
+
+      - name: Test
+        run: npm test
+
+  ingest:
+    name: Ingest package check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          # The ingest is standard library only, so there is nothing to install.
+          # This job exists to catch the two failures that a Python codebase
+          # without a test suite is otherwise prone to: a syntax error and an
+          # import that no longer resolves. Both have happened here — a renamed
+          # attribute on JobPosting only surfaced when a scheduled run executed.
+          python-version: '3.12'
+
+      - name: Byte-compile
+        run: python -m compileall -q ingest
+
+      - name: Import check
+        run: |
+          python - <<'PY'
+          import ingest.myjobmag_adapter as adapter
+          import ingest.publish as publish
+          import ingest.targeting as targeting
+
+          # A target the user would plausibly type, matched against titles the
+          # board actually uses. Cheap, offline, and it fails loudly if the
+          # synonym or tokeniser tables are edited into an inconsistent state —
+          # which the module raises on by design.
+          wanted = targeting.target_tokens("Software Engineering")
+          assert targeting.job_title_relevant("Senior Software Engineer", wanted)
+          assert not targeting.job_title_relevant("Registered Nurse", wanted)
+          assert hasattr(adapter, "crawl_target")
+          assert hasattr(publish, "main")
+          print("ingest imports ok")
+          PY

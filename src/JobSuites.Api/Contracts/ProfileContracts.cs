@@ -209,7 +209,8 @@ public record DashboardResponse(
     CandidateProfileResponse? Profile,
     DashboardSummary Summary,
     IReadOnlyList<MatchedRole> Matches,
-    bool HasIngestedRoles);
+    bool HasIngestedRoles,
+    IngestHealth? Ingest);
 
 public record DashboardSummary(
     int RolesIngested,
@@ -219,3 +220,27 @@ public record DashboardSummary(
     int PossibleMatches,
     int StretchMatches,
     DateTimeOffset? RolesUpdatedAt);
+
+/// <summary>
+/// How fresh the roles on this dashboard are, and whether that freshness can be
+/// trusted.
+///
+/// This is not decoration. A board that changes its page template yields zero new
+/// roles with no error anywhere, and to the user that is indistinguishable from a
+/// quiet week. Carrying the poll time and the yield on the same screen as the
+/// queue is what makes the two tellable apart.
+/// </summary>
+public record IngestHealth(
+    DateTimeOffset? LastPolledAt,
+    int SourcesTotal,
+    int SourcesDegraded,
+    int ConsecutiveZeroRuns,
+    IReadOnlyList<SourceHealth> Sources);
+
+public record SourceHealth(
+    string Key,
+    string Name,
+    string Status,
+    DateTimeOffset? LastPolledAt,
+    int? LastYield,
+    int ConsecutiveZeroRuns);

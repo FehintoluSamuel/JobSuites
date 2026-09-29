@@ -23,6 +23,98 @@ namespace JobSuites.Api.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("JobSuites.Api.Models.Application", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("AppliedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("applied_at");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTimeOffset?>("NextActionAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("next_action_at");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("text")
+                        .HasColumnName("notes");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("status");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId", "RoleId")
+                        .IsUnique()
+                        .HasDatabaseName("ux_applications_user_role");
+
+                    b.ToTable("applications", (string)null);
+                });
+
+            modelBuilder.Entity("JobSuites.Api.Models.AssessmentItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("AnswerKey")
+                        .HasColumnType("integer")
+                        .HasColumnName("answer_key");
+
+                    b.Property<int>("Difficulty")
+                        .HasColumnType("integer")
+                        .HasColumnName("difficulty");
+
+                    b.Property<string>("Domain")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("domain");
+
+                    b.Property<string>("Options")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("options");
+
+                    b.Property<string>("Prompt")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("prompt");
+
+                    b.Property<string>("WorkedSteps")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("worked_steps");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Domain", "Difficulty")
+                        .HasDatabaseName("ix_assessment_domain");
+
+                    b.ToTable("assessment_items", (string)null);
+                });
+
             modelBuilder.Entity("JobSuites.Api.Models.CandidateProfile", b =>
                 {
                     b.Property<Guid>("Id")
@@ -175,6 +267,311 @@ namespace JobSuites.Api.Data.Migrations
                         .HasDatabaseName("ux_profiles_user");
 
                     b.ToTable("candidate_profiles", (string)null);
+                });
+
+            modelBuilder.Entity("JobSuites.Api.Models.CrawlTarget", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ConsecutiveEmptyRuns")
+                        .HasColumnType("integer")
+                        .HasColumnName("consecutive_empty_runs");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<int>("Cursor")
+                        .HasColumnType("integer")
+                        .HasColumnName("cursor");
+
+                    b.Property<DateTimeOffset?>("LastCrawledAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_crawled_at");
+
+                    b.Property<int>("MaxJobsPerRun")
+                        .HasColumnType("integer")
+                        .HasColumnName("max_jobs_per_run");
+
+                    b.Property<string>("States")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("states");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("title");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LastCrawledAt")
+                        .HasDatabaseName("ix_crawl_targets_last_crawled");
+
+                    b.HasIndex("UserId", "Title")
+                        .IsUnique()
+                        .HasDatabaseName("ux_crawl_targets_user_title");
+
+                    b.ToTable("crawl_targets", (string)null);
+                });
+
+            modelBuilder.Entity("JobSuites.Api.Models.IngestRun", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CrawlTargetId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("crawl_target_id");
+
+                    b.Property<string>("Error")
+                        .HasColumnType("text")
+                        .HasColumnName("error");
+
+                    b.Property<DateTimeOffset?>("FinishedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("finished_at");
+
+                    b.Property<int>("PostingsSeen")
+                        .HasColumnType("integer")
+                        .HasColumnName("postings_seen");
+
+                    b.Property<string>("ProbeDetail")
+                        .HasColumnType("text")
+                        .HasColumnName("probe_detail");
+
+                    b.Property<int>("RolesPublished")
+                        .HasColumnType("integer")
+                        .HasColumnName("roles_published");
+
+                    b.Property<Guid>("SourceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("StartedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("started_at");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("status");
+
+                    b.Property<string>("TargetTitle")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("target_title");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CrawlTargetId");
+
+                    b.HasIndex("SourceId", "StartedAt")
+                        .HasDatabaseName("ix_runs_source_started");
+
+                    b.HasIndex("UserId", "StartedAt")
+                        .HasDatabaseName("ix_runs_user_started");
+
+                    b.ToTable("ingest_runs", (string)null);
+                });
+
+            modelBuilder.Entity("JobSuites.Api.Models.InterviewPrep", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Questions")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("questions");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
+
+                    b.PrimitiveCollection<List<string>>("Topics")
+                        .IsRequired()
+                        .HasColumnType("text[]")
+                        .HasColumnName("topics");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("RoleId", "UserId")
+                        .IsUnique()
+                        .HasDatabaseName("ux_prep_role_user");
+
+                    b.ToTable("interview_preps", (string)null);
+                });
+
+            modelBuilder.Entity("JobSuites.Api.Models.JdRequirement", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Category")
+                        .HasMaxLength(40)
+                        .HasColumnType("character varying(40)")
+                        .HasColumnName("category");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("JdHash")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)")
+                        .HasColumnName("jd_hash");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)")
+                        .HasColumnName("key");
+
+                    b.Property<bool>("MustHave")
+                        .HasColumnType("boolean")
+                        .HasColumnName("must_have");
+
+                    b.Property<string>("Origin")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("origin");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Span")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("span");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("text");
+
+                    b.Property<int?>("YearsMin")
+                        .HasColumnType("integer")
+                        .HasColumnName("years_min");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId")
+                        .HasDatabaseName("ix_jd_requirements_role");
+
+                    b.HasIndex("RoleId", "Key")
+                        .IsUnique()
+                        .HasDatabaseName("ux_jd_requirements_role_key");
+
+                    b.ToTable("jd_requirements", (string)null);
+                });
+
+            modelBuilder.Entity("JobSuites.Api.Models.PrepAnswer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("body");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<bool>("HonestFramingUsed")
+                        .HasColumnType("boolean")
+                        .HasColumnName("honest_framing_used");
+
+                    b.Property<string>("QuestionId")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("character varying(80)")
+                        .HasColumnName("question_id");
+
+                    b.Property<Guid>("SessionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Verdict")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("character varying(40)")
+                        .HasColumnName("verdict");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SessionId", "QuestionId")
+                        .IsUnique()
+                        .HasDatabaseName("ux_prep_answers_session_question");
+
+                    b.ToTable("prep_answers", (string)null);
+                });
+
+            modelBuilder.Entity("JobSuites.Api.Models.PrepSession", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("FinishedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("finished_at");
+
+                    b.Property<string>("Mode")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("mode");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Scores")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("scores");
+
+                    b.Property<DateTimeOffset>("StartedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("started_at");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_prep_sessions_user");
+
+                    b.ToTable("prep_sessions", (string)null);
                 });
 
             modelBuilder.Entity("JobSuites.Api.Models.Role", b =>
@@ -385,6 +782,217 @@ namespace JobSuites.Api.Data.Migrations
                     b.ToTable("role_postings", (string)null);
                 });
 
+            modelBuilder.Entity("JobSuites.Api.Models.Source", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("BaseUrl")
+                        .IsRequired()
+                        .HasMaxLength(400)
+                        .HasColumnType("character varying(400)")
+                        .HasColumnName("base_url");
+
+                    b.Property<int>("ConsecutiveZeroRuns")
+                        .HasColumnType("integer")
+                        .HasColumnName("consecutive_zero_runs");
+
+                    b.Property<DateTimeOffset>("FirstSeenAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("first_seen_at");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("key");
+
+                    b.Property<DateTimeOffset?>("LastPolledAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_polled_at");
+
+                    b.Property<DateTimeOffset>("LastSeenAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_seen_at");
+
+                    b.Property<int?>("LastYield")
+                        .HasColumnType("integer")
+                        .HasColumnName("last_yield");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Key")
+                        .IsUnique()
+                        .HasDatabaseName("ux_sources_key");
+
+                    b.ToTable("sources", (string)null);
+                });
+
+            modelBuilder.Entity("JobSuites.Api.Models.SupportMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("body");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<Guid?>("SupportTicketId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TicketId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SupportTicketId");
+
+                    b.HasIndex("TicketId")
+                        .HasDatabaseName("ix_messages_ticket");
+
+                    b.ToTable("support_messages", (string)null);
+                });
+
+            modelBuilder.Entity("JobSuites.Api.Models.SupportTicket", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("category");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTimeOffset?>("ResolvedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("resolved_at");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("status");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("subject");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId", "CreatedAt")
+                        .HasDatabaseName("ix_tickets_user");
+
+                    b.ToTable("support_tickets", (string)null);
+                });
+
+            modelBuilder.Entity("JobSuites.Api.Models.TailoredDocument", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("ApprovedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("approved_at");
+
+                    b.Property<string>("Coverage")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("coverage");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Diff")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("diff");
+
+                    b.Property<string>("Document")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("document");
+
+                    b.PrimitiveCollection<List<string>>("FactRefs")
+                        .IsRequired()
+                        .HasColumnType("text[]")
+                        .HasColumnName("fact_refs");
+
+                    b.Property<string>("ProfileHash")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)")
+                        .HasColumnName("profile_hash");
+
+                    b.Property<string>("RejectedRewrite")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("rejected_rewrite");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("status");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Verification")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("verification");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId", "RoleId", "Version")
+                        .IsUnique()
+                        .HasDatabaseName("ux_tailored_user_role_version");
+
+                    b.ToTable("tailored_documents", (string)null);
+                });
+
             modelBuilder.Entity("JobSuites.Api.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -423,6 +1031,23 @@ namespace JobSuites.Api.Data.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("JobSuites.Api.Models.Application", b =>
+                {
+                    b.HasOne("JobSuites.Api.Models.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("JobSuites.Api.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("JobSuites.Api.Models.CandidateProfile", b =>
                 {
                     b.HasOne("JobSuites.Api.Models.User", null)
@@ -430,6 +1055,82 @@ namespace JobSuites.Api.Data.Migrations
                         .HasForeignKey("JobSuites.Api.Models.CandidateProfile", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("JobSuites.Api.Models.IngestRun", b =>
+                {
+                    b.HasOne("JobSuites.Api.Models.CrawlTarget", "CrawlTarget")
+                        .WithMany()
+                        .HasForeignKey("CrawlTargetId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("JobSuites.Api.Models.Source", "Source")
+                        .WithMany("Runs")
+                        .HasForeignKey("SourceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CrawlTarget");
+
+                    b.Navigation("Source");
+                });
+
+            modelBuilder.Entity("JobSuites.Api.Models.InterviewPrep", b =>
+                {
+                    b.HasOne("JobSuites.Api.Models.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("JobSuites.Api.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("JobSuites.Api.Models.JdRequirement", b =>
+                {
+                    b.HasOne("JobSuites.Api.Models.Role", "Role")
+                        .WithMany("Requirements")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("JobSuites.Api.Models.PrepAnswer", b =>
+                {
+                    b.HasOne("JobSuites.Api.Models.PrepSession", "Session")
+                        .WithMany()
+                        .HasForeignKey("SessionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Session");
+                });
+
+            modelBuilder.Entity("JobSuites.Api.Models.PrepSession", b =>
+                {
+                    b.HasOne("JobSuites.Api.Models.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("JobSuites.Api.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("JobSuites.Api.Models.RoleMatch", b =>
@@ -460,9 +1161,62 @@ namespace JobSuites.Api.Data.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("JobSuites.Api.Models.SupportMessage", b =>
+                {
+                    b.HasOne("JobSuites.Api.Models.SupportTicket", null)
+                        .WithMany("Messages")
+                        .HasForeignKey("SupportTicketId");
+
+                    b.HasOne("JobSuites.Api.Models.SupportTicket", "Ticket")
+                        .WithMany()
+                        .HasForeignKey("TicketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ticket");
+                });
+
+            modelBuilder.Entity("JobSuites.Api.Models.SupportTicket", b =>
+                {
+                    b.HasOne("JobSuites.Api.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("JobSuites.Api.Models.TailoredDocument", b =>
+                {
+                    b.HasOne("JobSuites.Api.Models.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("JobSuites.Api.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("JobSuites.Api.Models.Role", b =>
                 {
                     b.Navigation("Postings");
+
+                    b.Navigation("Requirements");
+                });
+
+            modelBuilder.Entity("JobSuites.Api.Models.Source", b =>
+                {
+                    b.Navigation("Runs");
+                });
+
+            modelBuilder.Entity("JobSuites.Api.Models.SupportTicket", b =>
+                {
+                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }

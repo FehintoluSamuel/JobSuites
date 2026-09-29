@@ -1,0 +1,54 @@
+name: Ingest probe
+
+# The source's own health check, run against the real board.
+#
+# Deliberately not part of CI. A template change on the source yields zero rows
+# with no HTTP error and no exception, so nothing in a build can detect it — but
+# a probe is a real request to someone else's site, and running it on every push
+# would spend the source's patience to re-confirm what the last run already said.
+# Manual dispatch is the right frequency for "is the board still parseable?".
+on:
+  workflow_dispatch:
+    inputs:
+      detail:
+        description: "Print the first N sitemap entries"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ingest-probe
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    name: Probe MyJobMag
+    runs-on: ubuntu-latest
+    # Outbound network access to a third party, on demand. Nothing is published
+    # and no repository secret is involved.
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Probe
+        run: |
+          python - <<'PY'
+          import json, sys
+          from ingest.myjobmag_adapter import probe, discover_landing_urls
+
+          result = probe()
+          print(json.dumps(result, indent=2))
+
+          if not result["ok"]:
+              print(f"\nprobe failed: {result.get('reason')}", file=sys.stderr)
+              sys.exit(1)
+
+          if "${INPUT_DETAIL}" == "true":
+              for url in discover_landing_urls()[:5]:
+                  print("  ", url)
+          PY

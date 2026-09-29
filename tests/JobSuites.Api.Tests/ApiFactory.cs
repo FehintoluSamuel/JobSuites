@@ -120,13 +120,19 @@ public sealed class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
 
     /// <summary>Empties user profiles and ingested roles between tests without
     /// recreating the schema. Roles and matches must go too, otherwise the order
-    /// tests run in would leak scores into later tests.</summary>
+    /// tests run in would leak scores into later tests.
+    ///
+    /// <c>sources</c> is in the list and is not per-user: its zero-run counters
+    /// and health status accumulate across runs, so a test that leaves a degraded
+    /// source behind would silently degrade every later test's dashboard.</summary>
     public async Task ResetAsync()
     {
         using var scope = Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         await db.Database.ExecuteSqlRawAsync(
-            "TRUNCATE \"Users\", \"candidate_profiles\", \"roles\", \"role_postings\", \"role_matches\" CASCADE;");
+            "TRUNCATE \"Users\", \"candidate_profiles\", \"roles\", \"role_postings\", " +
+            "\"jd_requirements\", \"role_matches\", \"ingest_runs\", \"sources\", " +
+            "\"crawl_targets\" CASCADE;");
     }
 }
 

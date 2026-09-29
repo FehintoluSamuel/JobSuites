@@ -15,13 +15,15 @@ public static class AuthEndpoints
 
     public static void MapAuthEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/auth")
-            .WithTags("Auth")
-            .RequireRateLimiting("auth");
+        // The limiter is applied per endpoint rather than to the whole group.
+        // /me is a session lookup the frontend calls on every page load, and
+        // sharing the password-endpoint limit with it turned ordinary browsing
+        // into a 429.
+        var group = app.MapGroup("/api/auth").WithTags("Auth");
 
-        group.MapPost("/register", Register).WithName("Register");
-        group.MapPost("/login", Login).WithName("Login");
-        group.MapGet("/me", Me).WithName("Me").RequireAuthorization();
+        group.MapPost("/register", Register).RequireRateLimiting("auth").WithName("Register");
+        group.MapPost("/login", Login).RequireRateLimiting("auth").WithName("Login");
+        group.MapGet("/me", Me).RequireRateLimiting("session").RequireAuthorization().WithName("Me");
     }
 
     private static async Task<IResult> Register(

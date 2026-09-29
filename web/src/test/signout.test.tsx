@@ -35,6 +35,7 @@ const emptyDashboard: DashboardResponse = {
   },
   matches: [],
   hasIngestedRoles: true,
+  ingest: null,
 }
 
 type Call = { url: string; hadToken: boolean }

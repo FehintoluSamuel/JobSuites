@@ -2,14 +2,21 @@ import { useRef, type ChangeEvent, type FormEvent } from 'react'
 import { Link, Navigate } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useAuth } from '../auth/AuthContext'
-import { dashboard, profile as profileApi, type MatchedRole, type DashboardResponse } from '../lib/api'
+import {
+  dashboard,
+  applications as applicationsApi,
+  profile as profileApi,
+  type MatchedRole,
+  type DashboardResponse,
+  type IngestHealth,
+  type SourceHealth,
+} from '../lib/api'
 import { AppColumns, AppShell, Card } from '../components/AppShell'
 import {
   AlertIcon,
-  BriefcaseIcon,
+  BoardIcon,
   CheckIcon,
   MapPinIcon,
-  SparkIcon,
   UploadIcon,
 } from '../components/icons'
 
@@ -108,9 +115,13 @@ export function DashboardPage() {
     return (
       <AppShell>
         <AppColumns
-          left={<IdentityRail user={user} profile={null} hasProfile={false} />}
           center={<UploadHero hasIngestedRoles={data.hasIngestedRoles} onUploaded={invalidate} />}
-          right={<FeedFooter summary={data.summary} />}
+          right={
+            <>
+              <IdentityRail user={user} profile={null} hasProfile={false} />
+              <FeedFooter summary={data.summary} ingest={data.ingest} />
+            </>
+          }
         />
       </AppShell>
     )
@@ -119,20 +130,21 @@ export function DashboardPage() {
   return (
     <AppShell>
       <AppColumns
-        left={
-          <>
-            <IdentityRail user={user} profile={data.profile} hasProfile />
-            <Shortcuts />
-          </>
-        }
         center={
           <>
+            <h1 className="sr-only">Your dashboard</h1>
             <CompletionBanner profile={data.profile} />
+            <FeedHealthBanner ingest={data.ingest} />
             <StatsRow summary={data.summary} />
             <MatchesSection matches={data.matches} />
           </>
         }
-        right={<FeedFooter summary={data.summary} />}
+        right={
+          <>
+            <IdentityRail user={user} profile={data.profile} hasProfile />
+            <FeedFooter summary={data.summary} ingest={data.ingest} />
+          </>
+        }
       />
     </AppShell>
   )
@@ -142,8 +154,10 @@ export function DashboardPage() {
   }
 }
 
-/** Left rail. The identity card, LinkedIn-style: photo, name, headline, and
-    the two actions that matter. */
+/** The identity card, LinkedIn-style: photo, name, headline, and the two
+    actions that matter. Sits in the right rail because the left is now the
+    suite navigation — two left-hand columns would squeeze the feed into a
+    column too narrow to read a match card in. */
 function IdentityRail({
   user,
   profile,
@@ -282,35 +296,6 @@ function IdentityRail({
         )}
       </div>
     </section>
-  )
-}
-
-const SHORTCUTS = [
-  { label: 'Saved jobs', icon: BriefcaseIcon, to: '/app' },
-  { label: 'Profile completeness', icon: CheckIcon, to: '/profile' },
-  { label: 'Your applications', icon: SparkIcon, to: '/app' },
-]
-
-function Shortcuts() {
-  return (
-    <nav aria-label="Shortcuts" className="overflow-hidden rounded-lg border border-border-subtle bg-surface">
-      <h2 className="border-b border-border-subtle px-4 py-3 text-base font-semibold text-ink">
-        Shortcuts
-      </h2>
-      <ul>
-        {SHORTCUTS.map(({ label, icon: Icon, to }) => (
-          <li key={label} className="border-b border-border-subtle last:border-b-0">
-            <Link
-              to={to}
-              className="flex min-h-12 items-center gap-3 px-4 text-sm font-semibold text-ink-body hover:bg-sunken"
-            >
-              <Icon className="h-5 w-5 text-ink-muted" />
-              {label}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </nav>
   )
 }
 
@@ -472,6 +457,14 @@ function StatsRow({ summary }: { summary: DashboardResponse['summary'] }) {
 }
 
 function MatchesSection({ matches }: { matches: MatchedRole[] }) {
+  const queryClient = useQueryClient()
+
+  // Tracked roles come from the applications tracker, so the dashboard has to
+  // know about it — otherwise "Track" would be a control that silently does
+  // nothing visible and the Applications page would look empty for no reason.
+  const tracked = useQuery({ queryKey: ['applications'], queryFn: () => applicationsApi.list() })
+  const trackedRoles = new Set((tracked.data?.items ?? []).map((a) => a.roleId))
+
   if (matches.length === 0) {
     return (
       <Card>
@@ -492,17 +485,35 @@ function MatchesSection({ matches }: { matches: MatchedRole[] }) {
       <p className="mt-0.5 text-sm text-ink-muted">{matches.length} ranked by fit</p>
       <ul className="mt-3 space-y-3">
         {matches.map((m) => (
-          <MatchCard key={m.roleId} match={m} />
+          <MatchCard
+            key={m.roleId}
+            match={m}
+            isTracked={trackedRoles.has(m.roleId)}
+            onTracked={() => queryClient.invalidateQueries({ queryKey: ['applications'] })}
+          />
         ))}
       </ul>
     </section>
   )
 }
 
-function MatchCard({ match: m }: { match: MatchedRole }) {
+function MatchCard({
+  match: m,
+  isTracked,
+  onTracked,
+}: {
+  match: MatchedRole
+  isTracked: boolean
+  onTracked: () => void
+}) {
   const style = tierStyles[m.tier] ?? tierStyles.Stretch
   const applyUrl = m.postings[0]?.url
   const otherPostings = m.postings.length - 1
+
+  const track = useMutation({
+    mutationFn: () => applicationsApi.create(m.roleId, { status: 'Shortlisted' }),
+    onSuccess: onTracked,
+  })
 
   return (
     <li className="overflow-hidden rounded-lg border border-border-subtle bg-surface">
@@ -583,6 +594,30 @@ function MatchCard({ match: m }: { match: MatchedRole }) {
               Apply on {m.postings[0]?.source}
             </a>
           )}
+          {isTracked ? (
+            <Link
+              to="/applications"
+              className="flex min-h-11 items-center gap-1.5 rounded-full border border-border-strong bg-surface px-4 text-sm font-semibold text-ink-body transition-colors hover:bg-sunken"
+            >
+              <CheckIcon className="h-4 w-4 text-success" />
+              Tracked
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={() => track.mutate()}
+              disabled={track.isPending}
+              className="flex min-h-11 items-center gap-1.5 rounded-full border border-border-strong bg-surface px-4 text-sm font-semibold text-ink-body transition-colors hover:bg-sunken disabled:opacity-60"
+            >
+              <BoardIcon className="h-4 w-4" />
+              {track.isPending ? 'Tracking…' : 'Track this role'}
+            </button>
+          )}
+          {track.isError && (
+            <span role="alert" className="text-sm font-semibold text-danger">
+              {track.error.message}
+            </span>
+          )}
           {otherPostings > 0 && (
             <details className="text-sm">
               <summary className="min-h-11 cursor-pointer list-none py-2 font-semibold text-link">
@@ -611,7 +646,9 @@ function MatchCard({ match: m }: { match: MatchedRole }) {
 }
 
 /** Right rail. The feed's provenance, stated rather than implied. */
-function FeedFooter({ summary }: { summary: DashboardResponse['summary'] }) {
+function FeedFooter({ summary, ingest }: { summary: DashboardResponse['summary']; ingest: IngestHealth | null }) {
+  const worst = worstSource(ingest)
+
   return (
     <aside aria-label="About this feed" className="rounded-lg border border-border-subtle bg-surface p-4">
       <h2 className="text-sm font-semibold text-ink">About this feed</h2>
@@ -624,10 +661,61 @@ function FeedFooter({ summary }: { summary: DashboardResponse['summary'] }) {
           Last updated {formatDate(summary.rolesUpdatedAt)}
         </p>
       )}
+
+      {/* The poll time, not the role timestamp: a board can be up to a day
+          stale by design, and saying so is more useful than "updated 4pm"
+          implying data that is already there. */}
+      {ingest?.lastPolledAt ? (
+        <p className="mt-2 text-sm text-ink-muted">
+          Source checked {formatDate(ingest.lastPolledAt)}
+          {ingest.sourcesTotal > 0 && ` · ${ingest.sourcesTotal} source${ingest.sourcesTotal === 1 ? '' : 's'}`}
+        </p>
+      ) : null}
+
+      {worst && <p className="mt-2 text-sm text-warn">{sourceReason(worst)}</p>}
+
       <p className="mt-3 border-t border-border-subtle pt-3 text-xs text-ink-muted">
         Every score shows the evidence behind it. Nothing here is invented.
       </p>
     </aside>
+  )
+}
+
+/** The source most in need of an explanation, or null when all are healthy. A
+    source is not "fine" merely because it did not throw: a poll that quietly
+    returns nothing looks identical to a slow week unless it is called out. */
+function worstSource(ingest: IngestHealth | null): SourceHealth | null {
+  if (!ingest || ingest.sources.length === 0) return null
+  return ingest.sources.find((s) => s.status === 'blocked') ?? ingest.sources.find((s) => s.status !== 'healthy') ?? null
+}
+
+function sourceReason(source: SourceHealth): string {
+  if (source.status === 'blocked') return `${source.name} is refusing our requests. Roles may be out of date.`
+  if (source.consecutiveZeroRuns > 0)
+    return `${source.name} returned no new roles ${source.consecutiveZeroRuns} poll${source.consecutiveZeroRuns === 1 ? '' : 's'} in a row.`
+  return `${source.name} is not polling normally. Roles may be out of date.`
+}
+
+/** Shown only when the feed is not telling the truth. A quiet board and a
+    broken board look the same on screen, and a user who trusts a stale list is
+    worse off than one who is told not to. */
+function FeedHealthBanner({ ingest }: { ingest: IngestHealth | null }) {
+  if (!ingest) return null
+
+  const source = worstSource(ingest)
+  if (!source) return null
+
+  return (
+    <div
+      role="status"
+      className="rounded-lg border border-warn/40 bg-warn-tint p-4 text-sm text-ink-body"
+    >
+      <h2 className="text-sm font-semibold text-ink">This feed may be out of date</h2>
+      <p className="mt-1">{sourceReason(source)}</p>
+      <p className="mt-1 text-xs text-ink-muted">
+        Roles already listed are still real. New ones may be missing until the next successful check.
+      </p>
+    </div>
   )
 }
 

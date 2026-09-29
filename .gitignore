@@ -29,3 +29,9 @@ dist/
 
 # Runtime uploads (user CVs and media)
 src/JobSuites.Api/uploads/
+
+# Ingest logs. These are written by the scheduled runner into a directory that
+# sits at the repo root, so without this they are one `git add .` away from being
+# committed. The runner is careful never to log Ingest:Key, but a log of
+# production crawl output does not belong in version control regardless.
+logs/

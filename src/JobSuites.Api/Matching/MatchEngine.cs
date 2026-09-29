@@ -189,6 +189,14 @@ public static class MatchEngine
         var evidence = new List<MatchEvidence>();
         var gaps = new List<string>();
 
+        // The posting's own must-haves lead the evidence list. They are read
+        // from the JD body, so they are the most specific thing we can say
+        // about why this role fits — and the dashboard shows only the first few
+        // items, so a generic skill match must not crowd them out.
+        var requirementScore = ApplyRequirements(profile, role, out var reqEvidence, out var reqGaps);
+        evidence.AddRange(reqEvidence);
+        gaps.AddRange(reqGaps);
+
         var skillScore = Score(profile.Skills, role.Skills, out var skillEvidence);
         evidence.AddRange(skillEvidence);
 
@@ -201,7 +209,14 @@ public static class MatchEngine
         var locScore = ScoreLocation(profile, role, out var locGap);
         if (locGap is not null) gaps.Add(locGap);
 
-        var total = Math.Clamp(skillScore + expScore + qualScore + locScore, 0, 100);
+        // Requirement coverage scales the result rather than replacing it. The
+        // CV is read heuristically, so a requirement we failed to recognise
+        // must not be able to cost a candidate the whole score; but a role whose
+        // stated must-haves are missing should rank below one where they are
+        // not. 20% is the band between those two.
+        var total = Math.Clamp(
+            (int)Math.Round((skillScore + expScore + qualScore + locScore) * requirementScore),
+            0, 100);
 
         // Attach the posting URL to each piece of evidence so every claim in the
         // UI can be checked against the source.
@@ -220,6 +235,227 @@ public static class MatchEngine
             Gaps = gaps,
             ComputedAt = DateTimeOffset.UtcNow,
         };
+    }
+
+    /// <summary>Multiplier applied to the base score from how much of the
+    /// posting's stated must-haves the profile supports. 1.0 when every one is
+    /// met, <see cref="RequirementPenalty"/> when none is. A role with no stored
+    /// requirements is left alone, so scoring behaves exactly as it did before
+    /// extraction existed.</summary>
+    private const double RequirementPenalty = 0.8;
+
+    private static double ApplyRequirements(
+        CandidateProfile profile,
+        Role role,
+        out List<MatchEvidence> evidence,
+        out List<string> gaps)
+    {
+        evidence = [];
+        gaps = [];
+
+        // Only disqualifying asks count. An "added advantage" the candidate
+        // lacks is not a gap, and treating it as one is how a product teaches
+        // users to ignore its warnings.
+        var demands = role.Requirements
+            .Where(r => r.MustHave && !string.IsNullOrWhiteSpace(r.Text))
+            .ToList();
+
+        if (demands.Count == 0) return 1.0;
+
+        var index = FactIndex.Build(profile);
+        var covered = 0;
+
+        foreach (var demand in demands)
+        {
+            var support = SupportFor(index, profile, demand);
+
+            if (support is null)
+            {
+                gaps.Add($"The posting asks for {demand.Text}; not on your CV");
+                continue;
+            }
+
+            covered++;
+            evidence.Add(new MatchEvidence(
+                Kind: "requirement",
+                Label: demand.Text,
+                Detail: support,
+                Points: 0,
+                RolePostingUrl: null));
+        }
+
+        var coverage = covered / (double)demands.Count;
+        return RequirementPenalty + (1 - RequirementPenalty) * coverage;
+    }
+
+    /// <summary>The fact on the candidate's side that answers a requirement, or
+    /// null if there is not one. Answered facet by facet — a certification is
+    /// checked against certifications — because a flat text search would let a
+    /// mention of a skill anywhere in a job description count as a licence.</summary>
+    private static string? SupportFor(FactIndex index, CandidateProfile profile, JdRequirement demand)
+    {
+        if (demand.YearsMin is { } floor)
+        {
+            return profile.YearsExperience is { } years && years >= floor
+                ? $"You show {years} years against the {floor} asked for"
+                : null;
+        }
+
+        var text = demand.Text.Trim();
+
+        return demand.Category switch
+        {
+            "skill" => index.SkillSupport(text),
+            "education" => index.EducationSupport(text),
+            "certification" => index.CertificationSupport(text),
+            "language" => index.LanguageSupport(text),
+            "experience" => profile.YearsExperience is { } y ? $"You show {y} years of experience" : null,
+            // Domain and uncategorised prose demands: the posting asks for
+            // something in a sentence we could not classify, so the honest test
+            // is whether the candidate names it anywhere.
+            _ => index.GeneralSupport(text),
+        };
+    }
+
+    /// <summary>The candidate's facts, indexed once per role so the demand loop
+    /// does not re-normalise the whole CV for every requirement.</summary>
+    private sealed class FactIndex
+    {
+        private readonly List<(string Label, string Text)> _education = [];
+        private readonly List<(string Label, string Text)> _certifications = [];
+        private readonly List<(string Label, string Text)> _languages = [];
+
+        public Dictionary<string, ProfileSkill> Skills { get; } = new(StringComparer.OrdinalIgnoreCase);
+
+        public static FactIndex Build(CandidateProfile profile)
+        {
+            var index = new FactIndex();
+
+            foreach (var skill in profile.Skills)
+            {
+                var key = Normalize(skill.Name);
+                if (key.Length > 0) index.Skills.TryAdd(key, skill);
+            }
+
+            foreach (var e in profile.Education)
+            {
+                var label = Coalesce(e.Degree, e.FieldOfStudy) ?? e.School ?? "your education";
+                index._education.Add(($"Studied {label}", Join(e.School, e.Degree, e.FieldOfStudy, e.Details)));
+            }
+
+            foreach (var c in profile.Certifications)
+            {
+                index._certifications.Add(($"Hold {c.Name}", Join(c.Name, c.Issuer, c.Year?.ToString())));
+            }
+
+            foreach (var l in profile.Languages)
+            {
+                index._languages.Add(((l.Proficiency.Length > 0 ? $"{l.Proficiency} {l.Name}" : l.Name), l.Name));
+            }
+
+            return index;
+        }
+
+        public string? SkillSupport(string demand)
+        {
+            var key = Normalize(demand);
+            if (key.Length == 0) return null;
+
+            if (Skills.TryGetValue(key, out var exact))
+                return exact.Years > 0
+                    ? $"You list {exact.Years} year{(exact.Years == 1 ? "" : "s")} of {exact.Name}"
+                    : $"You list {exact.Name} on your CV";
+
+            // Partial either way, but only on names long enough for one to mean
+            // something: "R" is a substring of almost every CV.
+            foreach (var (name, skill) in Skills)
+            {
+                if (name.Length < 4 || key.Length < 4) continue;
+                if (name.Contains(key, StringComparison.Ordinal) || key.Contains(name, StringComparison.Ordinal))
+                {
+                    return $"You list {skill.Name} on your CV";
+                }
+            }
+
+            return null;
+        }
+
+        public string? EducationSupport(string demand) =>
+            Support(_education, demand, "your education");
+
+        public string? CertificationSupport(string demand) =>
+            Support(_certifications, demand, "your certifications");
+
+        public string? LanguageSupport(string demand) =>
+            Support(_languages, demand, "your languages");
+
+        /// <summary>Fallback for demands we could not classify. Any named skill
+        /// or credential appearing in the sentence counts, which is generous by
+        /// design: this class of requirement is a sentence, not a term, and
+        /// wrongly failing one would show the user a gap they do not have.</summary>
+        public string? GeneralSupport(string demand)
+        {
+            var key = Normalize(demand);
+            if (key.Length < 6) return null;
+
+            foreach (var (name, skill) in Skills)
+            {
+                if (name.Length < 4) continue;
+                if (key.Contains(name, StringComparison.Ordinal))
+                    return $"You list {skill.Name} on your CV";
+            }
+
+            return null;
+        }
+
+        private static string? Support(
+            List<(string Label, string Text)> facts,
+            string demand,
+            string what)
+        {
+            var key = Normalize(demand);
+            if (key.Length == 0) return null;
+
+            var needles = Terms(key).ToList();
+            if (needles.Count == 0) needles.Add(key);
+
+            foreach (var (label, text) in facts)
+            {
+                var haystack = Normalize(text);
+                if (haystack.Length == 0) continue;
+
+                var hits = needles.Count(n => haystack.Contains(n, StringComparison.Ordinal));
+                if (hits == needles.Count) return $"On {what}: {label}";
+
+                // A two-term requirement satisfied by both halves is still met.
+                if (needles.Count > 1 && hits >= 2) return $"On {what}: {label}";
+            }
+
+            return null;
+        }
+
+        /// <summary>Distinctive words of a requirement. Short and common words
+        /// are dropped because "and" or "team" matching a CV fact would let any
+        /// education requirement pass on a single coincidence.</summary>
+        private static IEnumerable<string> Terms(string normalized) =>
+            normalized
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Where(t => t.Length >= 4 && !CommonWords.Contains(t))
+                .Distinct(StringComparer.Ordinal);
+
+        private static readonly HashSet<string> CommonWords = new(StringComparer.Ordinal)
+        {
+            "with", "from", "have", "your", "their", "will", "would", "them", "then",
+            "than", "that", "this", "work", "working", "within", "years", "year",
+            "experience", "experienced", "using", "able", "must", "should", "well",
+            "more", "than", "least", "other", "including", "such", "role", "team",
+        };
+
+        private static string Join(params string?[] parts) =>
+            string.Join(" ", parts.Where(p => !string.IsNullOrWhiteSpace(p)));
+
+        private static string? Coalesce(string? a, string? b) =>
+            !string.IsNullOrWhiteSpace(a) ? a : b;
     }
 
     public static string TierFor(int score) => score switch

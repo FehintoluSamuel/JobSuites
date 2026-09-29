@@ -43,6 +43,24 @@ public static class DashboardEndpoints
         var rolesIngested = await db.Roles.CountAsync(ct);
         var rolesUpdatedAt = await db.Roles.MaxAsync(r => (DateTimeOffset?)r.LastSeenAt, ct);
 
+        // Read on every dashboard load rather than cached: the whole point is to
+        // answer "is this queue fresh, or has ingest quietly stopped?" and a
+        // cached answer to that question is worse than no answer.
+        var sourceRows = await db.Sources.AsNoTracking()
+            .OrderBy(s => s.Key)
+            .Select(s => new { s.Key, s.Name, s.Status, s.LastPolledAt, s.LastYield, s.ConsecutiveZeroRuns })
+            .ToListAsync(ct);
+
+        var ingest = sourceRows.Count == 0
+            ? null
+            : new IngestHealth(
+                LastPolledAt: sourceRows.Max(s => s.LastPolledAt),
+                SourcesTotal: sourceRows.Count,
+                SourcesDegraded: sourceRows.Count(s => s.Status != "healthy"),
+                ConsecutiveZeroRuns: sourceRows.Max(s => s.ConsecutiveZeroRuns),
+                Sources: sourceRows.Select(s => new SourceHealth(
+                    s.Key, s.Name, s.Status, s.LastPolledAt, s.LastYield, s.ConsecutiveZeroRuns)).ToList());
+
         if (profile is null)
         {
             return TypedResults.Ok(new DashboardResponse(
@@ -50,7 +68,8 @@ public static class DashboardEndpoints
                 Summary: new DashboardSummary(
                     rolesIngested, 0, 0, 0, 0, 0, rolesUpdatedAt),
                 Matches: [],
-                HasIngestedRoles: rolesIngested > 0));
+                HasIngestedRoles: rolesIngested > 0,
+                Ingest: ingest));
         }
 
         IQueryable<RoleMatch> query = db.Matches.AsNoTracking()
@@ -87,7 +106,8 @@ public static class DashboardEndpoints
                 StretchMatches: all.Count(m => m.Tier == "Stretch"),
                 RolesUpdatedAt: rolesUpdatedAt),
             Matches: matches,
-            HasIngestedRoles: rolesIngested > 0));
+            HasIngestedRoles: rolesIngested > 0,
+            Ingest: ingest));
     }
 
     private static async Task<IResult> GetMatch(

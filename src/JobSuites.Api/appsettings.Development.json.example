@@ -4,5 +4,10 @@
   },
   "Jwt": {
     "Key": "<generate: openssl rand -base64 48 — must be >= 32 bytes>"
+  },
+  "Llm": {
+    "BaseUrl": "https://api.openai.com/v1",
+    "ApiKey": "<your key>",
+    "Model": "gpt-4o-mini"
   }
 }

@@ -136,3 +136,75 @@ export function SparkIcon(props: IconProps) {
     </Svg>
   )
 }
+
+/** The four suite destinations that the top nav could not hold. Left-rail
+    specific: a 20px glyph with a 24px grid, matched to the existing set. */
+export function TargetIcon({ className = 'h-5 w-5', title }: IconProps) {
+  const labelled = Boolean(title)
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden={labelled ? undefined : true} role={labelled ? 'img' : undefined} focusable="false">
+      {labelled && <title>{title}</title>}
+      <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 3.2a6.8 6.8 0 1 1 0 13.6 6.8 6.8 0 0 1 0-13.6Zm0 3.4a3.4 3.4 0 1 0 0 6.8 3.4 3.4 0 0 0 0-6.8Z" />
+    </svg>
+  )
+}
+
+export function ChatIcon({ className = 'h-5 w-5', title }: IconProps) {
+  const labelled = Boolean(title)
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden={labelled ? undefined : true} role={labelled ? 'img' : undefined} focusable="false">
+      {labelled && <title>{title}</title>}
+      <path d="M4 3h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H8.6L4 21.5V19a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm2 5v2h12V8H6Zm0 4v2h8v-2H6Z" />
+    </svg>
+  )
+}
+
+export function BoardIcon({ className = 'h-5 w-5', title }: IconProps) {
+  const labelled = Boolean(title)
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden={labelled ? undefined : true} role={labelled ? 'img' : undefined} focusable="false">
+      {labelled && <title>{title}</title>}
+      <path d="M3 4h5v16H3V4Zm6.5 0h5v10h-5V4Zm6.5 0h5v13h-5V4Z" />
+    </svg>
+  )
+}
+
+export function LifeBuoyIcon({ className = 'h-5 w-5', title }: IconProps) {
+  const labelled = Boolean(title)
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden={labelled ? undefined : true} role={labelled ? 'img' : undefined} focusable="false">
+      {labelled && <title>{title}</title>}
+      <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 3a7 7 0 0 1 3.9 1.2l-2.3 2.3a3.6 3.6 0 0 0-3.2 0L8.1 6.2A7 7 0 0 1 12 5Zm-7 7a7 7 0 0 1 1.2-3.9l2.3 2.3a3.6 3.6 0 0 0 0 3.2L6.2 15.8A7 7 0 0 1 5 12Zm7 7a7 7 0 0 1-3.9-1.2l2.3-2.3a3.6 3.6 0 0 0 3.2 0l2.3 2.3A7 7 0 0 1 12 19Zm4.8-3.2-2.3-2.3a3.6 3.6 0 0 0 0-3.2l2.3-2.3A7 7 0 0 1 12 19" />
+    </svg>
+  )
+}
+
+export function MenuIcon({ className = 'h-5 w-5', title }: IconProps) {
+  const labelled = Boolean(title)
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden={labelled ? undefined : true} role={labelled ? 'img' : undefined} focusable="false">
+      {labelled && <title>{title}</title>}
+      <path d="M3 6h18v2.5H3V6Zm0 4.75h18v2.5H3v-2.5ZM3 15.5h18V18H3v-2.5Z" />
+    </svg>
+  )
+}
+
+export function CloseIcon({ className = 'h-5 w-5', title }: IconProps) {
+  const labelled = Boolean(title)
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden={labelled ? undefined : true} role={labelled ? 'img' : undefined} focusable="false">
+      {labelled && <title>{title}</title>}
+      <path d="m12 10.6 5-5 1.4 1.4-5 5 5 5-1.4 1.4-5-5-5 5L5.6 17l5-5-5-5L7 5.6l5 5Z" />
+    </svg>
+  )
+}
+
+export function ShieldIcon({ className = 'h-5 w-5', title }: IconProps) {
+  const labelled = Boolean(title)
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden={labelled ? undefined : true} role={labelled ? 'img' : undefined} focusable="false">
+      {labelled && <title>{title}</title>}
+      <path d="M12 2 4 5v6.5c0 4.7 3.2 9 8 10.5 4.8-1.5 8-5.8 8-10.5V5l-8-3Zm0 2.1 6 2.2V11c0 3.6-2.3 6.9-6 8.2-3.7-1.3-6-4.6-6-8.2V6.3l6-2.2Z" />
+    </svg>
+  )
+}

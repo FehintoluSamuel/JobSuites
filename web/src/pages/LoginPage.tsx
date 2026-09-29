@@ -123,7 +123,6 @@ export function AuthLayout({
           </span>
         </div>
       </header>
-
       <main className="flex flex-1 items-center justify-center px-4 py-10">
         <div className="w-full max-w-[400px]">
           <div className="rounded-lg border border-border-subtle bg-surface p-6 sm:p-8">

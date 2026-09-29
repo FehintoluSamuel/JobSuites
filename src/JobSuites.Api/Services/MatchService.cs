@@ -34,6 +34,10 @@ public sealed class MatchService(AppDbContext db)
 
         var roles = await db.Roles.AsNoTracking()
             .Include(r => r.Postings)
+            // Requirements read from the JD body at ingest. Without this the
+            // scores would fall back to the board's taxonomy and ignore what the
+            // posting actually asks for.
+            .Include(r => r.Requirements)
             .ToListAsync(ct);
 
         if (roles.Count == 0) return new RecomputeResult(0, 0);

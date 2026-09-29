@@ -3,6 +3,7 @@ using System.Text;
 using JobSuites.Api.Auth;
 using JobSuites.Api.Endpoints;
 using JobSuites.Api.Services;
+using JobSuites.Api.Services.Llm;
 using JobSuites.Api.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.RateLimiting;
@@ -23,6 +24,16 @@ builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddScoped<MatchService>();
 builder.Services.AddSingleton<UploadStore>();
 builder.Services.AddSingleton<IJwtTokenService, JwtTokenService>();
+
+// Optional LLM pass for CV ingestion and tailoring. Config lives server-side
+// (Llm:* env vars or appsettings) and is never exposed to the browser. When it
+// is absent the app runs fully on the deterministic engines — see
+// LlmOptions/LlmCvParser/LlmTailoringPass.
+builder.Services.Configure<LlmOptions>(builder.Configuration.GetSection(LlmOptions.Section));
+builder.Services.AddHttpClient();
+builder.Services.AddSingleton<ILlmClient, LlmClient>();
+builder.Services.AddSingleton<LlmCvParser>();
+builder.Services.AddSingleton<LlmTailoringPass>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -45,11 +56,28 @@ builder.Services.AddAuthorization();
 builder.Services.AddRateLimiter(o =>
 {
     o.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    // Guards password endpoints. Ten attempts a minute per address is the point
+    // of the limiter — it exists to make credential stuffing expensive, and
+    // widening it weakens that for no benefit.
     o.AddPolicy("auth", ctx => RateLimitPartition.GetFixedWindowLimiter(
         ctx.Connection.RemoteIpAddress?.ToString() ?? "unknown",
         _ => new FixedWindowRateLimiterOptions
         {
             PermitLimit = 10,
+            Window = TimeSpan.FromMinutes(1),
+            QueueLimit = 0,
+        }));
+
+    // Session lookups are not an attack surface: /me only reads the bearer
+    // token the browser already holds, and returns nothing an attacker does not
+    // already have. It used to share the "auth" policy, which meant the tenth
+    // page a candidate opened in a minute got a 429 and the app looked broken.
+    o.AddPolicy("session", ctx => RateLimitPartition.GetFixedWindowLimiter(
+        ctx.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+        _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 240,
             Window = TimeSpan.FromMinutes(1),
             QueueLimit = 0,
         }));
@@ -120,6 +148,10 @@ app.MapProfileEndpoints();
 app.MapDashboardEndpoints();
 app.MapIngestEndpoints();
 app.MapRolesEndpoints();
+app.MapTailoringEndpoints();
+app.MapPrepEndpoints();
+app.MapApplicationEndpoints();
+app.MapSupportEndpoints();
 app.MapGet("/health", () => Results.Ok(new { status = "ok" }))
    .AllowAnonymous()
    .WithTags("Ops");

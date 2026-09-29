@@ -6,6 +6,7 @@ using JobSuites.Api.Data;
 using JobSuites.Api.Matching;
 using JobSuites.Api.Models;
 using JobSuites.Api.Services;
+using JobSuites.Api.Services.Llm;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobSuites.Api.Endpoints;
@@ -32,6 +33,7 @@ public static class ProfileEndpoints
         HttpRequest request,
         AppDbContext db,
         MatchService matches,
+        LlmCvParser llmParser,
         ClaimsPrincipal principal,
         CancellationToken ct)
     {
@@ -62,12 +64,31 @@ public static class ProfileEndpoints
             return Problem(ex.Message, "file");
         }
 
-        var parsed = CvParser.Parse(rawText);
+        // Both parsers run and their results are merged. The deterministic regex
+        // parser is the baseline that can never lose a fact; the LLM pass may only
+        // add what it truthfully extracted. A model that truncates therefore
+        // cannot make the profile thinner than the regex parse would (ParsedCv.Merge).
+        ParsedCv? parsed;
+        try
+        {
+            parsed = CvParser.Parse(rawText);
+        }
+        catch (InvalidCvException)
+        {
+            // The regex parser is strict about minimum structure. The LLM is not
+            // configured to be bug-for-bug compatible with it — a parse that
+            // throws here may still be readable by the LLM, so don't give up yet.
+            parsed = null;
+        }
+
+        var aiParse = await llmParser.TryParseAsync(rawText, ct);
+        parsed = parsed is null ? aiParse : ParsedCv.Merge(parsed, aiParse);
+
         var hash = CvParser.Hash(rawText);
 
         // A CV we could not read anything from is not a usable profile. Rejecting
         // here is better than showing the user an empty dashboard.
-        if (parsed.Skills.Count == 0 && parsed.Experiences.Count == 0)
+        if (parsed is null || (parsed.Skills.Count == 0 && parsed.Experiences.Count == 0))
         {
             return Problem(
                 "We could not find any skills or work history in that CV. " +

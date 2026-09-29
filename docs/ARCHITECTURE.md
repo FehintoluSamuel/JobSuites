@@ -96,6 +96,20 @@ last_polled_at, last_yield, consecutive_zero
 capabilities jsonb -- declared; see §6
 ```
 
+**`crawl_target`** — what one user is looking for, and the crawl that serves it.
+Added when acquisition moved from a board-wide sweep to per-user retrieval; see
+§5.1a.
+
+```
+id, user_id, title, states[], max_jobs_per_run
+last_crawled_at, cursor, consecutive_empty_runs
+unique(user_id, title)
+```
+
+`roles` stays shared across users even though crawling is per-user. A role found
+for one user's search can match another's profile, and only the match layer knows
+that; the crawl decides what to *fetch*, not what to *store*.
+
 ### 2.2 Evidence — the core
 
 The CV is decomposed once. Matching, tailoring, and prep all read these tables
@@ -294,6 +308,76 @@ hits a known URL: typically tens of entries, not 45,001.
 **Steps 3–4 bound cost.** A daily poll of new postings only is a few hundred
 requests. No proxy needed — the source has no bot defence.
 
+### 5.1a. Per-user retrieval (targeted crawl)
+
+The sweep above answers "what is on the board". It does not answer "what is new
+*for this user today*", which is the question the product asks. Retrieval is
+therefore driven by `crawl_target` rows rather than by the sitemap alone.
+
+```
+1. queue GET /api/ingest/queue          → target roles that are due
+2. known GET /api/ingest/known-ids      → job slugs already stored
+3. scan  sitemap positions [cursor, +window)   ← one request, no per-landing cost
+4. rank  strong landings first, weak as fallback
+5. open  at most max_landings of them
+6. skip  known slugs, off-target titles, out-of-window dates, other states
+7. push  POST batch, then report the run with the new cursor
+```
+
+**The API decides what to crawl; the script has no user list.** That is what lets
+a user edit their target roles and have tomorrow's scheduled run honour it with
+no change to the schedule or to the crawler.
+
+**Relevance is applied locally, in three cheap stages, because the source offers
+nothing better.** `robots.txt` disallows `/search/jobs?*` and every `?`-bearing
+path, so there is no queryable endpoint to push a title into. Instead:
+
+1. *Landing slug* (`/jobs/software-engineers-at-acme`) names the occupation, and
+   is checked **before** the landing is fetched.
+2. *Job title* is checked before the detail page is fetched, from the job path's
+   own slug as a cheap pre-filter, then authoritatively on the parsed `h1`.
+3. *Recency* is checked last, because a posting date only exists on the detail
+   page.
+
+Scanning the sitemap is one request; opening a landing is not. So the window of
+sitemap positions considered (default 400) is deliberately far larger than the
+number of landings opened (default 25).
+
+**Strong before weak.** A landing sharing one occupation word with the target is
+weak evidence — "engineer" appears in `sales-engineer`, `well-engineer` and
+`cost-engineer`, so a software target would otherwise open hundreds of
+oil-and-gas pages to discard them. All-words matches are taken first, and
+single-word landings are only opened if the budget is still unfilled.
+
+**A target is a conjunction, not a vote.** `job_title_relevant` requires *every*
+requested occupation word to be present, after dropping seniority words and
+canonicalising synonyms (`engineering` → `engineer`). A "match most of the
+words" rule was tried and rejected: it reported a Civil Engineer under a
+"Mechanical Engineering" target because the single shared word was half the
+request. Precision is worth more than recall here — one wrong role in the feed
+costs the user more than a missing one, and an adjacent search is a second target
+role, not a looser filter.
+
+**First crawl is a bounded search; later runs are deltas.** A target's first run
+applies a recency window (default 90 days, `INGEST_FIRST_CRAWL_DAYS`) and its
+cursor walks forward through the sitemap position by position, so successive runs
+cover more history rather than re-reading the head. A *daily* run does the
+opposite: it starts at the head, because that is where new postings appear, and
+relies on the known-ID set to skip what it has already seen. Skipping is a local
+slug comparison, not a request, so re-reading the head is close to free.
+
+**A target that finds nothing is not a broken board.** Source health is judged
+only from board-wide sweeps. Counting targeted runs toward the source's
+zero-yield counter made the dashboard declare MyJobMag degraded after three
+quiet searches — the probe had passed and the crawler had been busy; the user's
+chosen vocabulary was simply not on the board that day. Per-target quietness
+lives on `crawl_target.consecutive_empty_runs`.
+
+**Cost scales with users, not with the board.** Each target is a separate walk,
+so N users means N crawls. The politeness delay and the per-target landing
+budget are what keep that affordable, and they are also the reason this does not
+scale to a large user base without a different design (§9).
+
 ### 5.2 Extraction — C# worker
 
 ```
@@ -455,6 +539,80 @@ The UI surfaces `last_polled_at` with a staleness threshold, yield per run, and
 Zero-yield is a **dashboard warning**, never a silent condition. A queue that
 emptied because a selector broke must be distinguishable from a quiet week.
 
+**As built.** `source` holds the running health of one board (status, last poll,
+last yield, consecutive zero-yield runs); `ingest_run` holds one poll. Three
+consecutive successful-but-empty polls mark the source `degraded` — a *failed*
+poll does not count toward that threshold, because a failure is already visible
+and a quiet-but-successful poll is the one that hides.
+
+Three decisions worth keeping:
+
+- **Probe before crawl.** A template change on the source yields zero rows with
+  no HTTP error and no exception. `ingest.myjobmag_adapter.probe()` parses one
+  known page first; if that fails the run is recorded as degraded and the crawl
+  is skipped, rather than spending the poll's requests to rediscover it.
+- **Every run reports, including empty ones.** Reporting only on success makes
+  the zero-yield signal undetectable, which is the whole point of the row.
+- **Concurrent runs stand down.** The write path takes a Postgres advisory lock
+  keyed on the source (`pg_try_advisory_xact_lock(hashtext('jobsuites:ingest:{source}'))`)
+  and the loser returns 409 having written nothing. The lock is transactional, so
+  it releases on commit or crash without a cleanup step.
+
+```sql
+-- one row per source, upserted by key
+source(key, name, status, last_polled_at, last_seen_at,
+       last_yield, consecutive_zero_runs)
+
+-- one row per poll
+ingest_run(source_id, started_at, finished_at, status,
+           postings_seen, roles_published, probe_detail, error)
+```
+
+`GET /api/ingest/health` and the dashboard's `ingest` block both read from these
+tables, so what the user sees and what an operator sees cannot disagree.
+
+---
+
+## 7a. Requirement extraction
+
+`jd_requirement` is the join target for matching, tailoring and prep, and it is
+extracted **once, at ingest**, from the JD body — not per request and not from
+the board's taxonomy alone. `role_skills` is whatever myjobmag structured for
+us; the prose is where the actual ask lives, and it is frequently the only place.
+
+The extractor (`Matching/RoleRequirements.cs`) is deterministic. No model, no
+network, no per-user cost — the same posting always yields the same requirement
+set, which is what lets a stored `tailored_document` still mean what it meant
+when it was written.
+
+Two rules do the work:
+
+1. **Must-have is read from the JD's own wording**, not inferred from position
+   or count. A requirement is disqualifying if the description says so
+   ("must have", "required", "essential") or files it under a requirements
+   heading without downgrading it. Weak qualifiers ("familiarity with",
+   "exposure to") downgrade to *wanted* even inside a requirements block: the
+   error is resolved towards understating a gap, because a gap the candidate
+   does not actually have is what teaches users to ignore the gap list.
+2. **Nothing is emitted without evidence.** Every row carries the JD line it was
+   read from (`span`). "Uncovered" is a claim about a real person, so it has to
+   be checkable against the posting.
+
+`category` is nullable on purpose. A posting that says "must have hands-on
+experience with DCS and SCADA" is making a demand; labelling it `skill` because
+that is probably right would invent a requirement the employer never wrote.
+
+A role's rows are replaced when its `jd_hash` changes and kept when it does
+not, so the cost is paid once per JD revision rather than per user per request.
+Consumers must `.Include(r => r.Requirements)` — without it `Extract` silently
+falls back to the taxonomy and the posting's actual asks are ignored.
+
+**Deferred deliberately:** model-assisted extraction. §9 explains why — it can
+fail, costs money, and needs per-item retry, so it belongs behind a durable
+queue, not in a request path. `jd_requirement.origin` already carries
+`"deterministic"`/`"llm"` so an assisted requirement can always be traced to the
+engine that asserted it.
+
 ---
 
 ## 8. API surface
@@ -489,6 +647,28 @@ one missing predicate is a cross-user data leak, and CV text is involved.
 
 ---
 
+## 8a. Continuous integration
+
+`ci.yml` builds and tests on every push and pull request. Three jobs, no matrix:
+the API suite needs a real Postgres and takes longer than the other two, so
+running it alongside them is the whole reason for splitting rather than a
+formality.
+
+What CI deliberately does not do:
+
+- **No live crawl.** `probe()` is the only thing that can detect a template
+  change on the source, and it is a real request to a third party. It lives in
+  its own manually-dispatched workflow (`ingest-probe.yml`) because re-confirming
+  the board on every push spends someone else's patience for no new information.
+- **No LLM key.** `Llm:Enabled` is false without one, so CI exercises the
+  deterministic extraction and matching paths. That is the more valuable path to
+  keep honest, since it is the one that runs when the upstream is unavailable.
+- **No path filters.** Skipping a job because only documentation changed is how a
+  required status check silently stops running.
+
+The suite creates a throwaway database per run from `JOBSUITES_TEST_CONNECTION`
+and drops it afterwards, so the CI Postgres needs no schema setup of its own.
+
 ## 9. Scheduling
 
 MVP: ingest on an OS timer. After a successful commit it POSTs
@@ -502,6 +682,60 @@ queue rather than bolting retries onto a timer loop.
 Known trap for whenever it lands: .NET `BackgroundService` and host lifecycle can
 **silently drop queued work** on restart or redeploy. Anything that must not be
 lost belongs in a persisted queue with explicit status, never in memory.
+
+**As built.** `launchd`, not a `BackgroundService`, per the trap above: an
+in-process timer stops when the API is not running, which is exactly when a
+laptop is closed, and a missed poll is a silently stale board.
+
+```
+scripts/ingest-scheduled.sh          one poll, runnable by hand
+scripts/install-schedule.sh          writes and loads the agent (16:00 default)
+scripts/uninstall-schedule.sh
+```
+
+`RunAtLoad` is on because `StartCalendarInterval` on a sleeping Mac fires at
+next wake; a missed poll should run at next login, not be skipped until
+tomorrow. The runner reports a failure to reach the API rather than skipping
+quietly, so a schedule that cannot do its job is visible on the dashboard.
+
+`Ingest:Key` is read at run time from the environment, falling back to the API's
+own config, and is never written into the plist — `launchctl print` shows a
+job's environment to any process on the machine.
+
+**Environment note:** a launchd job is not Terminal, so macOS denies it
+`~/Desktop`, `~/Documents` and `~/Downloads`. From a repo inside one of those
+folders the job exits 126 and the board quietly stops updating. The installer
+detects this and prints the fix (grant `/bin/bash` Full Disk Access, or move the
+repo). `scripts/dev.sh` is unaffected because a human started it.
+
+### 9a. When this moves off the Mac
+
+Recorded now so the deploy is a checklist rather than an investigation. Nothing
+here is built yet, deliberately: a scheduled workflow with no deployed API behind
+it would fail once a day and train everyone to ignore the failure signal.
+
+| Piece | Becomes | Note |
+|---|---|---|
+| Postgres (brew, :5433) | Supabase | connection string becomes a secret |
+| `scripts/dev.sh` | container or PaaS service | needs `ASPNETCORE_ENVIRONMENT=Production` |
+| launchd agent | a `schedule:` workflow in Actions | same script, different trigger |
+| local `appsettings.Development.json` | injected config | never committed, in any environment |
+
+**The scheduler does not need database access.** This is the useful property of
+the current split: the crawler speaks HTTP to the API and the API owns the
+database, so a GitHub Actions schedule needs exactly two repository secrets —
+`JOBSUITES_API` and `INGEST_KEY`. The Supabase password never has to reach the
+runner that does the crawling.
+
+`Program.cs` already refuses to start outside Development without an
+`Ingest:Key` of at least 32 characters, so a misconfigured deploy fails loudly
+instead of exposing write access to job data with the development fallback.
+
+**Supabase specifics worth knowing before the first deploy.** The direct
+connection string is IPv6-only, and GitHub-hosted runners are IPv4 — a scheduled
+workflow will fail to connect with a direct string and no obvious cause. Use the
+Supavisor pooler string, and keep `SSL Mode=Require`. A pooled connection is also
+the right choice for the API, which opens several contexts per request.
 
 ---
 

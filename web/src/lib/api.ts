@@ -265,11 +265,31 @@ export interface DashboardSummary {
   rolesUpdatedAt: string | null
 }
 
+export interface SourceHealth {
+  key: string
+  name: string
+  status: 'healthy' | 'degraded' | 'blocked' | string
+  lastPolledAt: string | null
+  lastYield: number | null
+  consecutiveZeroRuns: number
+}
+
+/** Freshness of the role board. A source that has gone quiet is shown as
+ *  quiet rather than left to look like a quiet day. */
+export interface IngestHealth {
+  lastPolledAt: string | null
+  sourcesTotal: number
+  sourcesDegraded: number
+  consecutiveZeroRuns: number
+  sources: SourceHealth[]
+}
+
 export interface DashboardResponse {
   profile: CandidateProfile | null
   summary: DashboardSummary
   matches: MatchedRole[]
   hasIngestedRoles: boolean
+  ingest: IngestHealth | null
 }
 
 export interface UploadCvResponse {
@@ -353,4 +373,306 @@ export const profile = {
   }),
 
   mediaUrl: (file: string | null) => (file ? `/api/profile/media/${file}` : null),
+}
+
+/* ------------------------------------------------------------------ *
+ * Tailoring — closed-set generation plus the fabrication check.
+ * ------------------------------------------------------------------ */
+
+export interface TailoredSection {
+  heading: string
+  body: string
+  source: string
+}
+
+export interface TailoredChange {
+  kind: string
+  detail: string
+  factRef: string | null
+}
+
+export interface RequirementCoverage {
+  requirement: string
+  mustHave: boolean
+  covered: boolean
+  supportingFact: string | null
+}
+
+export interface FabricatedEntity {
+  text: string
+  kind: string
+  context: string
+}
+
+export interface FabricationResult {
+  passed: boolean
+  claimsChecked: number
+  fabrications: FabricatedEntity[]
+}
+
+/** An AI rewrite the fabrication check refused. Diagnosis only — never the
+ * stored document, and never exportable. */
+export interface RejectedAiRewrite {
+  document: TailoredSection[]
+  verification: FabricationResult
+}
+
+export interface TailoredDocument {
+  id: string
+  roleId: string
+  roleTitle: string
+  roleCompany: string
+  version: number
+  status: 'draft' | 'needs_review' | 'approved' | 'rejected'
+  document: TailoredSection[]
+  plainText: string
+  diff: TailoredChange[]
+  coverage: RequirementCoverage[]
+  verification: FabricationResult
+  rejectedRewrite: RejectedAiRewrite | null
+  factRefs: string[]
+  uncoveredMustHave: number
+  coveredRequirements: number
+  isStale: boolean
+  approvedAt: string | null
+  createdAt: string
+}
+
+export interface TailoringListItem {
+  id: string
+  roleId: string
+  roleTitle: string
+  roleCompany: string
+  version: number
+  status: string
+  passedVerification: boolean
+  uncoveredMustHave: number
+  isStale: boolean
+  approvedAt: string | null
+  createdAt: string
+}
+
+export const tailoring = {
+  list: () => request<TailoringListItem[]>('/api/tailoring'),
+
+  generate: (roleId: string) =>
+    request<TailoredDocument>('/api/tailoring', {
+      method: 'POST',
+      body: JSON.stringify({ roleId }),
+    }),
+
+  get: (id: string) => request<TailoredDocument>(`/api/tailoring/${id}`),
+
+  approve: (id: string, approve: boolean) =>
+    request<TailoredDocument>(`/api/tailoring/${id}/approve`, {
+      method: 'POST',
+      body: JSON.stringify({ approve }),
+    }),
+}
+
+/* ------------------------------------------------------------------ *
+ * Interview prep — gap-driven questions plus the aptitude bank.
+ * ------------------------------------------------------------------ */
+
+export interface PrepQuestion {
+  id: string
+  kind: 'gap' | 'strength' | 'general'
+  prompt: string
+  gap: string
+  honestFraming: string
+  adjacentEvidence: string | null
+}
+
+export interface PrepResponse {
+  roleId: string
+  roleTitle: string
+  roleCompany: string
+  questions: PrepQuestion[]
+  coverage: RequirementCoverage[]
+  uncovered: string[]
+  cached: boolean
+  createdAt: string
+}
+
+export interface AssessmentItem {
+  id: string
+  domain: string
+  difficulty: number
+  prompt: string
+  options: string[]
+}
+
+export interface DomainScore {
+  domain: string
+  correct: number
+  attempted: number
+  verdict: string
+}
+
+export interface PrepSession {
+  id: string
+  roleId: string
+  roleTitle: string
+  company: string
+  mode: 'gap_driven' | 'aptitude'
+  items: AssessmentItem[]
+  scores: DomainScore[]
+  startedAt: string
+  finishedAt: string | null
+}
+
+export interface AptitudeItemResult {
+  itemId: string
+  domain: string
+  correct: boolean
+  answerKey: number
+  workedSteps: string
+}
+
+export interface SubmitAnswerResponse {
+  verdict: string
+  honestFramingUsed: boolean
+  item: AptitudeItemResult | null
+}
+
+export interface PrepSessionSummary {
+  id: string
+  roleId: string
+  roleTitle: string
+  company: string
+  mode: string
+  scores: DomainScore[]
+  startedAt: string
+  finishedAt: string | null
+}
+
+export const prep = {
+  forRole: (roleId: string) => request<PrepResponse>(`/api/prep/roles/${roleId}`),
+
+  sessions: () => request<PrepSessionSummary[]>('/api/prep/sessions'),
+
+  start: (roleId: string, mode: 'gap_driven' | 'aptitude', itemCount?: number) =>
+    request<PrepSession>('/api/prep/sessions', {
+      method: 'POST',
+      body: JSON.stringify({ roleId, mode, itemCount }),
+    }),
+
+  answerGap: (sessionId: string, questionId: string, body: string) =>
+    request<SubmitAnswerResponse>(`/api/prep/sessions/${sessionId}/answers`, {
+      method: 'POST',
+      body: JSON.stringify({ questionId, body }),
+    }),
+
+  answerAptitude: (sessionId: string, itemId: string, selectedOption: number) =>
+    request<SubmitAnswerResponse>(`/api/prep/sessions/${sessionId}/answers`, {
+      method: 'POST',
+      body: JSON.stringify({ itemId, selectedOption }),
+    }),
+
+  finish: (sessionId: string) =>
+    request<PrepSession>(`/api/prep/sessions/${sessionId}/finish`, { method: 'POST' }),
+}
+
+/* ------------------------------------------------------------------ *
+ * Applications — one record per role, never per posting.
+ * ------------------------------------------------------------------ */
+
+export interface Application {
+  id: string
+  roleId: string
+  roleTitle: string
+  company: string
+  roleUrl: string
+  status: 'Shortlisted' | 'Applied' | 'Interviewing' | 'Closed'
+  appliedAt: string | null
+  notes: string | null
+  nextActionAt: string | null
+  matchTier: string | null
+  hasTailoredDocument: boolean
+  createdAt: string
+  updatedAt: string
+}
+
+export interface ApplicationSummary {
+  shortlisted: number
+  applied: number
+  interviewing: number
+  closed: number
+  total: number
+  items: Application[]
+  nextActions: Application[]
+}
+
+export const APPLICATIONS_PIPELINE = [
+  'Shortlisted',
+  'Applied',
+  'Interviewing',
+  'Closed',
+] as const
+
+export const applications = {
+  list: (status?: string) =>
+    request<ApplicationSummary>(
+      status ? `/api/applications?status=${encodeURIComponent(status)}` : '/api/applications',
+    ),
+
+  create: (roleId: string, body: { status?: string; notes?: string | null; nextActionAt?: string | null } = {}) =>
+    request<Application>('/api/applications', {
+      method: 'POST',
+      body: JSON.stringify({ roleId, ...body }),
+    }),
+
+  update: (id: string, body: { status?: string; notes?: string | null; nextActionAt?: string | null }) =>
+    request<Application>(`/api/applications/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(body),
+    }),
+}
+
+/* ------------------------------------------------------------------ *
+ * Support — a data_issue ticket is a feed into adapter health.
+ * ------------------------------------------------------------------ */
+
+export interface SupportMessage {
+  id: string
+  authorId: string
+  isMine: boolean
+  body: string
+  createdAt: string
+}
+
+export interface SupportTicket {
+  id: string
+  category: string
+  subject: string
+  status: string
+  createdAt: string
+  resolvedAt: string | null
+  messages: SupportMessage[]
+}
+
+export const SUPPORT_CATEGORIES = [
+  { value: 'bug', label: 'Something is broken' },
+  { value: 'data_issue', label: 'A job is wrong or missing' },
+  { value: 'account', label: 'Account or sign-in' },
+  { value: 'feature_request', label: 'I want a feature' },
+  { value: 'other', label: 'Something else' },
+] as const
+
+export const support = {
+  list: () => request<SupportTicket[]>('/api/support/tickets'),
+
+  get: (id: string) => request<SupportTicket>(`/api/support/tickets/${id}`),
+
+  create: (body: { category: string; subject: string; body: string }) =>
+    request<SupportTicket>('/api/support/tickets', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    }),
+
+  reply: (id: string, body: string) =>
+    request<SupportTicket>(`/api/support/tickets/${id}/messages`, {
+      method: 'POST',
+      body: JSON.stringify({ body }),
+    }),
 }
